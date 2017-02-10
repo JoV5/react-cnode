@@ -1,0 +1,13 @@
+.homepage_nav {
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  align-items: stretch;
+}
+
+.homepage_nav a {
+  line-height: 40px;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+}
