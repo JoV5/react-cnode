@@ -1,0 +1,39 @@
+.page_cover {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, .4);
+  z-index: 8;
+}
+
+.app_nav_wrap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  color: #313131;
+  background-color: #fff;
+  width: 60%;
+  height: 100%;
+  z-index: 9;
+  transition: all .3s ease;
+}
+
+.app_nav_wrap.hide{
+  left: -60%;
+}
+
+.app_nav {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20%;
+}
+
+.app_nav_item {
+  line-height: 40px;
+  width: 100%;
+  text-align: left;
+  text-decoration: none;
+  color: #313131;
+}

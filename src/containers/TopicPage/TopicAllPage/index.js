@@ -1,12 +1,12 @@
 import React, {Component} from "react";
 
-export default class HomePage extends Component {
+export default class TopicAllPage extends Component {
 
   render() {
 
     return (
       <div>
-        <h1>Home</h1>
+        <h1>TopicAllPage</h1>
       </div>
     );
   }

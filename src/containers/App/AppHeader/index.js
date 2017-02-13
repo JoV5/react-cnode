@@ -1,19 +1,21 @@
 /**
  * Created by jiawei6 on 2016/11/22.
  */
-import React, {Component} from 'react';
+import React, {PropTypes} from 'react';
 
-import './AppHeader.css';
+import './index.css';
 
-class AppHeader extends Component {
+const AppHeader = ({onLeftBtnClick, onRightBtnClick}) => (
+  <header className="app_header">
+    <div className="app_header_left_btn" onClick={onLeftBtnClick}></div>
+    <div className="app_header_right_btn"></div>
+  </header>
+);
 
-  render() {
-    return (
-      <header className="app_header">
-        我是AppHeader
-      </header>
-    )
-  }
-}
+AppHeader.propTypes = {
+  onLeftBtnClick: PropTypes.func,
+  onRightBtnClick: PropTypes.func
+};
+
 
 export default AppHeader;

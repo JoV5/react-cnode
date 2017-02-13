@@ -1,58 +1,56 @@
 import React, {Component} from "react";
-import {Route, Link} from "react-router-dom";
+import {Route} from "react-router-dom";
 import lazyme from 'lazy-load-react';
+import {connect} from 'react-redux';
 
-//import HomePage from "./HomePage";
-import LogInPage from "../LogInPage";
-//import DashboardPage from "./DashboardPage";
-import MatchWhenAuthorized from "../MatchWhenAuthorized";
+import {appActions} from '../../core/app';
 import AppHeader from './AppHeader';
+import AppNav from '../../components/AppNav';
 
-import './App.css';
+import './index.css';
 
-export default class App extends Component {
+export class App extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.authenticate = this.authenticate.bind(this);
-    this.signout = this.signout.bind(this);
+  constructor() {
+    super(...arguments);
+    this.onHeaderLeftClick = this.onHeaderLeftClick.bind(this);
   }
 
-  authenticate() {
-    this.setState({isAuthenticated: true});
-  }
-
-  signout() {
-    this.setState({isAuthenticated: false});
+  onHeaderLeftClick() {
+    const {toggleAppNav, appNavIsShow} = this.props;
+    toggleAppNav(!appNavIsShow)
   }
 
   render() {
 
-    //const { } = this.props;
-
-    const {isAuthenticated} = this.state;
+    const {props, onHeaderLeftClick} = this;
+    const {toggleAppNav, appNavIsShow} = props;
 
     return (
-      <div>
-        <AppHeader/>
-        <nav className="homepage_nav">
-          <Link to="/">全部</Link>
-          <Link to="/dashboard">精华</Link>
-          <Link to="/dashboard">分享</Link>
-          <Link to="/dashboard">问答</Link>
-          <Link to="/dashboard">招聘</Link>
-          {!isAuthenticated && <Link to="/login">Log in</Link>}
-        </nav>
-        <Route exact path="/" component={lazyme(() => System.import('./../HomePage/index'))}/>
-        <Route path="/login" render={props => {
-          return <LogInPage authenticate={this.authenticate} {...props}/>
-        }}/>
-        <MatchWhenAuthorized isAuthenticated={isAuthenticated} pattern="/dashboard"
-                             component={lazyme(() => System.import('./../DashboardPage'))}/>
+      <div className="root">
+        <AppHeader onLeftBtnClick={onHeaderLeftClick}/>
+        <AppNav toggleAppNav={toggleAppNav} appNavIsShow={appNavIsShow}/>
+        <Route path="/topics/all" component={lazyme(() => System.import('./../TopicPage/TopicAllPage'))}/>
+        <Route path="/topics/good" component={lazyme(() => System.import('./../TopicPage/TopicGoodPage'))}/>
+        <Route path="/topics/share" component={lazyme(() => System.import('./../TopicPage/TopicSharePage'))}/>
+        <Route path="/topics/ask" component={lazyme(() => System.import('./../TopicPage/TopicAskPage'))}/>
+        <Route path="/topics/job" component={lazyme(() => System.import('./../TopicPage/TopicJobPage'))}/>
       </div>
     )
   }
 }
 
-App.propTypes = {};
+const mapStateToProps = (state) => {
+  return {
+    ...state.appReducer
+  };
+};
+
+const mapDispatchToProps = {
+  toggleAppNav: appActions.toggleAppNav,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
