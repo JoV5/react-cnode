@@ -1,10 +1,10 @@
 import {appActions} from './actions';
 
-const DefaultState = {
+const AppState = {
   appNavIsShow: false
 };
 
-export function appReducer(state = DefaultState, action) {
+export function appReducer(state = AppState, action) {
 
   const {payload} = action;
 

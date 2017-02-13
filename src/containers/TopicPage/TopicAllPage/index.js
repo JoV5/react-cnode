@@ -1,6 +1,19 @@
-import React, {Component} from "react";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
-export default class TopicAllPage extends Component {
+import {apiActions} from '../../../core/api';
+
+export class TopicAllPage extends Component {
+
+  componentWillMount() {
+    const {data, isPending, loadTopic} = this.props;
+
+    if (!data && !isPending) {
+      loadTopic({
+        tab: 'all'
+      });
+    }
+  }
 
   render() {
 
@@ -11,3 +24,18 @@ export default class TopicAllPage extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    ...state.topicReducer
+  };
+};
+
+const mapDispatchToProps = {
+  loadTopic: apiActions.loadTopic
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TopicAllPage);

@@ -2,7 +2,6 @@ import 'normalize.css';
 import React from "react";
 import ReactDOM from "react-dom";
 import {Provider} from 'react-redux';
-
 import {BrowserRouter} from "react-router-dom";
 import {AppContainer} from 'react-hot-loader';
 
@@ -10,8 +9,7 @@ import App from "./containers/App/";
 import configureStore from './core/store';
 
 const root = document.getElementById("root");
-
-const store = configureStore();
+export const store = configureStore();
 
 const render = () => {
   ReactDOM.render(

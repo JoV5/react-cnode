@@ -2,11 +2,12 @@
  * Created by jiawei6 on 2017/2/10.
  */
 import {applyMiddleware, compose, createStore} from 'redux';
+import thunk from 'redux-thunk';
 
 import reducers from '../reducers';
 
 export default preloadedState => {
-  let middleware = applyMiddleware();
+  let middleware = applyMiddleware(thunk);
 
   if (process.env.NODE_ENV !== 'production') {
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

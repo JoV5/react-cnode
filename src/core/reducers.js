@@ -4,7 +4,9 @@
 import {combineReducers} from 'redux';
 
 import {appReducer} from './app';
+import {topicReducer} from './topic';
 
 export default combineReducers({
-  appReducer
+  appReducer,
+  topicReducer
 });
