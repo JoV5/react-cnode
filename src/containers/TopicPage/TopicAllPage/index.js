@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {apiActions} from '../../../core/api';
+import {topicActions} from '../../../core/topic';
 
 export class TopicAllPage extends Component {
 
@@ -27,12 +27,12 @@ export class TopicAllPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    ...state.topicReducer
+    ...state.topicReducer.all
   };
 };
 
 const mapDispatchToProps = {
-  loadTopic: apiActions.loadTopic
+  loadTopic: topicActions.loadTopic
 };
 
 export default connect(

@@ -1,26 +1,17 @@
 /**
  * Created by jiawei6 on 2017/2/10.
  */
-import {applyMiddleware, compose, createStore} from 'redux';
+import {applyMiddleware, createStore} from 'redux';
+import {createEpicMiddleware} from 'redux-observable';
 
 import reducers from '../reducers';
+import ecips from '../epics';
+
+const ecipMiddleware = createEpicMiddleware(ecips);
 
 export default preloadedState => {
-  let middleware = applyMiddleware();
 
-  if (process.env.NODE_ENV !== 'production') {
-    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-    middleware = composeEnhancers(middleware);
-  }
+  let middleware = applyMiddleware(ecipMiddleware);
 
-  const store = createStore(reducers, preloadedState, middleware);
-
-  if (module.hot) {
-    // Enable Webpack hot module replacement for reducers
-    module.hot.accept('../reducers', () => {
-      store.replaceReducer(require('../reducers').default)
-    });
-  }
-
-  return store;
+  return createStore(reducers, preloadedState, middleware);
 }

@@ -3,25 +3,26 @@ export const topicActions = {
   FETCH_TOPIC_PENDING: 'FETCH_TOPIC_PENDING',
   FETCH_TOPIC_FULFILLED: 'FETCH_TOPIC_FULFILLED',
 
+  LOAD_TOPIC: 'LOAD_TOPIC',
+
   fetchTopicFailed: result => ({
     type: topicActions.FETCH_TOPIC_FAILED,
-    payload: {
-      ...result
-    }
+    payload: result
   }),
 
   fetchTopicFulfilled: result => ({
     type: topicActions.FETCH_TOPIC_FULFILLED,
-    payload: {
-      ...result
-    }
+    payload: result
   }),
 
   fetchTopicPending: result => ({
     type: topicActions.FETCH_TOPIC_PENDING,
-    payload: {
-      ...result
-    }
+    payload: result
+  }),
+
+  loadTopic: param => ({
+    type: topicActions.LOAD_TOPIC,
+    payload: param
   })
 };
 

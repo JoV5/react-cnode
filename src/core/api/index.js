@@ -1,1 +1,3 @@
-export {apiActions} from './actions';
+export {
+  fetchTopic
+} from './epics';
