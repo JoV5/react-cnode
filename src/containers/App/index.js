@@ -18,7 +18,7 @@ export class App extends Component {
 
   onHeaderLeftClick() {
     const {toggleAppNav, appNavIsShow} = this.props;
-    toggleAppNav(!appNavIsShow)
+    toggleAppNav(!appNavIsShow);
   }
 
   render() {
