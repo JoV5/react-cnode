@@ -17,14 +17,14 @@ export class App extends Component {
   }
 
   onHeaderLeftClick() {
-    const {toggleAppNav, appNavIsShow} = this.props;
-    toggleAppNav(!appNavIsShow);
+    const {toggleAppNav, app} = this.props;
+    toggleAppNav(!app.get('appNavIsShow'));
   }
 
   render() {
-
     const {props, onHeaderLeftClick} = this;
-    const {toggleAppNav, appNavIsShow} = props;
+    const {toggleAppNav, app} = props;
+    const appNavIsShow = app.get('appNavIsShow');
 
     return (
       <div className="root">
@@ -42,7 +42,7 @@ export class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    ...state.appReducer
+    app: state.app
   };
 };
 

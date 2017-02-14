@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import {topicActions} from './actions';
 
 const TopicState = {
@@ -18,35 +19,25 @@ const TopicState = {
   }
 };
 
-export function topicReducer(state = TopicState, action) {
+export function topicReducer(state = Immutable.fromJS(TopicState), action) {
 
   const {payload, type} = action;
 
   switch (type) {
     case topicActions.FETCH_TOPIC_PENDING:
-      return {
-        ...state,
-        [payload.param.tab]: {
-          ...state[payload.param.tab],
-          isPending: true
-        }
-      };
+
+      return state.setIn([payload.param.tab, 'isPending'], true);
+
     case topicActions.FETCH_TOPIC_FAILED:
-      return {
-        ...state,
-        [payload.param.tab]: {
-          ...state[payload.param.tab],
-          isPending: false
-        }
-      };
+      return state.setIn([payload.param.tab, 'isPending'], false);
+
     case topicActions.FETCH_TOPIC_FULFILLED:
-      return {
-        ...state,
+      return state.merge({
         [payload.param.tab]: {
           isPending: false,
           ...payload.result.data
         }
-      };
+      });
     default:
       return state;
   }

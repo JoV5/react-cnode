@@ -7,6 +7,6 @@ import {appReducer} from './app';
 import {topicReducer} from './topic';
 
 export default combineReducers({
-  appReducer,
-  topicReducer
+  app: appReducer,
+  topic: topicReducer
 });

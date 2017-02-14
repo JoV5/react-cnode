@@ -1,5 +1,3 @@
-import {Observable} from 'rxjs/Observable';
-
 import {topicActions} from './actions';
 import {fetchTopic} from '../../core/api';
 

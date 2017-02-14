@@ -6,7 +6,9 @@ import {topicActions} from '../../../core/topic';
 export class TopicAllPage extends Component {
 
   componentWillMount() {
-    const {data, isPending, loadTopic} = this.props;
+    const {all, loadTopic} = this.props;
+    const data = all.get('data');
+    const isPending = all.get('isPending');
 
     if (!data && !isPending) {
       loadTopic({
@@ -27,7 +29,7 @@ export class TopicAllPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    ...state.topicReducer.all
+    all: state.topic.get('all')
   };
 };
 
