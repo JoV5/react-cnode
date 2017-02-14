@@ -10,6 +10,7 @@ require('dotenv').config({silent: true});
 const chalk = require('chalk');
 const fs = require('fs-extra');
 const path = require('path');
+const url = require('url');
 const pathExists = require('path-exists');
 const filesize = require('filesize');
 const gzipSize = require('gzip-size').sync;
@@ -112,7 +113,7 @@ function build(previousSizeMap) {
     }
 
     if (process.env.CI && stats.compilation.warnings.length) {
-      printErrors('Failed to compile.', stats.compilation.warnings);
+      printErrors('Failed to compile. When process.env.CI = true, warnings are treated as failures. Most CI servers set this automatically.', stats.compilation.warnings);
       process.exit(1);
     }
 
@@ -126,15 +127,16 @@ function build(previousSizeMap) {
 
     const openCommand = process.platform === 'win32' ? 'start' : 'open';
     const appPackage  = require(paths.appPackageJson);
-    const homepagePath = appPackage.homepage;
+    const publicUrl = paths.publicUrl;
     const publicPath = config.output.publicPath;
-    if (homepagePath && homepagePath.indexOf('.github.io/') !== -1) {
+    const publicPathname = url.parse(publicPath).pathname;
+    if (publicUrl && publicUrl.indexOf('.github.io/') !== -1) {
       // "homepage": "http://user.github.io/project"
-      console.log('The project was built assuming it is hosted at ' + chalk.green(publicPath) + '.');
+      console.log('The project was built assuming it is hosted at ' + chalk.green(publicPathname) + '.');
       console.log('You can control this with the ' + chalk.green('homepage') + ' field in your '  + chalk.cyan('package.json') + '.');
       console.log();
       console.log('The ' + chalk.cyan('build') + ' folder is ready to be deployed.');
-      console.log('To publish it at ' + chalk.green(homepagePath) + ', run:');
+      console.log('To publish it at ' + chalk.green(publicUrl) + ', run:');
       // If script deploy has been added to package.json, skip the instructions
       if (typeof appPackage.scripts.deploy === 'undefined') {
         console.log();
@@ -149,7 +151,8 @@ function build(previousSizeMap) {
         console.log('    ' + chalk.dim('// ...'));
         console.log('    ' + chalk.yellow('"scripts"') + ': {');
         console.log('      ' + chalk.dim('// ...'));
-        console.log('      ' + chalk.yellow('"deploy"') + ': ' + chalk.yellow('"npm run build&&gh-pages -d build"'));
+        console.log('      ' + chalk.yellow('"predeploy"') + ': ' + chalk.yellow('"npm run build",'));
+        console.log('      ' + chalk.yellow('"deploy"') + ': ' + chalk.yellow('"gh-pages -d build"'));
         console.log('    }');
         console.log();
         console.log('Then run:');
@@ -165,14 +168,14 @@ function build(previousSizeMap) {
       console.log('The ' + chalk.cyan('build') + ' folder is ready to be deployed.');
       console.log();
     } else {
-      // no homepage or "homepage": "http://mywebsite.com"
-      console.log('The project was built assuming it is hosted at the server root.');
-      if (homepagePath) {
+      if (publicUrl) {
         // "homepage": "http://mywebsite.com"
+        console.log('The project was built assuming it is hosted at ' + chalk.green(publicUrl) +  '.');
         console.log('You can control this with the ' + chalk.green('homepage') + ' field in your '  + chalk.cyan('package.json') + '.');
         console.log();
       } else {
         // no homepage
+        console.log('The project was built assuming it is hosted at the server root.');
         console.log('To override this, specify the ' + chalk.green('homepage') + ' in your '  + chalk.cyan('package.json') + '.');
         console.log('For example, add this to build it for GitHub Pages:');
         console.log();

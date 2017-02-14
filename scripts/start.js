@@ -18,12 +18,12 @@ const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const getProcessForPort = require('react-dev-utils/getProcessForPort');
 const openBrowser = require('react-dev-utils/openBrowser');
 const prompt = require('react-dev-utils/prompt');
-const pathExists = require('path-exists');
+const fs = require('fs');
 
 const config = require('../config/webpack.config.dev');
 const paths = require('../config/paths');
 
-const useYarn = pathExists.sync(paths.yarnLockFile);
+const useYarn = fs.existsSync(paths.yarnLockFile);
 const cli = useYarn ? 'yarn' : 'npm';
 const isInteractive = process.stdout.isTTY;
 
@@ -276,9 +276,7 @@ function runDevServer(host, port, protocol) {
     console.log(chalk.cyan('Starting the development server...'));
     console.log();
 
-    if (isInteractive) {
-      openBrowser(protocol + '://' + host + ':' + port + '/');
-    }
+    openBrowser(protocol + '://' + host + ':' + port + '/');
   });
 }
 
