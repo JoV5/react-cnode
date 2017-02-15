@@ -1,5 +1,5 @@
 import {userActions} from './actions';
-import {postLogin as postLoginApi} from '../../core/api';
+import {postLogin as postLoginApi, fetchUser} from '../../core/api';
 
 export function postLogin(action$) {
   return action$.ofType(userActions.POST_LOGIN)
@@ -8,6 +8,14 @@ export function postLogin(action$) {
     })
 }
 
+export function loadUser(action$) {
+  return action$.ofType(userActions.LOAD_USER)
+    .switchMap(({payload}) => {
+      return fetchUser(payload)
+    })
+}
+
 export const userEpics = [
-  postLogin
+  postLogin,
+  loadUser
 ];

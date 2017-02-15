@@ -23,10 +23,10 @@ export class LoginPage extends Component {
 
   render() {
     const {props, login} = this;
-    const {stateDate, location: {state}} = props;
+    const {stateData, location: {state}} = props;
 
     const {from} = state || {from: {pathname: '/'}};
-    const accesstoken = stateDate.get('accesstoken');
+    const accesstoken = stateData.get('accesstoken');
 
     if (accesstoken) {
       return (
@@ -45,7 +45,7 @@ export class LoginPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    stateDate: state.user
+    stateData: state.user.get('me')
   };
 };
 

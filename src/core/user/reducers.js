@@ -1,7 +1,12 @@
-import {Map} from 'immutable';
+import Immutable from 'immutable';
 import {userActions} from './actions';
 
-export function userReducer(state = new Map(), action) {
+export const UserState = {
+  me: {},
+  data: []
+};
+
+export function userReducer(state = Immutable.fromJS(UserState), action) {
 
   const {payload, type} = action;
 
@@ -13,11 +18,23 @@ export function userReducer(state = new Map(), action) {
       return state.set('isPending', false);
 
     case userActions.FETCH_USER_FULFILLED:
-      return state.merge({
-        ...payload.result.data,
-        accesstoken: payload.param.accesstoken,
-        isPending: false
-      });
+      if (payload.type === 'login') {
+        return state.merge({
+          me: {
+            ...payload.result.data,
+            accesstoken: payload.param.accesstoken,
+            isPending: false
+          }
+        });
+      } else if (payload.type === 'user') {
+        return state.merge({
+          data: state.get('data').push({
+            ...payload.result.data.data
+          })
+        });
+      }
+
+      return state;
 
     default:
       return state;

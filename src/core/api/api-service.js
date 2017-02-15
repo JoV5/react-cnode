@@ -3,7 +3,8 @@ import axios from 'axios';
 import {
   API_TOPIC_URL,
   API_TOPIC_DEFAULT,
-  API_LOGIN_URL
+  API_LOGIN_URL,
+  API_USER_URL
 } from '../constants';
 
 export const api = {
@@ -24,6 +25,13 @@ export const api = {
         ...param
       },
       'post'
+    )
+  },
+
+  fetchUser: (param) => {
+    return dispatch(
+      `${API_USER_URL}/${param.loginname}`,
+      undefined
     )
   }
 };

@@ -1,4 +1,5 @@
 export {
   fetchTopic,
-  postLogin
+  postLogin,
+  fetchUser
 } from './epics';

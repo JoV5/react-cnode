@@ -11,6 +11,8 @@ export const API_TOPIC_DEFAULT = {
 
 export const API_LOGIN_URL = `${API_URL}/accesstoken`;
 
+export const API_USER_URL = `${API_URL}/user`;
+
 export const TAB_MAP = {
   share: '分享',
   good: '精华',
