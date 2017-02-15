@@ -1,11 +1,14 @@
 import React, {Component} from "react";
 import {Route} from "react-router-dom";
 import {connect} from 'react-redux';
+import lazyme from 'lazy-load-react';
 
 import {appActions} from '../../core/app';
 import {TopicAllPage, TopicAskPage, TopicGoodPage, TopicJobPage, TopicSharePage} from '../TopicPage';
 import AppHeader from './AppHeader';
 import AppNav from '../../components/AppNav';
+import PrivateRoute from '../../components/PrivateRoute';
+//import UserPage from '../UserPage';
 
 import './index.css';
 
@@ -23,7 +26,7 @@ export class App extends Component {
 
   render() {
     const {props, onHeaderLeftClick} = this;
-    const {toggleAppNav, app} = props;
+    const {toggleAppNav, app, user} = props;
     const appNavIsShow = app.get('appNavIsShow');
 
     return (
@@ -36,6 +39,8 @@ export class App extends Component {
           <Route path="/topics/share" component={TopicSharePage}/>
           <Route path="/topics/ask" component={TopicAskPage}/>
           <Route path="/topics/job" component={TopicJobPage}/>
+          <PrivateRoute path="/user" component={lazyme(() => System.import('../UserPage'))} hasLogin={!!user.get('loginname')}/>
+          <Route path="/login" component={lazyme(() => System.import('../LoginPage/'))}/>
         </main>
       </div>
     )
@@ -44,7 +49,8 @@ export class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    app: state.app
+    app: state.app,
+    user: state.user
   };
 };
 

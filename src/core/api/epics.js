@@ -1,6 +1,7 @@
 import {Observable} from 'rxjs/Observable';
 
 import {topicRequestAction} from '../topic';
+import {userRequestAction} from '../user';
 import {api} from './api-service';
 
 const fetchEntities = function (apiFunction, actions, type, param) {
@@ -31,3 +32,4 @@ const fetchEntities = function (apiFunction, actions, type, param) {
 };
 
 export const fetchTopic = fetchEntities.bind(null, api.fetchTopics, topicRequestAction, 'topic');
+export const postLogin = fetchEntities.bind(null, api.postLogin, userRequestAction, 'user');

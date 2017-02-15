@@ -2,7 +2,8 @@ import axios from 'axios';
 
 import {
   API_TOPIC_URL,
-  API_TOPIC_DEFAULT
+  API_TOPIC_DEFAULT,
+  API_LOGIN_URL
 } from '../constants';
 
 export const api = {
@@ -14,12 +15,22 @@ export const api = {
         ...param
       }
     )
+  },
+
+  postLogin: (param) => {
+    return dispatch(
+      API_LOGIN_URL,
+      {
+        ...param
+      },
+      'post'
+    )
   }
 };
 
 
-export function dispatch(url, options = {}) {
-  return axios.get(requestUrl(url, options));
+export function dispatch(url, options = {}, type = 'get') {
+  return axios[type](requestUrl(url, options));
 }
 
 export function requestUrl(url, param = {}) {

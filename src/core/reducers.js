@@ -5,8 +5,10 @@ import {combineReducers} from 'redux';
 
 import {appReducer} from './app';
 import {topicReducer} from './topic';
+import {userReducer} from './user';
 
 export default combineReducers({
   app: appReducer,
-  topic: topicReducer
+  topic: topicReducer,
+  user: userReducer
 });

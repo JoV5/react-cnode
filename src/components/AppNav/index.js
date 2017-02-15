@@ -25,6 +25,7 @@ export default class AppNav extends Component {
         {appNavIsShow && <div className="page_cover" onClick={handleToggleAppNav}></div>}
         <div className={`app_nav_wrap ${appNavIsShow ? '' : 'hide'}`}>
           <nav className="app_nav">
+            <NavLink to="/user" name="用户" onClick={handleToggleAppNav}/>
             <NavLink to="/topics/all" name="全部" onClick={handleToggleAppNav}/>
             <NavLink to="/topics/good" name="精华" onClick={handleToggleAppNav}/>
             <NavLink to="/topics/share" name="分享" onClick={handleToggleAppNav}/>
