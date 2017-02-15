@@ -1,7 +1,8 @@
 .app_header {
-  position: relative;
+  position: fixed;
   height: 42px;
   width: 100%;
+  background-color: #66ccff;
 }
 
 .app_header_left_btn {

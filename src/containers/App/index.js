@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {Route} from "react-router-dom";
-import lazyme from 'lazy-load-react';
 import {connect} from 'react-redux';
 
 import {appActions} from '../../core/app';
+import {TopicAllPage, TopicAskPage, TopicGoodPage, TopicJobPage, TopicSharePage} from '../TopicPage';
 import AppHeader from './AppHeader';
 import AppNav from '../../components/AppNav';
 
@@ -30,11 +30,13 @@ export class App extends Component {
       <div className="root">
         <AppHeader onLeftBtnClick={onHeaderLeftClick}/>
         <AppNav toggleAppNav={toggleAppNav} appNavIsShow={appNavIsShow}/>
-        <Route path="/topics/all" component={lazyme(() => System.import('./../TopicPage/TopicAllPage'))}/>
-        <Route path="/topics/good" component={lazyme(() => System.import('./../TopicPage/TopicGoodPage'))}/>
-        <Route path="/topics/share" component={lazyme(() => System.import('./../TopicPage/TopicSharePage'))}/>
-        <Route path="/topics/ask" component={lazyme(() => System.import('./../TopicPage/TopicAskPage'))}/>
-        <Route path="/topics/job" component={lazyme(() => System.import('./../TopicPage/TopicJobPage'))}/>
+        <main className="app_main">
+          <Route path="/topics/all" component={TopicAllPage}/>
+          <Route path="/topics/good" component={TopicGoodPage}/>
+          <Route path="/topics/share" component={TopicSharePage}/>
+          <Route path="/topics/ask" component={TopicAskPage}/>
+          <Route path="/topics/job" component={TopicJobPage}/>
+        </main>
       </div>
     )
   }

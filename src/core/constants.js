@@ -8,3 +8,11 @@ export const API_TOPIC_DEFAULT = {
   tab: 'all',
   mdrender: true
 };
+
+export const TAB_MAP = {
+  share: '分享',
+  good: '精华',
+  ask: '问答',
+  job: '招聘',
+  top: '置顶'
+};

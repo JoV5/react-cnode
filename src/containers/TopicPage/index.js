@@ -1,13 +1,7 @@
-import React, {Component} from "react";
+import TopicPageCreator from './TopicPageCreator';
 
-export default class TopicPage extends Component {
-
-  render() {
-
-    return (
-      <div>
-        <h1>TopicPage</h1>
-      </div>
-    );
-  }
-}
+export const TopicAllPage = TopicPageCreator('all');
+export const TopicSharePage = TopicPageCreator('share');
+export const TopicJobPage = TopicPageCreator('job');
+export const TopicGoodPage = TopicPageCreator('good');
+export const TopicAskPage = TopicPageCreator('ask');
