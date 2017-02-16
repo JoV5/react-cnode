@@ -9,9 +9,9 @@ export default function (tab) {
   class TopicsBasePage extends Component {
 
     componentWillMount() {
-      const {stateData, loadTopics} = this.props;
-      const data = stateData.get('data');
-      const isPending = stateData.get('isPending');
+      const {topicTabData, loadTopics} = this.props;
+      const data = topicTabData.get('data');
+      const isPending = topicTabData.get('isPending');
 
       if (!data && !isPending) {
         loadTopics({
@@ -21,8 +21,8 @@ export default function (tab) {
     }
 
     render() {
-      const {stateData} = this.props;
-      const data = stateData.get('data');
+      const {topicTabData} = this.props;
+      const data = topicTabData.get('data');
 
       if (data) {
         return <TopicList data={data}/>;
@@ -38,7 +38,7 @@ export default function (tab) {
 
   const mapStateToProps = (state) => {
     return {
-      stateData: state.topic.get(tab)
+      topicTabData: state.topic.get(tab)
     };
   };
 

@@ -1,4 +1,4 @@
-const API_URL = '//cnodejs.org/api/v1';
+const API_URL = 'https://cnodejs.org/api/v1';
 
 export const API_TOPICS_URL = `${API_URL}/topics`;
 

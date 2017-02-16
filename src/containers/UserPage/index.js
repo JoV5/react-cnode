@@ -9,9 +9,9 @@ export class UserPage extends Component {
 
   componentWillMount() {
     const {props} = this;
-    const {loadUser, stateData, match: {params: {loginname: matchedName}}} = props;
+    const {loadUser, userList, match: {params: {loginname: matchedName}}} = props;
 
-    const finded = findByName(stateData, matchedName);
+    const finded = findByName(userList, matchedName);
 
     if (!finded || (finded && !finded.score && !finded.isPending)) {
       loadUser({
@@ -22,8 +22,8 @@ export class UserPage extends Component {
 
   render() {
     const {props} = this;
-    const {stateData, match: {params: {loginname: matchedName}}} = props;
-    const finded = findByName(stateData, matchedName);
+    const {userList, match: {params: {loginname: matchedName}}} = props;
+    const finded = findByName(userList, matchedName);
 
     if (finded) {
       const {loginname, avatar_url, create_at, score} = finded;
@@ -47,7 +47,7 @@ export class UserPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    stateData: state.user.get('list')
+    userList: state.user.get('list')
   };
 };
 
