@@ -27,13 +27,43 @@
 .app_nav {
   display: flex;
   flex-direction: column;
-  padding-left: 20%;
+}
+
+.app_nav_me {
+  height: 80px;
+  margin: 40px 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.app_nav_avatar {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  margin: auto;
+  display: block;
+}
+
+.app_nav_login_btn {
+  display: block;
+  width: 50%;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 16px;
+  background-color: #4fc08d;
+  border: none;
+  border-bottom: 2px solid #3aa373;
+  text-align: center;
+  vertical-align: middle;
+  margin: 20px auto;
 }
 
 .app_nav_item {
   line-height: 40px;
   width: 100%;
-  text-align: left;
-  text-decoration: none;
+  text-align: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   color: #313131;
 }
