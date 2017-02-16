@@ -1,0 +1,36 @@
+.recent_item {
+  width: 100%;
+  padding: 10px 10px;
+  border-bottom: 1px solid #d5dbdb;
+}
+
+.recent_item a {
+  text-decoration: none;
+  color: #2c3e50;
+}
+
+.recent_item_avatar {
+  width: 46px;
+  height: 46px;
+  margin-right: 10px;
+  border-radius: 50%;
+  float: left;
+}
+
+.recent_item_title {
+  line-height: 1.5;
+  margin: 0 0 10px;
+  font-size: 15px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.recent_item_other {
+  font-size: 13px;
+}
+
+.recent_item_other b{
+  color: #80bd01;
+  font-weight: 400;
+}

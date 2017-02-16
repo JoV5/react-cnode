@@ -14,10 +14,6 @@ html, body, #root, .root {
   float: right;
 }
 
-.display_flex {
-  display: flex;
-}
-
 .app_main {
   padding-top: 42px;
 }

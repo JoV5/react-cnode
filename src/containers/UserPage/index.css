@@ -1,0 +1,42 @@
+.user_page_userinfo {
+  padding: 20px 0;
+  background-color: #e7e7e7;
+  display: flex;
+}
+
+.user_page_avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 10px 30px 10px 20px;
+}
+
+.user_page_userinfo_detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.user_page_username {
+  text-align: center;
+  color: #778087
+}
+
+.user_page_tabs {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.user_page_tab {
+  text-align: center;
+  flex: 1;
+}
+
+.user_page_tab.selected{
+  border-bottom: 2px solid #ff5a5f;
+  color: #ff5a5f;
+}

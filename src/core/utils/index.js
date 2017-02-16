@@ -6,8 +6,8 @@ export function timeago(date) {
   const dateMonth = date.getMonth();
   const time = date.getTime();
   const curDate = new Date();
-  const curDateYear = date.getFullYear();
-  const curDateMonth = date.getMonth();
+  const curDateYear = curDate.getFullYear();
+  const curDateMonth = curDate.getMonth();
   const curTime = curDate.getTime();
   const deltaTime = MathFloor((curTime - time) / 1000); // 转为秒
 
