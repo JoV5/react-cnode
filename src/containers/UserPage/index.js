@@ -6,20 +6,25 @@ import {userActions} from '../../core/user';
 export class UserPage extends Component {
 
   componentWillMount() {
-    const {loadUser, stateData} = this.props;
+    const {props} = this;
+    const {loadUser, stateData, match: {params: {loginname: matchedName}}} = props;
 
-    if (!stateData.size) {
+    const finded = stateData.find((data) => {
+      return data.loginname === matchedName;
+    });
+
+    if (!finded) {
       loadUser({
-        loginname: 'JoV5'
+        loginname: matchedName
       });
     }
   }
 
   render() {
-    const {stateData} = this.props;
-
+    const {props} = this;
+    const {stateData, match: {params: {loginname: matchedName}}} = props;
     const finded = stateData.find((data) => {
-      return data.loginname === 'JoV5';
+      return data.loginname === matchedName;
     });
 
     if (finded) {
@@ -44,7 +49,7 @@ export class UserPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    stateData: state.user.get('data')
+    stateData: state.user.get('list')
   };
 };
 

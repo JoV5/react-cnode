@@ -3,39 +3,84 @@ import {userActions} from './actions';
 
 export const UserState = {
   me: {},
-  data: []
+  list: []
 };
 
 export function userReducer(state = Immutable.fromJS(UserState), action) {
 
-  const {payload, type} = action;
+  if (!userActions.hasOwnProperty(action.type)) {
+    return state;
+  }
+
+  const {payload: {type: payloadType, param, result}, type} = action;
+  const userList = state.get('list');
+
+  const findIndexByLoginName = (loginname) =>
+    userList.findIndex((data) => {
+      return data.loginname === loginname
+    });
 
   switch (type) {
     case userActions.FETCH_USER_PENDING:
-      return state.set('isPending', true);
+      if (payloadType === 'login') {
+        return state.setIn(['me', 'isPending'], true);
+      } else if (payloadType === 'user') {
+        const findedIndex = findIndexByLoginName(param.loginname);
 
+        if (findedIndex > -1) {
+          return state.merge({
+            list: userList.set(findedIndex, {
+              isPending: true,
+              loginname: param.loginname
+            })
+          });
+        } else {
+          return state.merge({
+            list: state.get('list').push({
+              isPending: true,
+              loginname: param.loginname
+            })
+          });
+        }
+      }
+      return state;
     case userActions.FETCH_USER_FAILED:
-      return state.set('isPending', false);
+      if (payloadType === 'login') {
+        return state.setIn(['me', 'isPending'], false);
+      } else if (payloadType === 'user') {
+        const findedIndex = findIndexByLoginName(param.loginname);
 
+        if (findedIndex > -1) {
+          return state.merge({
+            list: userList.set(findedIndex, {
+              isPending: false
+            })
+          });
+        }
+      }
+      return state;
     case userActions.FETCH_USER_FULFILLED:
-      if (payload.type === 'login') {
+      if (payloadType === 'login') {
         return state.merge({
           me: {
-            ...payload.result.data,
-            accesstoken: payload.param.accesstoken,
+            ...result.data,
+            accesstoken: param.accesstoken,
             isPending: false
           }
         });
-      } else if (payload.type === 'user') {
-        return state.merge({
-          data: state.get('data').push({
-            ...payload.result.data.data
-          })
+      } else if (payloadType === 'user') {
+        const findedIndex = state.get('list').findIndex((data) => {
+          return data.loginname === param.loginname
         });
+
+        if (findedIndex > -1) {
+          return state.merge({
+            list: state.get('list').set(findedIndex, result.data.data),
+            isPending: false
+          });
+        }
       }
-
       return state;
-
     default:
       return state;
   }

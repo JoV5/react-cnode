@@ -1,4 +1,5 @@
 import React, {PropTypes} from "react";
+import {Link} from 'react-router-dom';
 
 import {timeago} from '../../core/utils';
 import {TAB_MAP} from '../../core/constants';
@@ -29,7 +30,9 @@ const TopicCard = ({data}) => {
         <span className="topic_card_title_content">{title}</span>
       </h3>
       <div className="display_flex">
-        <img src={avatar_url} className="topic_card_avatar" alt={loginname}/>
+        <Link to={`/user/${loginname}`}>
+          <img src={avatar_url} className="topic_card_avatar" alt={loginname}/>
+        </Link>
         <div className="topic_card_other">
           <div>
             <span>{loginname}</span>

@@ -18,14 +18,20 @@ export default class AppNav extends Component {
 
   render() {
     const {props, handleToggleAppNav} = this;
-    const {appNavIsShow} = props;
+    const {appNavIsShow, me} = props;
+    const accesstoken = me.get('accesstoken');
+    const loginname = me.get('loginname');
 
     return (
       <div>
         {appNavIsShow && <div className="page_cover" onClick={handleToggleAppNav}></div>}
         <div className={`app_nav_wrap ${appNavIsShow ? '' : 'hide'}`}>
           <nav className="app_nav">
-            <NavLink to="/user" name="用户" onClick={handleToggleAppNav}/>
+            {
+              accesstoken ?
+                <NavLink to={`/user/${loginname}`} name={loginname} onClick={handleToggleAppNav}/> :
+                <NavLink to="/login" name="登录" onClick={handleToggleAppNav}/>
+            }
             <NavLink to="/topics/all" name="全部" onClick={handleToggleAppNav}/>
             <NavLink to="/topics/good" name="精华" onClick={handleToggleAppNav}/>
             <NavLink to="/topics/share" name="分享" onClick={handleToggleAppNav}/>
