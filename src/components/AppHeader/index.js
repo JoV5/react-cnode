@@ -8,7 +8,7 @@ import './index.css';
 const AppHeader = ({onLeftBtnClick, onRightBtnClick}) => (
   <header className="app_header">
     <div className="app_header_left_btn" onClick={onLeftBtnClick}></div>
-    <div className="app_header_right_btn"></div>
+    <div className="app_header_right_btn">＋</div>
   </header>
 );
 

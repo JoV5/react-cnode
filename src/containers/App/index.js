@@ -5,7 +5,7 @@ import lazyme from 'lazy-load-react';
 
 import {appActions} from '../../core/app';
 import {TopicsAllPage, TopicsAskPage, TopicsGoodPage, TopicsJobPage, TopicsSharePage} from '../TopicsPage';
-import AppHeader from './AppHeader';
+import AppHeader from '../../components/AppHeader';
 import AppNav from '../../components/AppNav';
 //import PrivateRoute from '../../components/PrivateRoute';
 //import UserPage from '../UserPage';
