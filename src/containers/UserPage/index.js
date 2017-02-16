@@ -3,17 +3,17 @@ import {connect} from 'react-redux';
 
 import {userActions} from '../../core/user';
 
+const findByName = (list, name) => list.find((data) => data.loginname === name);
+
 export class UserPage extends Component {
 
   componentWillMount() {
     const {props} = this;
     const {loadUser, stateData, match: {params: {loginname: matchedName}}} = props;
 
-    const finded = stateData.find((data) => {
-      return data.loginname === matchedName;
-    });
+    const finded = findByName(stateData, matchedName);
 
-    if (!finded) {
+    if (!finded || (finded && !finded.score && !finded.isPending)) {
       loadUser({
         loginname: matchedName
       });
@@ -23,9 +23,7 @@ export class UserPage extends Component {
   render() {
     const {props} = this;
     const {stateData, match: {params: {loginname: matchedName}}} = props;
-    const finded = stateData.find((data) => {
-      return data.loginname === matchedName;
-    });
+    const finded = findByName(stateData, matchedName);
 
     if (finded) {
       const {loginname, avatar_url, create_at, score} = finded;

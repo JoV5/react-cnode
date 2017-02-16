@@ -17,7 +17,7 @@ const TopicCard = ({data}) => {
     create_at = data.get('create_at'),
     title = data.get('title'),
     reply_count = data.get('reply_count'),
-    //id = data.get('id'),
+    id = data.get('id'),
     visit_count = data.get('visit_count'),
     good = data.get('good');
 
@@ -28,7 +28,7 @@ const TopicCard = ({data}) => {
       <Link to={`/user/${loginname}`}>
         <img src={avatar_url} className="topic_card_avatar" alt={loginname}/>
       </Link>
-      <Link to="/topic" >
+      <Link to={`/topic/${id}`} >
         <h3 className="topic_card_title">
           <span className={`topic_card_title_tab ${realTab}`}>{TAB_MAP[realTab]}</span>
           <span className="topic_card_title_content">{title}</span>

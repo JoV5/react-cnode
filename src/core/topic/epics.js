@@ -1,5 +1,12 @@
 import {topicActions} from './actions';
-import {fetchTopic} from '../../core/api';
+import {fetchTopics, fetchTopic} from '../../core/api';
+
+export function loadTopics(action$) {
+  return action$.ofType(topicActions.LOAD_TOPICS)
+    .switchMap(({payload}) => {
+      return fetchTopics(payload)
+    })
+}
 
 export function loadTopic(action$) {
   return action$.ofType(topicActions.LOAD_TOPIC)
@@ -9,5 +16,6 @@ export function loadTopic(action$) {
 }
 
 export const topicEpics = [
+  loadTopics,
   loadTopic
 ];

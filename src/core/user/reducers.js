@@ -69,14 +69,14 @@ export function userReducer(state = Immutable.fromJS(UserState), action) {
           }
         });
       } else if (payloadType === 'user') {
-        const findedIndex = state.get('list').findIndex((data) => {
-          return data.loginname === param.loginname
-        });
+        const findedIndex = findIndexByLoginName(param.loginname);
 
         if (findedIndex > -1) {
           return state.merge({
-            list: state.get('list').set(findedIndex, result.data.data),
-            isPending: false
+            list: state.get('list').set(findedIndex, {
+              ...result.data.data,
+              isPending: false
+            })
           });
         }
       }

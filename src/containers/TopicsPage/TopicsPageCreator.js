@@ -9,12 +9,12 @@ export default function (tab) {
   class TopicsBasePage extends Component {
 
     componentWillMount() {
-      const {stateData, loadTopic} = this.props;
+      const {stateData, loadTopics} = this.props;
       const data = stateData.get('data');
       const isPending = stateData.get('isPending');
 
       if (!data && !isPending) {
-        loadTopic({
+        loadTopics({
           tab: tab
         });
       }
@@ -43,7 +43,7 @@ export default function (tab) {
   };
 
   const mapDispatchToProps = {
-    loadTopic: topicActions.loadTopic
+    loadTopics: topicActions.loadTopics
   };
 
   return connect(

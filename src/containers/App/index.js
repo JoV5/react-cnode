@@ -40,6 +40,7 @@ export class App extends Component {
           <Route path="/topics/share" component={TopicsSharePage}/>
           <Route path="/topics/ask" component={TopicsAskPage}/>
           <Route path="/topics/job" component={TopicsJobPage}/>
+          <Route path="/topic/:topicid" component={lazyme(() => System.import('../TopicPage'))}/>
           <Route path="/user/:loginname" component={lazyme(() => System.import('../UserPage'))}/>
           <Route path="/login" component={lazyme(() => System.import('../LoginPage'))}/>
         </main>

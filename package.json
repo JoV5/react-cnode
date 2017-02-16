@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "github-markdown-css": "^2.4.1",
     "immutable": "^3.8.1",
     "lazy-load-react": "^1.1.1",
     "normalize.css": "^5.0.0",

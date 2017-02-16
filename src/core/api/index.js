@@ -1,4 +1,5 @@
 export {
+  fetchTopics,
   fetchTopic,
   postLogin,
   fetchUser

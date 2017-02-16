@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 import {
+  API_TOPICS_URL,
+  API_TOPICS_DEFAULT,
   API_TOPIC_URL,
   API_TOPIC_DEFAULT,
   API_LOGIN_URL,
@@ -10,7 +12,17 @@ import {
 export const api = {
   fetchTopics: (param) => {
     return dispatch(
-      API_TOPIC_URL,
+      API_TOPICS_URL,
+      {
+        ...API_TOPICS_DEFAULT,
+        ...param
+      }
+    )
+  },
+
+  fetchTopic: (param) => {
+    return dispatch(
+      `${API_TOPIC_URL}/${param.topicid}`,
       {
         ...API_TOPIC_DEFAULT,
         ...param
