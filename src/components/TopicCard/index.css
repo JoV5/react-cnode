@@ -1,7 +1,11 @@
 .topic_card {
   width: 100%;
-  padding: 10px 15px;
+  padding: 10px 10px;
   border-bottom: 1px solid #d5dbdb;
+}
+
+.topic_card a {
+  text-decoration: none;
 }
 
 .topic_card_title {
@@ -26,30 +30,32 @@
   color: #fff;
 }
 
-.topic_card_title_tab.top{
+.topic_card_title_tab.top {
   background: #e74c3c;
 }
 
-.topic_card_title_tab.ask{
+.topic_card_title_tab.ask {
   background: #3498db;
 }
 
-.topic_card_title_tab.job{
+.topic_card_title_tab.job {
   background: #9b59b6;
 }
 
-.topic_card_title_tab.share{
+.topic_card_title_tab.share {
   background: #1abc9c;
 }
 
-.topic_card_title_tab.good{
+.topic_card_title_tab.good {
   background: #e67e22;
 }
 
 .topic_card_avatar {
   width: 40px;
   height: 40px;
+  margin: 20px 5px 20px 0;
   border-radius: 40px;
+  float: left;
 }
 
 .topic_card_other {
@@ -57,7 +63,7 @@
   width: 100%;
   height: 40px;
   line-height: 20px;
-  margin-left: 10px;
+  color: #34495e;
 }
 
 .topic_card_other b {

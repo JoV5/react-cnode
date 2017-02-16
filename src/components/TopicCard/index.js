@@ -25,14 +25,14 @@ const TopicCard = ({data}) => {
 
   return (
     <div className="topic_card">
-      <h3 className="topic_card_title">
-        <span className={`topic_card_title_tab ${realTab}`}>{TAB_MAP[realTab]}</span>
-        <span className="topic_card_title_content">{title}</span>
-      </h3>
-      <div className="display_flex">
-        <Link to={`/user/${loginname}`}>
-          <img src={avatar_url} className="topic_card_avatar" alt={loginname}/>
-        </Link>
+      <Link to={`/user/${loginname}`}>
+        <img src={avatar_url} className="topic_card_avatar" alt={loginname}/>
+      </Link>
+      <Link to="/topic" >
+        <h3 className="topic_card_title">
+          <span className={`topic_card_title_tab ${realTab}`}>{TAB_MAP[realTab]}</span>
+          <span className="topic_card_title_content">{title}</span>
+        </h3>
         <div className="topic_card_other">
           <div>
             <span>{loginname}</span>
@@ -43,7 +43,7 @@ const TopicCard = ({data}) => {
             <span className="float_right">{timeago(last_reply_at)}</span>
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   )
 };

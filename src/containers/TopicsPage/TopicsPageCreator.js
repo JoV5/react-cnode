@@ -6,7 +6,7 @@ import TopicList from '../../components/TopicList';
 
 export default function (tab) {
 
-  class TopicBasePage extends Component {
+  class TopicsBasePage extends Component {
 
     componentWillMount() {
       const {stateData, loadTopic} = this.props;
@@ -49,6 +49,6 @@ export default function (tab) {
   return connect(
     mapStateToProps,
     mapDispatchToProps
-  )(TopicBasePage);
+  )(TopicsBasePage);
 
 };
