@@ -5,6 +5,7 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 
+const fsExistsSync = require('./fsExistsSync');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 
@@ -18,19 +19,10 @@ const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 
-// This is the development configuration.
-// It is focused on developer experience and fast rebuilds.
-// The production configuration is different and lives in a separate file.
-module.exports = {
-
-  // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
-  // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
-  devtool: 'cheap-module-source-map',
-
-  // These are the "entry points" to our application.
-  // This means they will be the "root" imports that are included in JS bundle.
-  // The first two entry points enable "hot" CSS and auto-refreshes for JS.
-  entry: [
+const appConfig = fsExistsSync(paths.appConfigJs) ? require(paths.appConfigJs) : {};
+const appConfigEntry = appConfig.entry || {};
+const webpackEntry = {
+  main: [
     'react-hot-loader/patch',
     // Include an alternative client for WebpackDevServer. A client's job is to
     // connect to WebpackDevServer by a socket and get notified about changes.
@@ -51,6 +43,22 @@ module.exports = {
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.
   ],
+  vendors: ['react', 'react-dom']
+};
+
+// This is the development configuration.
+// It is focused on developer experience and fast rebuilds.
+// The production configuration is different and lives in a separate file.
+module.exports = {
+
+  // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
+  // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
+  devtool: 'cheap-module-source-map',
+
+  // These are the "entry points" to our application.
+  // This means they will be the "root" imports that are included in JS bundle.
+  // The first two entry points enable "hot" CSS and auto-refreshes for JS.
+  entry: Object.assign(webpackEntry, appConfigEntry),
 
   output: {
     // Next line is not used in dev but WebpackDevServer crashes without it:
@@ -200,6 +208,9 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['main', 'manifest'].concat(Object.keys(appConfigEntry))
+    }),
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
