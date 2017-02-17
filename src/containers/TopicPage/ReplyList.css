@@ -1,0 +1,51 @@
+.reply_item {
+  width: 100%;
+  padding: 10px 10px;
+  border-top: 1px solid #d5dbdb;
+  display: flex;
+  flex-direction: column;
+}
+
+.reply_item a{
+  color: #626262;
+}
+
+.reply_item_avatar {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 50%;
+  float: left;
+}
+
+.reply_item_info {
+  height: 30px;
+  line-height: 30px;
+  font-size: 15px;
+}
+
+.reply_item_time {
+  font-size: 13px;
+  margin-left: 10px;
+  color: #08c;;
+}
+
+.reply_item_good:before {
+  content: "\f087";
+}
+
+.reply_item_content {
+  padding-left: 40px;
+  font-size: 14px;
+}
+
+.reply_item_icon {
+  float: right;
+  padding-right: 5px;
+}
+
+.reply_item_good_count {
+  float: right;
+  padding-right: 5px;
+  font-family: "Arial";
+}
