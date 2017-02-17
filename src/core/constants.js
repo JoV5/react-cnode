@@ -20,6 +20,8 @@ export const API_LOGIN_URL = `${API_URL}/accesstoken`;
 
 export const API_USER_URL = `${API_URL}/user`;
 
+export const API_REPLY_UP_URL = `${API_URL}/reply`;
+
 export const TAB_MAP = {
   share: '分享',
   good: '精华',

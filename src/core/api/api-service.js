@@ -6,7 +6,8 @@ import {
   API_TOPIC_URL,
   API_TOPIC_DEFAULT,
   API_LOGIN_URL,
-  API_USER_URL
+  API_USER_URL,
+  API_REPLY_UP_URL
 } from '../constants';
 
 export const api = {
@@ -37,6 +38,14 @@ export const api = {
   fetchUser: (param) => dispatch(
     `${API_USER_URL}/${param.loginname}`,
     undefined
+  ),
+
+  postReplyUp: (param) => dispatch(
+    `${API_REPLY_UP_URL}/${param.replyid}/ups`,
+    {
+      ...param
+    },
+    'post'
   )
 };
 

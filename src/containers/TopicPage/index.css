@@ -61,6 +61,11 @@
   color: #34495e;
 }
 
+.topic_page_reply_count {
+  color: #444;
+  font-size: 14px;
+}
+
 .topic_page_content {
   margin-bottom: 25px;
 }

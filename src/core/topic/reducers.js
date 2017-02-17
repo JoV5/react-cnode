@@ -20,26 +20,32 @@ export const TopicState = {
   list: []
 };
 
+const findIndexByTopidId = (topicList, topicid) =>
+  topicList.findIndex((data) => {
+    return data.id === topicid;
+  });
+
+const findByTopidId = (topicList, topicid) =>
+  topicList.find((data) => {
+    return data.id === topicid;
+  });
+
 export function topicReducer(state = fromJS(TopicState), action) {
 
   if (!topicActions.hasOwnProperty(action.type)) {
     return state;
   }
 
-  const {payload: {type: payloadType, param, result}, type} = action;
+  const {payload, type} = action;
+  const {type: payloadType, param, result} = payload;
   const topicList = state.get('list');
-
-  const findIndexByTopidId = (topicid) =>
-    topicList.findIndex((data) => {
-      return data.id === topicid
-    });
 
   switch (type) {
     case topicActions.FETCH_TOPIC_PENDING:
       if (payloadType === 'topics') {
         return state.setIn([param.tab, 'isPending'], true);
       } else if (payloadType === 'topic') {
-        const findedIndex = findIndexByTopidId(param.topicid);
+        const findedIndex = findIndexByTopidId(topicList, param.topicid);
 
         if (findedIndex > -1) {
           return state.merge({
@@ -63,7 +69,7 @@ export function topicReducer(state = fromJS(TopicState), action) {
       if (payloadType === 'topics') {
         return state.setIn([param.tab, 'isPending'], false);
       } else if (payloadType === 'topic') {
-        const findedIndex = findIndexByTopidId(param.topicid);
+        const findedIndex = findIndexByTopidId(topicList, param.topicid);
 
         if (findedIndex > -1) {
           return state.merge({
@@ -84,7 +90,7 @@ export function topicReducer(state = fromJS(TopicState), action) {
           }
         });
       } else if (payloadType === 'topic') {
-        const findedIndex = findIndexByTopidId(param.topicid);
+        const findedIndex = findIndexByTopidId(topicList, param.topicid);
 
         if (findedIndex > -1) {
           return state.merge({
@@ -96,6 +102,25 @@ export function topicReducer(state = fromJS(TopicState), action) {
         }
       }
       return state;
+
+    case topicActions.UPDATE_REPLY_UP:
+      const findedTopicIndex = findIndexByTopidId(topicList, payload.topicid);
+      const findedTopic = topicList.get(findedTopicIndex);
+      const findedRepliesIndex = findedTopic.replies.findIndex((reply) => {
+        return reply.id === payload.replyid;
+      });
+      const findedReplies = findedTopic.replies[findedRepliesIndex];
+      const findedIndex = findedReplies.ups.findIndex((id) => {
+        return id === payload.userid;
+      });
+
+      if (findedIndex > -1) {
+        findedReplies.ups.splice(payload.userid, 1);
+      } else {
+        findedReplies.ups.push(payload.userid)
+      }
+
+      return state.set('list', topicList.set(findedTopicIndex, {...findedTopic}));
 
     default:
       return state;

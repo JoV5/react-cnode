@@ -2,5 +2,6 @@ export {
   fetchTopics,
   fetchTopic,
   postLogin,
-  fetchUser
+  fetchUser,
+  postReplyUp
 } from './epics';

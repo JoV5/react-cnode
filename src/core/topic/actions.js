@@ -6,6 +6,8 @@ export const topicActions = {
   LOAD_TOPICS: 'LOAD_TOPICS',
   LOAD_TOPIC: 'LOAD_TOPIC',
 
+  UPDATE_REPLY_UP: 'UPDATE_REPLY_UP',
+
   fetchTopicFailed: result => ({
     type: topicActions.FETCH_TOPIC_FAILED,
     payload: result
@@ -16,9 +18,9 @@ export const topicActions = {
     payload: result
   }),
 
-  fetchTopicPending: result => ({
+  fetchTopicPending: param => ({
     type: topicActions.FETCH_TOPIC_PENDING,
-    payload: result
+    payload: param
   }),
 
   loadTopics: param => ({
@@ -29,6 +31,16 @@ export const topicActions = {
   loadTopic: param => ({
     type: topicActions.LOAD_TOPIC,
     payload: param
+  }),
+
+  updateReplyUp: (topicid, replyid, userid, action) => ({
+    type: topicActions.UPDATE_REPLY_UP,
+    payload: {
+      topicid,
+      replyid,
+      userid,
+      action
+    }
   })
 };
 

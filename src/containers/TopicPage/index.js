@@ -4,6 +4,7 @@ import 'github-markdown-css';
 import {Link} from 'react-router-dom';
 
 import {topicActions} from '../../core/topic';
+import {replyActions} from '../../core/reply';
 import {TAB_MAP} from '../../core/constants';
 import {timeago} from '../../core/utils';
 import ReplyCard from './ReplyCard';
@@ -14,6 +15,11 @@ const findById = (list, id) => list.find((data) => data.id === id);
 
 export class TopicPage extends Component {
 
+  constructor() {
+    super(...arguments);
+    this.replyUp = this.replyUp.bind(this);
+  }
+
   componentWillMount() {
     const {topicList, userMe, loadTopic, match: {params: {topicid: matchedId}}} = this.props;
     const finded = findById(topicList, matchedId);
@@ -23,6 +29,21 @@ export class TopicPage extends Component {
       loadTopic({
         topicid: matchedId,
         accesstoken: accesstoken ? accesstoken : ''
+      })
+    }
+  }
+
+  replyUp(replyid) {
+    const {match: {params: {topicid}}, replyUp, userMe} = this.props;
+    const accesstoken = userMe.get('accesstoken');
+    const userid = userMe.get('id');
+
+    if (accesstoken) {
+      replyUp({
+        replyid,
+        accesstoken,
+        topicid,
+        userid
       })
     }
   }
@@ -58,8 +79,9 @@ export class TopicPage extends Component {
           </div>
           <div className="markdown-body topic_page_content" dangerouslySetInnerHTML={{__html: finded.content}} />
           <div>
+            <div className="topic_page_reply_count">{replies.length} 回复</div>
             {
-              replies.map((reply, i) => <ReplyCard data={reply} key={i} i={i}/>)
+              replies.map((reply, i) => <ReplyCard data={reply} key={i} i={i} replyUp={this.replyUp}/>)
             }
           </div>
         </div>
@@ -82,7 +104,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  loadTopic: topicActions.loadTopic
+  loadTopic: topicActions.loadTopic,
+  replyUp: replyActions.replyUp
 };
 
 export default connect(
