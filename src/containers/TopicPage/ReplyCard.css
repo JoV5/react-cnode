@@ -1,4 +1,4 @@
-.reply_item {
+.reply_card {
   width: 100%;
   padding: 10px 10px;
   border-top: 1px solid #d5dbdb;
@@ -6,11 +6,11 @@
   flex-direction: column;
 }
 
-.reply_item a{
+.reply_card a{
   color: #626262;
 }
 
-.reply_item_avatar {
+.reply_card_avatar {
   width: 30px;
   height: 30px;
   margin-right: 10px;
@@ -18,34 +18,34 @@
   float: left;
 }
 
-.reply_item_info {
+.reply_card_info {
   height: 30px;
   line-height: 30px;
   font-size: 15px;
 }
 
-.reply_item_time {
+.reply_card_time {
   font-size: 13px;
   margin-left: 10px;
   color: #08c;;
 }
 
-.reply_item_good:before {
+.reply_card_good:before {
   content: "\f087";
 }
 
-.reply_item_content {
+.reply_card_content {
   padding-left: 40px;
   font-size: 14px;
 }
 
-.reply_item_icon {
+.reply_card_icon {
   float: right;
-  padding-right: 5px;
+  padding-left: 8px;
 }
 
-.reply_item_good_count {
+.reply_card_good_count {
   float: right;
-  padding-right: 5px;
+  padding-left: 5px;
   font-family: "Arial";
 }

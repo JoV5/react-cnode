@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import {topicActions} from '../../core/topic';
 import {TAB_MAP} from '../../core/constants';
 import {timeago} from '../../core/utils';
-import ReplyList from './ReplyList';
+import ReplyCard from './ReplyCard';
 
 import './index.css';
 
@@ -57,7 +57,11 @@ export class TopicPage extends Component {
             </div>
           </div>
           <div className="markdown-body topic_page_content" dangerouslySetInnerHTML={{__html: finded.content}} />
-          <ReplyList data={replies}/>
+          <div>
+            {
+              replies.map((reply, i) => <ReplyCard data={reply} key={i} i={i}/>)
+            }
+          </div>
         </div>
       )
     } else {
