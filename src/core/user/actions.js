@@ -4,6 +4,7 @@ export const userActions = {
   FETCH_USER_FULFILLED: 'FETCH_USER_FULFILLED',
 
   POST_LOGIN: 'POST_LOGIN',
+  LOGOUT: 'LOGOUT',
   LOAD_USER: 'LOAD_USER',
 
   fetchUserFailed: result => ({
@@ -24,6 +25,10 @@ export const userActions = {
   postLogin: param => ({
     type: userActions.POST_LOGIN,
     payload: param
+  }),
+
+  logout: () => ({
+    type: userActions.LOGOUT
   }),
 
   loadUser: param => ({

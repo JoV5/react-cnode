@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import {fromJS} from 'immutable';
 import {topicActions} from './actions';
 
 export const TopicState = {
@@ -20,7 +20,7 @@ export const TopicState = {
   list: []
 };
 
-export function topicReducer(state = Immutable.fromJS(TopicState), action) {
+export function topicReducer(state = fromJS(TopicState), action) {
 
   if (!topicActions.hasOwnProperty(action.type)) {
     return state;

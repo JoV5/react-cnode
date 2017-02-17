@@ -19,7 +19,7 @@ export default class AppNav extends Component {
 
   render() {
     const {props, handleToggleAppNav} = this;
-    const {appNavIsShow, me} = props;
+    const {appNavIsShow, me, logout} = props;
     const accesstoken = me.get('accesstoken');
     const loginname = me.get('loginname');
     const avatar_url = me.get('avatar_url');
@@ -33,12 +33,12 @@ export default class AppNav extends Component {
               accesstoken ?
                 (
                   <Link to={`/user/${loginname}`} onClick={handleToggleAppNav}>
-                    <img src={avatar_url} className="app_nav_avatar"/>
+                    <img src={avatar_url} className="app_nav_avatar" alt={loginname}/>
                   </Link>
                 ) :
                 (
                   <Link to="/login">
-                    <button className="app_nav_login_btn" onClick={handleToggleAppNav}>登录</button>
+                    <button className="app_nav_log_btn" onClick={handleToggleAppNav}>登录</button>
                   </Link>
                 )
             }
@@ -50,6 +50,9 @@ export default class AppNav extends Component {
             <NavLink to="/topics/ask" name="问答" onClick={handleToggleAppNav}/>
             <NavLink to="/topics/job" name="招聘" onClick={handleToggleAppNav}/>
           </nav>
+          {
+            accesstoken && <button className="app_nav_log_btn" onClick={logout}>登出</button>
+          }
         </div>
       </div>
     );

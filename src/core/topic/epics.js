@@ -3,16 +3,12 @@ import {fetchTopics, fetchTopic} from '../../core/api';
 
 export function loadTopics(action$) {
   return action$.ofType(topicActions.LOAD_TOPICS)
-    .switchMap(({payload}) => {
-      return fetchTopics(payload)
-    })
+    .switchMap(({payload}) => fetchTopics(payload));
 }
 
 export function loadTopic(action$) {
   return action$.ofType(topicActions.LOAD_TOPIC)
-    .switchMap(({payload}) => {
-      return fetchTopic(payload)
-    })
+    .switchMap(({payload}) => fetchTopic(payload));
 }
 
 export const topicEpics = [

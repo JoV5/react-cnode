@@ -10,42 +10,34 @@ import {
 } from '../constants';
 
 export const api = {
-  fetchTopics: (param) => {
-    return dispatch(
-      API_TOPICS_URL,
-      {
-        ...API_TOPICS_DEFAULT,
-        ...param
-      }
-    )
-  },
+  fetchTopics: (param) => dispatch(
+    API_TOPICS_URL,
+    {
+      ...API_TOPICS_DEFAULT,
+      ...param
+    }
+  ),
 
-  fetchTopic: (param) => {
-    return dispatch(
-      `${API_TOPIC_URL}/${param.topicid}`,
-      {
-        ...API_TOPIC_DEFAULT,
-        ...param
-      }
-    )
-  },
+  fetchTopic: (param) => dispatch(
+    `${API_TOPIC_URL}/${param.topicid}`,
+    {
+      ...API_TOPIC_DEFAULT,
+      ...param
+    }
+  ),
 
-  postLogin: (param) => {
-    return dispatch(
-      API_LOGIN_URL,
-      {
-        ...param
-      },
-      'post'
-    )
-  },
+  postLogin: (param) => dispatch(
+    API_LOGIN_URL,
+    {
+      ...param
+    },
+    'post'
+  ),
 
-  fetchUser: (param) => {
-    return dispatch(
-      `${API_USER_URL}/${param.loginname}`,
-      undefined
-    )
-  }
+  fetchUser: (param) => dispatch(
+    `${API_USER_URL}/${param.loginname}`,
+    undefined
+  )
 };
 
 

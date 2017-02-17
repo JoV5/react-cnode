@@ -1,3 +1,3 @@
 export {userActions, userRequestAction} from './actions';
-export {userReducer} from './reducers';
+export {userReducer, UserState} from './reducers';
 export {userEpics} from './epics';

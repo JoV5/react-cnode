@@ -5,12 +5,26 @@ import ReactDOM from "react-dom";
 import {Provider} from 'react-redux';
 import {BrowserRouter} from "react-router-dom";
 import {AppContainer} from 'react-hot-loader';
+import {fromJS} from 'immutable';
 
 import App from "./containers/App/";
 import configureStore from './core/store';
+import {UserState} from './core/user';
 
 const root = document.getElementById("root");
-export const store = configureStore();
+let localMe = localStorage.getItem('me');
+
+// 初始化State，根据是否登录
+export const store = configureStore(
+  localMe ?
+    {
+      user: fromJS({
+        ...UserState,
+        me: JSON.parse(localMe)
+      })
+    } :
+    undefined
+);
 
 const render = () => {
   ReactDOM.render(

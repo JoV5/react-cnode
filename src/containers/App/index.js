@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import lazyme from 'lazy-load-react';
 
 import {appActions} from '../../core/app';
+import {userActions} from '../../core/user';
 import {TopicsAllPage, TopicsAskPage, TopicsGoodPage, TopicsJobPage, TopicsSharePage} from '../TopicsPage';
 import AppHeader from '../../components/AppHeader';
 import AppNav from '../../components/AppNav';
@@ -26,13 +27,13 @@ export class App extends Component {
 
   render() {
     const {props, onHeaderLeftClick} = this;
-    const {toggleAppNav, app, me} = props;
+    const {toggleAppNav, app, me, logout} = props;
     const appNavIsShow = app.get('appNavIsShow');
 
     return (
       <div className="root">
         <AppHeader onLeftBtnClick={onHeaderLeftClick}/>
-        <AppNav toggleAppNav={toggleAppNav} appNavIsShow={appNavIsShow} me={me}/>
+        <AppNav toggleAppNav={toggleAppNav} appNavIsShow={appNavIsShow} me={me} logout={logout}/>
         <main className="app_main">
           <Route exact path="/" render={() => <Redirect to="/topics/all"/>}/>
           <Route path="/topics/all" component={TopicsAllPage}/>
@@ -58,6 +59,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   toggleAppNav: appActions.toggleAppNav,
+  logout: userActions.logout
 };
 
 export default connect(
