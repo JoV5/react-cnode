@@ -115,9 +115,9 @@ export function topicReducer(state = fromJS(TopicState), action) {
       });
 
       if (findedIndex > -1) {
-        findedReplies.ups.splice(payload.userid, 1);
+        payload.action === 'down' && findedReplies.ups.splice(findedIndex, 1);
       } else {
-        findedReplies.ups.push(payload.userid)
+        payload.action === 'up' && findedReplies.ups.push(payload.userid)
       }
 
       return state.set('list', topicList.set(findedTopicIndex, {...findedTopic}));
