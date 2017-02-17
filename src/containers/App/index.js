@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Route, Redirect} from "react-router-dom";
+import {Route, Redirect, Switch, withRouter} from "react-router-dom";
 import {connect} from 'react-redux';
 import lazyme from 'lazy-load-react';
 
@@ -18,6 +18,7 @@ export class App extends Component {
   constructor() {
     super(...arguments);
     this.onHeaderLeftClick = this.onHeaderLeftClick.bind(this);
+    this.onHeaderRightClick = this.onHeaderRightClick.bind(this);
   }
 
   onHeaderLeftClick() {
@@ -25,25 +26,33 @@ export class App extends Component {
     toggleAppNav(!app.get('appNavIsShow'));
   }
 
+  onHeaderRightClick() {
+    const {push} = this.props;
+    push('/newtopic');
+  }
+
   render() {
-    const {props, onHeaderLeftClick} = this;
+    const {props, onHeaderLeftClick, onHeaderRightClick} = this;
     const {toggleAppNav, app, me, logout} = props;
     const appNavIsShow = app.get('appNavIsShow');
 
     return (
       <div className="root">
-        <AppHeader onLeftBtnClick={onHeaderLeftClick}/>
+        <AppHeader onLeftBtnClick={onHeaderLeftClick} onRightBtnClick={onHeaderRightClick}/>
         <AppNav toggleAppNav={toggleAppNav} appNavIsShow={appNavIsShow} me={me} logout={logout}/>
         <main className="app_main">
-          <Route exact path="/" render={() => <Redirect to="/topics/all"/>}/>
-          <Route path="/topics/all" component={TopicsAllPage}/>
-          <Route path="/topics/good" component={TopicsGoodPage}/>
-          <Route path="/topics/share" component={TopicsSharePage}/>
-          <Route path="/topics/ask" component={TopicsAskPage}/>
-          <Route path="/topics/job" component={TopicsJobPage}/>
-          <Route path="/topic/:topicid" component={lazyme(() => System.import('../TopicPage'))}/>
-          <Route path="/user/:loginname" component={lazyme(() => System.import('../UserPage'))}/>
-          <Route path="/login" component={lazyme(() => System.import('../LoginPage'))}/>
+          <Switch>
+            <Route exact path="/" render={() => <Redirect to="/topics/all"/>}/>
+            <Route path="/topics/all" component={TopicsAllPage}/>
+            <Route path="/topics/good" component={TopicsGoodPage}/>
+            <Route path="/topics/share" component={TopicsSharePage}/>
+            <Route path="/topics/ask" component={TopicsAskPage}/>
+            <Route path="/topics/job" component={TopicsJobPage}/>
+            <Route path="/newtopic" component={lazyme(() => System.import('../NewTopicPage'))}/>
+            <Route path="/topic/:topicid" component={lazyme(() => System.import('../TopicPage'))}/>
+            <Route path="/user/:loginname" component={lazyme(() => System.import('../UserPage'))}/>
+            <Route path="/login" component={lazyme(() => System.import('../LoginPage'))}/>
+          </Switch>
         </main>
       </div>
     )
@@ -65,4 +74,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(withRouter(App));
