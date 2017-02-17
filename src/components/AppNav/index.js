@@ -49,6 +49,8 @@ export default class AppNav extends Component {
             <NavLink to="/topics/share" name="分享" onClick={handleToggleAppNav}/>
             <NavLink to="/topics/ask" name="问答" onClick={handleToggleAppNav}/>
             <NavLink to="/topics/job" name="招聘" onClick={handleToggleAppNav}/>
+            <NavLink to="/message" name="消息" onClick={handleToggleAppNav}/>
+            <NavLink to="/collection" name="收藏" onClick={handleToggleAppNav}/>
           </nav>
           {
             accesstoken && <button className="app_nav_log_btn" onClick={logout}>登出</button>

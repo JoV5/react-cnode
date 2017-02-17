@@ -52,7 +52,7 @@ export class UserPage extends Component {
             <img src={avatar_url} className="user_page_avatar" alt={loginname}/>
             <div className="user_page_userinfo_detail">
               <span>{loginname}</span>
-              <span>注册于：{timeago(create_at)}</span>
+              <span>注册时间：{timeago(create_at)}</span>
               <span>积分：{score}</span>
             </div>
           </section>

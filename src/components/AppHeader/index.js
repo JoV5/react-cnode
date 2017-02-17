@@ -1,6 +1,3 @@
-/**
- * Created by jiawei6 on 2016/11/22.
- */
 import React, {PropTypes} from 'react';
 
 import './index.css';
