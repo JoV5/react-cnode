@@ -25,11 +25,6 @@ const findIndexByTopidId = (topicList, topicid) =>
     return data.id === topicid;
   });
 
-const findByTopidId = (topicList, topicid) =>
-  topicList.find((data) => {
-    return data.id === topicid;
-  });
-
 export function topicReducer(state = fromJS(TopicState), action) {
 
   if (!topicActions.hasOwnProperty(action.type)) {

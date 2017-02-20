@@ -3,6 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {topicRequestAction} from '../topic';
 import {userRequestAction} from '../user';
 import {replyRequestAction} from '../reply';
+import {messageRequestAction} from '../message';
 import {api} from './api-service';
 
 const fetchEntities = function (apiFunction, actions, type, param) {
@@ -37,3 +38,6 @@ export const fetchTopic = fetchEntities.bind(null, api.fetchTopic, topicRequestA
 export const postLogin = fetchEntities.bind(null, api.postLogin, userRequestAction, 'login');
 export const fetchUser = fetchEntities.bind(null, api.fetchUser, userRequestAction, 'user');
 export const postReplyUp = fetchEntities.bind(null, api.postReplyUp, replyRequestAction, 'replyup');
+export const fetchMessageCount = fetchEntities.bind(null, api.fetchMessageCount, messageRequestAction, 'messagecount');
+export const fetchMessages = fetchEntities.bind(null, api.fetchMessages, messageRequestAction, 'messages');
+export const postMessageMarkAll = fetchEntities.bind(null, api.postMessageMarkAll, messageRequestAction, 'messagemarkall');

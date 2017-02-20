@@ -17,9 +17,9 @@ export const userActions = {
     payload: result
   }),
 
-  fetchUserPending: result => ({
+  fetchUserPending: param => ({
     type: userActions.FETCH_USER_PENDING,
-    payload: result
+    payload: param
   }),
 
   postLogin: param => ({

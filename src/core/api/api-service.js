@@ -7,7 +7,11 @@ import {
   API_TOPIC_DEFAULT,
   API_LOGIN_URL,
   API_USER_URL,
-  API_REPLY_UP_URL
+  API_REPLY_UP_URL,
+  API_MESSAGE_COUNT_URL,
+  API_MESSAGES_URL,
+  API_MESSAGES_DEFAULT,
+  API_MESSAGE_MARKALL_URL
 } from '../constants';
 
 export const api = {
@@ -29,9 +33,7 @@ export const api = {
 
   postLogin: (param) => dispatch(
     API_LOGIN_URL,
-    {
-      ...param
-    },
+    param,
     'post'
   ),
 
@@ -42,11 +44,28 @@ export const api = {
 
   postReplyUp: (param) => dispatch(
     `${API_REPLY_UP_URL}/${param.replyid}/ups`,
-    {
-      ...param
-    },
+    param,
     'post'
-  )
+  ),
+
+  fetchMessageCount: (param) => dispatch(
+    API_MESSAGE_COUNT_URL,
+    param
+  ),
+
+  fetchMessages: (param) => dispatch(
+    API_MESSAGES_URL,
+    {
+      ...API_MESSAGES_DEFAULT,
+      ...param
+    }
+  ),
+
+  postMessageMarkAll: (param) => dispatch(
+    API_MESSAGE_MARKALL_URL,
+    param,
+    'post'
+  ),
 };
 
 

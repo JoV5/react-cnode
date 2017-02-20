@@ -11,6 +11,13 @@ import AppNav from '../../components/AppNav';
 import PrivateRoute from '../../components/PrivateRoute';
 //import UserPage from '../UserPage';
 
+const TopicPage = lazyme(() => System.import('../TopicPage'));
+const NewTopicPage = lazyme(() => System.import('../NewTopicPage'));
+const LoginPage = lazyme(() => System.import('../LoginPage'));
+const UserPage = lazyme(() => System.import('../UserPage'));
+const MessagePage = lazyme(() => System.import('../MessagePage'));
+const CollectionPage = lazyme(() => System.import('../CollectionPage'));
+
 import './index.css';
 
 export class App extends Component {
@@ -49,12 +56,12 @@ export class App extends Component {
             <Route path="/topics/share" component={TopicsSharePage}/>
             <Route path="/topics/ask" component={TopicsAskPage}/>
             <Route path="/topics/job" component={TopicsJobPage}/>
-            <Route path="/topic/:topicid" component={lazyme(() => System.import('../TopicPage'))}/>
-            <Route path="/newtopic" component={lazyme(() => System.import('../NewTopicPage'))}/>
-            <Route path="/login" component={lazyme(() => System.import('../LoginPage'))}/>
-            <Route path="/user/:loginname" component={lazyme(() => System.import('../UserPage'))}/>
-            <PrivateRoute path="/message" component={lazyme(() => System.import('../MessagePage'))} hasLogin={hasLogin}/>
-            <PrivateRoute path="/collection" component={lazyme(() => System.import('../CollectionPage'))} hasLogin={hasLogin}/>
+            <Route path="/topic/:topicid" component={TopicPage}/>
+            <Route path="/newtopic" component={NewTopicPage}/>
+            <Route path="/login" component={LoginPage}/>
+            <Route path="/user/:loginname" component={UserPage}/>
+            <PrivateRoute path="/message" component={MessagePage} hasLogin={hasLogin}/>
+            <PrivateRoute path="/collection" component={CollectionPage} hasLogin={hasLogin}/>
           </Switch>
         </main>
       </div>

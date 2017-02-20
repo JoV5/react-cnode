@@ -3,5 +3,8 @@ export {
   fetchTopic,
   postLogin,
   fetchUser,
-  postReplyUp
+  postReplyUp,
+  fetchMessageCount,
+  fetchMessages,
+  postMessageMarkAll
 } from './epics';
