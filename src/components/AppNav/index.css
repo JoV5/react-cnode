@@ -66,4 +66,19 @@
   text-align: center;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   color: #313131;
+  position: relative;
+}
+
+.app_nav_item_count {
+  display: inline-block;
+  height: 15px;
+  line-height: 15px;
+  width: 15px;
+  font-size: 13px;
+  color: white;
+  border-radius: 50%;
+  position: absolute;
+  right: 10px;
+  top: 13px;
+  background: red;
 }

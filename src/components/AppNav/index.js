@@ -19,10 +19,10 @@ export default class AppNav extends Component {
 
   render() {
     const {props, handleToggleAppNav} = this;
-    const {appNavIsShow, me, logout} = props;
-    const accesstoken = me.get('accesstoken');
-    const loginname = me.get('loginname');
-    const avatar_url = me.get('avatar_url');
+    const {appNavIsShow, userMe, logout, messageCount} = props;
+    const accesstoken = userMe.get('accesstoken');
+    const loginname = userMe.get('loginname');
+    const avatar_url = userMe.get('avatar_url');
 
     return (
       <div>
@@ -49,7 +49,7 @@ export default class AppNav extends Component {
             <NavLink to="/topics/share" name="分享" onClick={handleToggleAppNav}/>
             <NavLink to="/topics/ask" name="问答" onClick={handleToggleAppNav}/>
             <NavLink to="/topics/job" name="招聘" onClick={handleToggleAppNav}/>
-            <NavLink to="/message" name="消息" onClick={handleToggleAppNav}/>
+            <NavLink to="/message" name="消息" onClick={handleToggleAppNav} count={messageCount}/>
             <NavLink to="/collection" name="收藏" onClick={handleToggleAppNav}/>
           </nav>
           {
@@ -63,5 +63,7 @@ export default class AppNav extends Component {
 
 AppNav.propTypes = {
   appNavIsShow: PropTypes.bool.isRequired,
-  toggleAppNav: PropTypes.func.isRequired
+  toggleAppNav: PropTypes.func.isRequired,
+  logout: PropTypes.func,
+  userMe: PropTypes.object
 };

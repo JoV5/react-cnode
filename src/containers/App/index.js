@@ -40,14 +40,14 @@ export class App extends Component {
 
   render() {
     const {props, onHeaderLeftClick, onHeaderRightClick} = this;
-    const {toggleAppNav, app, me, logout} = props;
-    const hasLogin = !!me.get('accesstoken');
+    const {toggleAppNav, app, userMe, logout, messageCount} = props;
+    const hasLogin = !!userMe.get('accesstoken');
     const appNavIsShow = app.get('appNavIsShow');
 
     return (
       <div className="root">
         <AppHeader onLeftBtnClick={onHeaderLeftClick} onRightBtnClick={onHeaderRightClick}/>
-        <AppNav toggleAppNav={toggleAppNav} appNavIsShow={appNavIsShow} me={me} logout={logout}/>
+        <AppNav toggleAppNav={toggleAppNav} appNavIsShow={appNavIsShow} userMe={userMe} logout={logout} messageCount={messageCount}/>
         <main className="app_main">
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/topics/all"/>}/>
@@ -72,7 +72,8 @@ export class App extends Component {
 const mapStateToProps = (state) => {
   return {
     app: state.app,
-    me: state.user.get('me')
+    userMe: state.user.get('me'),
+    messageCount: state.message.get('messageCount')
   };
 };
 

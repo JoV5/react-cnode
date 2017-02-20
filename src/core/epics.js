@@ -5,11 +5,13 @@ import {userEpics} from './user';
 import {localStoreEpics} from './localstore';
 import {replyEpics} from './reply';
 import {messageEpics} from './message';
+import {appEpics} from './app';
 
 export default combineEpics(
   ...topicEpics,
   ...userEpics,
   ...localStoreEpics,
   ...replyEpics,
-  ...messageEpics
+  ...messageEpics,
+  ...appEpics
 );

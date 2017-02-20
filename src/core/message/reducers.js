@@ -12,6 +12,8 @@ export function messageReducer(state = fromJS(MessageState), action) {
     return state;
   }
 
+  const {payload: {type: payloadType, result}} = action;
+
   switch (type) {
     case messageActions.FETCH_MESSAGE_PENDING:
       return state;
@@ -20,6 +22,9 @@ export function messageReducer(state = fromJS(MessageState), action) {
       return state;
 
     case messageActions.FETCH_MESSAGE_FULFILLED:
+      if (payloadType === 'messagecount') {
+        return state.set('messageCount', result.data.data);
+      }
       return state;
 
     default:
