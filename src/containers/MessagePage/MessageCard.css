@@ -1,0 +1,53 @@
+.message_card {
+  width: 100%;
+  padding: 10px 10px;
+  border-bottom: 1px solid #d5dbdb;
+  display: flex;
+  flex-direction: row;
+}
+
+.message_card a{
+  color: #626262;
+}
+
+.message_card_avatar {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.message_card_read {
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #df3e3e;
+  margin-left: 7px;
+  margin-top: 20px;
+}
+
+.message_card_info {
+  display: flex;
+  flex-direction: column;
+}
+
+.message_card_other{
+  font-size: 14px;
+}
+
+.message_card_time {
+  font-size: 13px;
+  float: right;
+  color: #80bd01;
+}
+
+.message_card_title {
+  color: #217dad;
+  font-size: 14px;
+}
+
+.message_card_content {
+  background-color: #eee;
+  padding: 5px;
+}
