@@ -30,10 +30,6 @@
   color: #08c;;
 }
 
-.reply_card_good:before {
-  content: "\f087";
-}
-
 .reply_card_content {
   padding-left: 40px;
   font-size: 14px;
@@ -41,7 +37,12 @@
 
 .reply_card_icon {
   float: right;
-  padding-left: 8px;
+  padding-left: 12px;
+  color: #484A45;
+}
+
+.reply_card_icon.good {
+  color: #000;
 }
 
 .reply_card_good_count {

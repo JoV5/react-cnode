@@ -49,8 +49,9 @@ export class TopicPage extends Component {
   }
 
   render() {
-    const {topicList, match: {params: {topicid: matchedId}}} = this.props;
+    const {topicList, match: {params: {topicid: matchedId}}, userMe} = this.props;
     const finded = findById(topicList, matchedId);
+    const userId = userMe.get('id');
 
     if (finded && finded.content) {
       const {good, tab, top, title, author: {loginname, avatar_url}, create_at, visit_count, replies, last_reply_at} = finded;
@@ -81,7 +82,7 @@ export class TopicPage extends Component {
           <div>
             <div className="topic_page_reply_count">{replies.length} 回复</div>
             {
-              replies.map((reply, i) => <ReplyCard data={reply} key={i} i={i} replyUp={this.replyUp}/>)
+              replies.map((reply, i) => <ReplyCard data={reply} key={i} i={i} replyUp={this.replyUp} userId={userId}/>)
             }
           </div>
         </div>

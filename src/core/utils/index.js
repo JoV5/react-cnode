@@ -14,7 +14,7 @@ export function timeago(date) {
   if (dateYear < curDateYear) {
     return `${curDateYear - dateYear}年前`;
   } else if (dateMonth < curDateMonth) {
-    return `${curDateMonth - dateMonth}月前`;
+    return `${curDateMonth - dateMonth}个月前`;
   } else {
     if (deltaTime < 60) {
       return `${deltaTime}秒前`;

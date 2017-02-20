@@ -5,8 +5,9 @@ import {timeago} from '../../core/utils';
 
 import './ReplyCard.css';
 
-const ReplyList = ({data, i, replyUp}) => {
+const ReplyCard = ({data, i, replyUp, userId}) => {
   const {author: {avatar_url, loginname}, content, ups, create_at, id} = data;
+  const gooded = !!ups.find((upId) => upId === userId);
   const up = ups.length;
 
   return (
@@ -21,15 +22,15 @@ const ReplyList = ({data, i, replyUp}) => {
         <span className="reply_card_time">{i + 1}楼 · {timeago(create_at)}</span>
         <i className="iconfont reply_card_icon">&#xe605;</i>
         {!!up && <i className="reply_card_good_count">{up}</i>}
-        <i className="iconfont reply_card_icon" onClick={() => replyUp(id)}>&#xe65d;</i>
+        <i className={`iconfont reply_card_icon ${gooded ? 'good' : ''}`} onClick={() => replyUp(id)}>&#xe65d;</i>
       </div>
       <div className="markdown-body reply_card_content" dangerouslySetInnerHTML={{__html: content}} />
     </div>
   )
 };
 
-ReplyList.propTypes = {
+ReplyCard.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default ReplyList;
+export default ReplyCard;
