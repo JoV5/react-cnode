@@ -12,9 +12,9 @@ export function replyUp(action$) {
 export function fetchReplyFulfilled(action$) {
   return action$.ofType(replyActions.FETCH_REPLY_FULFILLED)
     .switchMap(({payload}) => {
-      if (payload.type === 'replyup') {
+      if (payload.type === 'replyup') { // 点赞成功后更新topics内相应评论的ups
         const {param: {replyid, userid, topicid}, result: {data: {action}}} = payload;
-        return Observable.of(topicActions.updateReplyUp(topicid, replyid, userid, action))
+        return Observable.of(topicActions.updateReplyUp(topicid, replyid, userid, action));
       }
     });
 }

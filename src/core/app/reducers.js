@@ -12,6 +12,7 @@ export function appReducer(state = new Map(AppState), action) {
   switch (action.type) {
     case appActions.TOGGLE_APP_NAV:
       return state.set('appNavIsShow', payload);
+
     default:
       return state;
   }

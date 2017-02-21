@@ -1,6 +1,7 @@
 import {appActions} from './actions';
 import {messageActions} from '../../core/message';
 
+// 在每次显示AppNav的时候更新消息未读数
 export function toggleAppNav(action$, state) {
   return action$.ofType(appActions.TOGGLE_APP_NAV)
     .filter(({payload}) => payload)

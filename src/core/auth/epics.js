@@ -7,12 +7,10 @@ export function login(action$) {
     .switchMap(({payload}) => postLogin(payload));
 }
 
+// 登陆成功后进行本地保存
 export function fetchAuthFulFilled(action$, store) {
   return action$.ofType(authActions.FETCH_AUTH_FULFILLED)
-    .map((action) => {
-    console.log(action)
-     return localStoreActions.saveToLocal('auth', store.getState().auth.toJS())
-    });
+    .map((action) => localStoreActions.saveToLocal('auth', store.getState().auth.toJS()));
 }
 
 export function logout(actions$) {

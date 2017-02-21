@@ -1,10 +1,44 @@
-export {
-  fetchTopics,
-  fetchTopic,
-  postLogin,
-  fetchUser,
-  postReplyUp,
-  fetchMessageCount,
-  fetchMessages,
-  postMessageMarkAll
-} from './epics';
+import {Observable} from 'rxjs/Observable';
+
+import {topicRequestAction} from '../topic';
+import {userRequestAction} from '../user';
+import {replyRequestAction} from '../reply';
+import {messageRequestAction} from '../message';
+import {authRequestAction} from '../auth';
+import {api} from './api-service';
+
+const fetchEntities = function (apiFunction, actions, type, param) {
+
+  return Observable.create(function (observer) {
+
+    observer.next(actions.pending({
+      type,
+      param
+    }));
+
+    apiFunction(param)
+      .then(function (data) {
+        observer.next(actions.fulfilled({
+          type,
+          param,
+          result: data
+        }));
+      })
+      .catch(function (error) {
+        observer.next(actions.failed({
+          type,
+          param,
+          error
+        }))
+      });
+  })
+};
+
+export const fetchTopics = fetchEntities.bind(null, api.fetchTopics, topicRequestAction, 'topics');
+export const fetchTopic = fetchEntities.bind(null, api.fetchTopic, topicRequestAction, 'topic');
+export const postLogin = fetchEntities.bind(null, api.postLogin, authRequestAction, 'login');
+export const fetchUser = fetchEntities.bind(null, api.fetchUser, userRequestAction, 'user');
+export const postReplyUp = fetchEntities.bind(null, api.postReplyUp, replyRequestAction, 'replyup');
+export const fetchMessageCount = fetchEntities.bind(null, api.fetchMessageCount, messageRequestAction, 'messagecount');
+export const fetchMessages = fetchEntities.bind(null, api.fetchMessages, messageRequestAction, 'messages');
+export const postMessageMarkAll = fetchEntities.bind(null, api.postMessageMarkAll, messageRequestAction, 'messagemarkall');
