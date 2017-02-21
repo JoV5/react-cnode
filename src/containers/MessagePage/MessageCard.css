@@ -30,6 +30,7 @@
 .message_card_info {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .message_card_other{
