@@ -9,8 +9,8 @@ import './index.css';
 export class MessagePage extends Component {
 
   componentWillMount() {
-    const {userMe, loadMessages, message} = this.props;
-    const accesstoken = userMe.get('accesstoken');
+    const {auth, loadMessages, message} = this.props;
+    const accesstoken = auth.get('accesstoken');
     const messageCount = message.get('messageCount');
     const messages = message.get('messages');
 
@@ -23,8 +23,8 @@ export class MessagePage extends Component {
   }
 
   componentWillUnmount() {
-    const {userMe, markAllMessage, message} = this.props;
-    const accesstoken = userMe.get('accesstoken');
+    const {auth, markAllMessage, message} = this.props;
+    const accesstoken = auth.get('accesstoken');
     const messageCount = message.get('messageCount');
 
     // 在退出页面时，若有未读消息，标记未读消息为已读
@@ -61,7 +61,7 @@ export class MessagePage extends Component {
 const mapStateToProps = (state) => {
   return {
     message: state.message,
-    userMe: state.user.get('me')
+    auth: state.auth
   };
 };
 

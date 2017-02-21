@@ -9,19 +9,14 @@ import {fromJS} from 'immutable';
 
 import App from "./containers/App/";
 import configureStore from './core/store';
-import {UserState} from './core/user';
 
 const root = document.getElementById("root");
-let localMe = localStorage.getItem('me');
+let localMe = localStorage.getItem('auth');
 
 // 初始化State，根据是否登录
 export const store = configureStore(
-  localMe ?
-    {
-      user: fromJS({
-        ...UserState,
-        me: JSON.parse(localMe)
-      })
+  localMe ? {
+      auth: fromJS(JSON.parse(localMe))
     } :
     undefined
 );

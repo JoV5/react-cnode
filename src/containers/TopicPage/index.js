@@ -21,9 +21,9 @@ export class TopicPage extends Component {
   }
 
   componentWillMount() {
-    const {topicList, userMe, loadTopic, match: {params: {topicid: matchedId}}} = this.props;
+    const {topicList, auth, loadTopic, match: {params: {topicid: matchedId}}} = this.props;
     const finded = findById(topicList, matchedId);
-    const accesstoken = userMe.get('accesstoken');
+    const accesstoken = auth.get('accesstoken');
 
     if (!finded || (finded && !finded.content && !finded.isPending)) {
       loadTopic({
@@ -34,9 +34,9 @@ export class TopicPage extends Component {
   }
 
   replyUp(replyid) {
-    const {match: {params: {topicid}}, replyUp, userMe} = this.props;
-    const accesstoken = userMe.get('accesstoken');
-    const userid = userMe.get('id');
+    const {match: {params: {topicid}}, replyUp, auth} = this.props;
+    const accesstoken = auth.get('accesstoken');
+    const userid = auth.get('id');
 
     if (accesstoken) {
       replyUp({
@@ -49,9 +49,9 @@ export class TopicPage extends Component {
   }
 
   render() {
-    const {topicList, match: {params: {topicid: matchedId}}, userMe} = this.props;
+    const {topicList, match: {params: {topicid: matchedId}}, auth} = this.props;
     const finded = findById(topicList, matchedId);
-    const userId = userMe.get('id');
+    const userId = auth.get('id');
 
     if (finded && finded.content) {
       const {good, tab, top, title, author: {loginname, avatar_url}, create_at, visit_count, replies, last_reply_at} = finded;
@@ -100,7 +100,7 @@ export class TopicPage extends Component {
 const mapStateToProps = (state) => {
   return {
     topicList: state.topic.get('list'),
-    userMe: state.user.get('me')
+    auth: state.auth
   };
 };
 

@@ -19,10 +19,10 @@ export default class AppNav extends Component {
 
   render() {
     const {props, handleToggleAppNav} = this;
-    const {appNavIsShow, userMe, logout, messageCount} = props;
-    const accesstoken = userMe.get('accesstoken');
-    const loginname = userMe.get('loginname');
-    const avatar_url = userMe.get('avatar_url');
+    const {appNavIsShow, auth, logout, messageCount} = props;
+    const accesstoken = auth.get('accesstoken');
+    const loginname = auth.get('loginname');
+    const avatar_url = auth.get('avatar_url');
 
     return (
       <div>
@@ -65,5 +65,5 @@ AppNav.propTypes = {
   appNavIsShow: PropTypes.bool.isRequired,
   toggleAppNav: PropTypes.func.isRequired,
   logout: PropTypes.func,
-  userMe: PropTypes.object
+  auth: PropTypes.object
 };

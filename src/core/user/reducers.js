@@ -1,100 +1,60 @@
-import {fromJS} from 'immutable';
+import {List} from 'immutable';
 import {userActions} from './actions';
 
-export const UserState = {
-  me: {},
-  list: []
-};
-
-export function userReducer(state = fromJS(UserState), action) {
+export function userReducer(state = new List(), action) {
 
   if (!userActions.hasOwnProperty(action.type)) {
     return state;
   }
 
-  const {type} = action;
+  const {payload: {param, result}, type} = action;
 
-
-  if (action.payload) {
-    const {payload: {type: payloadType, param, result}, type} = action;
-    const userList = state.get('list');
+  if (param) {
     const findIndexByLoginName = (loginname) =>
-      userList.findIndex((data) => {
+      state.findIndex((data) => {
         return data.loginname === loginname
       });
+    const findedIndex = findIndexByLoginName(param.loginname);
 
     switch (type) {
       case userActions.FETCH_USER_PENDING:
-        if (payloadType === 'login') {
-          return state.setIn(['me', 'isPending'], true);
-        } else if (payloadType === 'user') {
-          const findedIndex = findIndexByLoginName(param.loginname);
 
-          if (findedIndex > -1) {
-            return state.merge({
-              list: userList.set(findedIndex, {
-                isPending: true,
-                loginname: param.loginname
-              })
-            });
-          } else {
-            return state.merge({
-              list: state.get('list').push({
-                isPending: true,
-                loginname: param.loginname
-              })
-            });
-          }
-        }
-        return state;
-      case userActions.FETCH_USER_FAILED:
-        if (payloadType === 'login') {
-          return state.setIn(['me', 'isPending'], false);
-        } else if (payloadType === 'user') {
-          const findedIndex = findIndexByLoginName(param.loginname);
-
-          if (findedIndex > -1) {
-            return state.merge({
-              list: userList.set(findedIndex, {
-                isPending: false
-              })
-            });
-          }
-        }
-        return state;
-      case userActions.FETCH_USER_FULFILLED:
-        if (payloadType === 'login') {
-          return state.merge({
-            me: {
-              ...result.data,
-              accesstoken: param.accesstoken,
-              isPending: false
-            }
+        if (findedIndex > -1) {
+          return state.set(findedIndex, {
+            isPending: true,
+            loginname: param.loginname
           });
-        } else if (payloadType === 'user') {
-          const findedIndex = findIndexByLoginName(param.loginname);
+        } else {
+          return state.push({
+            isPending: true,
+            loginname: param.loginname
+          });
+        }
 
-          if (findedIndex > -1) {
-            return state.merge({
-              list: state.get('list').set(findedIndex, {
-                ...result.data.data,
-                isPending: false
-              })
-            });
-          }
+      case userActions.FETCH_USER_FAILED:
+
+        if (findedIndex > -1) {
+          return state.set(findedIndex, {
+            isPending: false
+          });
         }
         return state;
-      default:
+
+      case userActions.FETCH_USER_FULFILLED:
+
+        if (findedIndex > -1) {
+          return state.set(findedIndex, {
+            ...result.data.data,
+            isPending: false
+          });
+        }
         return state;
-    }
-  } else {
-    switch (type) {
-      case userActions.LOGOUT:
-        return state.merge({
-          me: {}
-        });
+
       default:
         return state;
     }
   }
+
+  return state;
+
 }

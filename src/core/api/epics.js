@@ -4,6 +4,7 @@ import {topicRequestAction} from '../topic';
 import {userRequestAction} from '../user';
 import {replyRequestAction} from '../reply';
 import {messageRequestAction} from '../message';
+import {authRequestAction} from '../auth';
 import {api} from './api-service';
 
 const fetchEntities = function (apiFunction, actions, type, param) {
@@ -35,7 +36,7 @@ const fetchEntities = function (apiFunction, actions, type, param) {
 
 export const fetchTopics = fetchEntities.bind(null, api.fetchTopics, topicRequestAction, 'topics');
 export const fetchTopic = fetchEntities.bind(null, api.fetchTopic, topicRequestAction, 'topic');
-export const postLogin = fetchEntities.bind(null, api.postLogin, userRequestAction, 'login');
+export const postLogin = fetchEntities.bind(null, api.postLogin, authRequestAction, 'login');
 export const fetchUser = fetchEntities.bind(null, api.fetchUser, userRequestAction, 'user');
 export const postReplyUp = fetchEntities.bind(null, api.postReplyUp, replyRequestAction, 'replyup');
 export const fetchMessageCount = fetchEntities.bind(null, api.fetchMessageCount, messageRequestAction, 'messagecount');

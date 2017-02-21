@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
-import {userActions} from '../../core/user';
+import {authActions} from '../../core/auth';
 
 import './index.css';
 
@@ -14,19 +14,19 @@ export class LoginPage extends Component {
   }
 
   login() {
-    const {postLogin} = this.props;
+    const {login} = this.props;
 
-    postLogin({
+    login({
       accesstoken: this.input.value
     })
   }
 
   render() {
     const {props, login} = this;
-    const {userMe, location: {state}} = props;
+    const {auth, location: {state}} = props;
 
     const {from} = state || {from: {pathname: '/'}};
-    const accesstoken = userMe.get('accesstoken');
+    const accesstoken = auth.get('accesstoken');
 
     if (accesstoken) {
       return (
@@ -45,12 +45,12 @@ export class LoginPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    userMe: state.user.get('me')
+    auth: state.auth
   };
 };
 
 const mapDispatchToProps = {
-  postLogin: userActions.postLogin
+  login: authActions.login
 };
 
 export default connect(

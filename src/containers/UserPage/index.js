@@ -20,19 +20,41 @@ export class UserPage extends Component {
     this.switchTab = this.switchTab.bind(this);
   }
 
+  /**
+   * 在装载前进行数据加载
+   */
   componentWillMount() {
     const {props} = this;
     const {loadUser, userList, match: {params: {loginname: matchedName}}} = props;
 
     const finded = findByName(userList, matchedName);
 
-    if (!finded || (finded && !finded.create_at && !finded.isPending)) {
+    if (!finded || (!finded.create_at && !finded.isPending)) {
       loadUser({
         loginname: matchedName
       });
     }
   }
 
+  /**
+   * loginname变更加载新的数据
+   * @param nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    const {loadUser, userList, match: {params: {loginname: matchedName}}} = nextProps;
+    const finded = findByName(userList, matchedName);
+
+    if (!finded || (!finded.create_at && !finded.isPending)) {
+      loadUser({
+        loginname: matchedName
+      });
+    }
+  }
+
+  /**
+   * 这里使用了state管理状态
+   * @param tab
+   */
   switchTab(tab) {
     this.setState({
       tabSelected: tab
@@ -85,7 +107,7 @@ export class UserPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    userList: state.user.get('list')
+    userList: state.user
   };
 };
 
