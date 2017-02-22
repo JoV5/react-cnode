@@ -1,3 +1,3 @@
 export {dbActions} from './actions';
 export {dbReducer} from './reducers';
-export {getDBUsers, getDBTopics} from './selectors';
+export {getDBUsers, getDBTopics, getDBReplies} from './selectors';

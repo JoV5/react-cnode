@@ -1,4 +1,5 @@
 import 'normalize.css';
+import 'github-markdown-css';
 import 'rxjs';
 import React from "react";
 import ReactDOM from "react-dom";

@@ -4,7 +4,7 @@ import {createSelector} from 'reselect';
 import {List} from 'immutable';
 
 import {topicActions} from '../../core/topic';
-import TopicList from '../../components/TopicList';
+import TopicCard from '../../components/TopicCard';
 import {getDBTopics, getDBUsers} from '../../core/db';
 import {getTabTopicCreator} from '../../core/topic';
 
@@ -26,7 +26,15 @@ export default function (tab) {
       const {data} = this.props;
 
       if (data) {
-        return <TopicList data={data}/>;
+        return (
+          <div>
+            {
+              data.map((topic, i) => (
+                <TopicCard data={topic} key={i}/>
+              ))
+            }
+          </div>
+        );
       } else {
         return (
           <div>
@@ -43,11 +51,10 @@ export default function (tab) {
     getTabTopicCreator(tab),
     (dbTopics, dbUsers, tabTopic) => {
       const tabTopicData = tabTopic.get('data');
-      let topics = new List();
+      let topics;
 
-      if (!tabTopicData) {
-        topics = false;
-      } else {
+      if (tabTopicData) {
+        topics = new List();
         tabTopicData.forEach((d) => {
           const topic = dbTopics.get(d.get('id'));
 
@@ -58,6 +65,8 @@ export default function (tab) {
             return false;
           }
         });
+      } else {
+        topics = false;
       }
 
       return {

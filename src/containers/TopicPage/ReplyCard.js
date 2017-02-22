@@ -6,7 +6,14 @@ import {timeago} from '../../core/utils';
 import './ReplyCard.css';
 
 const ReplyCard = ({data, i, replyUp, userId}) => {
-  const {author: {avatar_url, loginname}, content, ups, create_at, id} = data;
+  //const {author: {avatar_url, loginname}, content, ups, create_at, id} = data;
+  const author = data.get('author');
+  const avatar_url = author.get('avatar_url');
+  const loginname = author.get('loginname');
+  const content = data.get('content');
+  const ups = data.get('ups');
+  const create_at = data.get('create_at');
+  const id = data.get('id');
   const gooded = !!ups.find((upId) => upId === userId);
   const up = ups.length;
 
