@@ -1,0 +1,1 @@
+export const getMatchedUserName = (state, props) => props.match.params.loginname;

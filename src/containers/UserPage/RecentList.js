@@ -9,7 +9,14 @@ const RecentList = ({data}) => (
   <div>
     {
       data.map((recent, i) => {
-        const {author: {avatar_url, loginname}, title, last_reply_at, id} = recent;
+        //const {author: {avatar_url, loginname}, title, last_reply_at, id} = recent;
+        const author = recent.get('author');
+        const avatar_url = author.get('avatar_url');
+        const loginname = author.get('loginname');
+        const title = recent.get('title');
+        const last_reply_at = recent.get('last_reply_at');
+        const id = recent.get('id');
+
         return (
           <div key={i} className="recent_item">
             <Link to={`/user/${loginname}`}>
@@ -32,7 +39,7 @@ const RecentList = ({data}) => (
 );
 
 RecentList.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.object.isRequired
 };
 
 export default RecentList;

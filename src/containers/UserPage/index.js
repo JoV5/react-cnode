@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {createSelector} from 'reselect';
+import {List} from 'immutable';
 
 import {userActions} from '../../core/user';
 import {timeago} from '../../core/utils';
 import RecentList from './RecentList';
+import {getDBUsers, getDBTopics} from '../../core/db';
+import {getMatchedUserName} from '../../core/user';
 
 import './index.css';
-
-const findByName = (list, name) => list.find((data) => data.loginname === name);
 
 export class UserPage extends Component {
 
@@ -25,11 +27,9 @@ export class UserPage extends Component {
    */
   componentWillMount() {
     const {props} = this;
-    const {loadUser, userList, match: {params: {loginname: matchedName}}} = props;
+    const {loadUser, recentTopics, matchedName} = props;
 
-    const finded = findByName(userList, matchedName);
-
-    if (!finded || (!finded.create_at && !finded.isPending)) {
+    if (!recentTopics) {
       loadUser({
         loginname: matchedName
       });
@@ -41,10 +41,9 @@ export class UserPage extends Component {
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
-    const {loadUser, userList, match: {params: {loginname: matchedName}}} = nextProps;
-    const finded = findByName(userList, matchedName);
+    const {loadUser, matchedName, recentTopics} = nextProps;
 
-    if (!finded || (!finded.create_at && !finded.isPending)) {
+    if (!recentTopics) {
       loadUser({
         loginname: matchedName
       });
@@ -63,11 +62,15 @@ export class UserPage extends Component {
 
   render() {
     const {props, state: {tabSelected}} = this;
-    const {userList, match: {params: {loginname: matchedName}}} = props;
-    const finded = findByName(userList, matchedName);
+    const {matchedUser, recentTopics, recentReplies} = props;
 
-    if (finded && finded.create_at) {
-      const {loginname, avatar_url, create_at, score} = finded;
+    if (matchedUser && recentTopics && recentReplies) {
+      //const {loginname, avatar_url, create_at, score} = matchedUser;
+      const loginname = matchedUser.get('loginname');
+      const avatar_url = matchedUser.get('avatar_url');
+      const create_at = matchedUser.get('create_at');
+      const score = matchedUser.get('score');
+
       return (
         <div>
           <section className="user_page_userinfo">
@@ -90,7 +93,11 @@ export class UserPage extends Component {
               </div>
             </div>
             <div>
-              <RecentList data={finded[`recent_${tabSelected}`]}/>
+              {
+                tabSelected === 'replies' ?
+                  <RecentList data={recentReplies}/> :
+                  <RecentList data={recentTopics}/>
+              }
             </div>
           </section>
         </div>
@@ -105,11 +112,59 @@ export class UserPage extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userList: state.user
-  };
-};
+
+const mapStateToProps = createSelector(
+  getDBTopics,
+  getDBUsers,
+  getMatchedUserName,
+  (dbTopics, dbUsers, matchedName) => {
+    let matchedUser = dbUsers.get(matchedName);
+    let recentTopics = false;
+    let recentReplies = false;
+
+    if (matchedUser) {
+      const matchedRecentTopics = matchedUser.get('recent_topics');
+      const matchedRecentReplies = matchedUser.get('recent_replies');
+
+      if (matchedRecentTopics) {
+        recentTopics = new List();
+        matchedRecentTopics.forEach((d) => {
+          const topic = dbTopics.get(d);
+
+          if (topic) {
+            recentTopics = recentTopics.push(topic.set('author', dbUsers.get(topic.get('author'))));
+          } else {
+            recentTopics = false;
+            return false;
+          }
+        });
+      }
+
+      if (matchedRecentReplies) {
+        recentReplies = new List();
+        matchedRecentReplies.forEach((d) => {
+          const topic = dbTopics.get(d);
+
+          if (topic) {
+            recentReplies = recentReplies.push(topic.set('author', dbUsers.get(topic.get('author'))));
+          } else {
+            recentReplies = false;
+            return false;
+          }
+        });
+      }
+    } else {
+      matchedUser = false;
+    }
+
+    return {
+      matchedUser,
+      matchedName,
+      recentTopics,
+      recentReplies
+    }
+  }
+);
 
 const mapDispatchToProps = {
   loadUser: userActions.loadUser

@@ -23,10 +23,10 @@ export class TopicPage extends Component {
   }
 
   componentWillMount() {
-    const {matchTopic, auth, loadTopic, matchedId} = this.props;
+    const {matchedTopic, auth, loadTopic, matchedId} = this.props;
     const accesstoken = auth.get('accesstoken');
 
-    if (!matchTopic) {
+    if (!matchedTopic || !matchedTopic.get('content')) {
       loadTopic({
         topicid: matchedId,
         accesstoken: accesstoken ? accesstoken : ''
@@ -54,23 +54,23 @@ export class TopicPage extends Component {
   }
 
   render() {
-    const {matchTopic, auth} = this.props;
+    const {matchedTopic, auth} = this.props;
     const userId = auth.get('id');
 
-    if (matchTopic) {
-      //const {good, tab, top, title, author: {loginname, avatar_url}, create_at, visit_count, replies, last_reply_at} = matchTopic;
-      const good = matchTopic.get('good');
-      const tab = matchTopic.get('tab');
-      const top = matchTopic.get('top');
-      const title = matchTopic.get('title');
-      const author = matchTopic.get('author');
+    if (matchedTopic && matchedTopic.get('content')) {
+      //const {good, tab, top, title, author: {loginname, avatar_url}, create_at, visit_count, replies, last_reply_at} = matchedTopic;
+      const good = matchedTopic.get('good');
+      const tab = matchedTopic.get('tab');
+      const top = matchedTopic.get('top');
+      const title = matchedTopic.get('title');
+      const author = matchedTopic.get('author');
       const loginname = author.get('loginname');
       const avatar_url = author.get('avatar_url');
-      const create_at = matchTopic.get('create_at');
-      const visit_count = matchTopic.get('visit_count');
-      const replies = matchTopic.get('replies');
-      const last_reply_at = matchTopic.get('last_reply_at');
-      const content = matchTopic.get('content');
+      const create_at = matchedTopic.get('create_at');
+      const visit_count = matchedTopic.get('visit_count');
+      const replies = matchedTopic.get('replies');
+      const last_reply_at = matchedTopic.get('last_reply_at');
+      const content = matchedTopic.get('content');
       const realTab = top ? 'top' : (good ? 'good' : tab);
 
       return (
@@ -126,15 +126,15 @@ const mapStateToProps = createSelector(
   getMatchedTopicId,
   getAuth,
   (dbTopics, dbUsers, dbReplies, matchedId, auth) => {
-    let matchTopic = dbTopics.get(matchedId);
+    let matchedTopic = dbTopics.get(matchedId);
 
-    if (matchTopic) {
-      const matchTopicReplies = matchTopic.get('replies');
+    if (matchedTopic) {
+      const matchedTopicReplies = matchedTopic.get('replies');
       let replies;
 
-      if (matchTopicReplies) {
+      if (matchedTopicReplies) {
         replies = new List();
-        matchTopicReplies.forEach((d) => {
+        matchedTopicReplies.forEach((d) => {
           const reply = dbReplies.get(d);
 
           replies = replies.push(reply.set('author', dbUsers.get(reply.get('author'))));
@@ -143,15 +143,15 @@ const mapStateToProps = createSelector(
         replies = false
       }
 
-      matchTopic = matchTopic.merge({
-        author: dbUsers.get(matchTopic.get('author')),
+      matchedTopic = matchedTopic.merge({
+        author: dbUsers.get(matchedTopic.get('author')),
         replies
       });
     }
 
     return {
       auth,
-      matchTopic,
+      matchedTopic,
       matchedId
     }
   }

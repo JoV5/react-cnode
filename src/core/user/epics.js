@@ -14,7 +14,7 @@ export function fetchUserFulfilled(action$) {
   return action$.ofType(userActions.FETCH_USER_FULFILLED)
     .map(({payload: {result}}) => {
       const data = result.data.data;
-console.log(normalize(data, userSchema))
+
       return dbActions.mergeDeep(normalize(data, userSchema).entities);
     });
 }
