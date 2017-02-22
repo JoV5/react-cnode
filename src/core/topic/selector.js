@@ -1,0 +1,1 @@
+export const getTabTopicCreator = (tab) => (state) => state.topic.get(tab);
