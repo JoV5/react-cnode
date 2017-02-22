@@ -1,3 +1,4 @@
 export {userActions, userRequestAction} from './actions';
-export {userReducer, UserState} from './reducers';
+export {userReducer} from './reducers';
 export {userEpics} from './epics';
+export {userSchema} from './schemas';

@@ -1,5 +1,9 @@
+import {normalize} from 'normalizr';
+
+import {topicsSchema, topicSchema} from './schemas';
 import {topicActions} from './actions';
-import {fetchTopics, fetchTopic} from '../../core/api';
+import {fetchTopics, fetchTopic} from '../api';
+import {dbActions} from '../db';
 
 export function loadTopics(action$) {
   return action$.ofType(topicActions.LOAD_TOPICS)
@@ -11,7 +15,21 @@ export function loadTopic(action$) {
     .switchMap(({payload}) => fetchTopic(payload));
 }
 
+export function fetchTopicFulfilled(action$) {
+  return action$.ofType(topicActions.FETCH_TOPIC_FULFILLED)
+    .map(({payload: {result, type}}) => {
+      const data = result.data.data;
+
+      if (type === 'topic') {
+        return dbActions.mergeDeep(normalize(data, topicSchema).entities);
+      } else {
+        return dbActions.mergeDeep(normalize(data, topicsSchema).entities);
+      }
+    });
+}
+
 export const topicEpics = [
   loadTopics,
-  loadTopic
+  loadTopic,
+  fetchTopicFulfilled
 ];
