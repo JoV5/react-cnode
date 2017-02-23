@@ -23,10 +23,13 @@ export function fetchTopicFulfilled(action$) {
       if (type === 'topic') {
         data.replies = data.replies.reverse(); // 按最新排序
         return dbActions.mergeDeep(normalize(data, topicSchema).entities);
-      } else {
+      } else if (type === 'topics') {
         return dbActions.mergeDeep(normalize(data, topicsSchema).entities);
       }
-    });
+
+      return false;
+    })
+    .filter(action => action);
 }
 
 export const topicEpics = [

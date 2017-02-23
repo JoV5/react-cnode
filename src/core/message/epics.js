@@ -38,7 +38,8 @@ export function fetchMessageFulfilled(action$) {
       }
 
       return false;
-    });
+    })
+    .filter(action => action);
 }
 
 export const messageEpics = [
