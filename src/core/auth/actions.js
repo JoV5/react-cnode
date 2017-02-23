@@ -31,7 +31,7 @@ export const authActions = {
   })
 };
 
-export const authRequestAction = {
+export const authRequestActions = {
   failed: authActions.fetchAuthFailed,
   fulfilled: authActions.fetchAuthFulfilled,
   pending: authActions.fetchAuthPending

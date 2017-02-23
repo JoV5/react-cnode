@@ -26,7 +26,7 @@ export const replyActions = {
   })
 };
 
-export const replyRequestAction = {
+export const replyRequestActions = {
   failed: replyActions.fetchReplyFailed,
   fulfilled: replyActions.fetchReplyFulfilled,
   pending: replyActions.fetchReplyPending

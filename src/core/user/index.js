@@ -1,4 +1,4 @@
-export {userActions, userRequestAction} from './actions';
+export {userActions, userRequestActions} from './actions';
 export {userReducer} from './reducers';
 export {userEpics} from './epics';
 export {userSchema} from './schemas'

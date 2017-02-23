@@ -32,6 +32,8 @@ export const API_MESSAGES_DEFAULT = {
 
 export const API_MESSAGE_MARKALL_URL = `${API_URL}/message/mark_all`;
 
+export const API_COLLECTIONS_URL = `${API_URL}/topic_collect`;
+
 export const TAB_MAP = {
   share: '分享',
   good: '精华',

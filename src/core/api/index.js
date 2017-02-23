@@ -1,10 +1,11 @@
 import {Observable} from 'rxjs/Observable';
 
-import {topicRequestAction} from '../topic';
-import {userRequestAction} from '../user';
-import {replyRequestAction} from '../reply';
-import {messageRequestAction} from '../message';
-import {authRequestAction} from '../auth';
+import {topicRequestActions} from '../topic';
+import {userRequestActions} from '../user';
+import {replyRequestActions} from '../reply';
+import {messageRequestActions} from '../message';
+import {collectionRequestActions} from '../collection';
+import {authRequestActions} from '../auth';
 import {api} from './api-service';
 
 const fetchEntities = function (apiFunction, actions, type, param) {
@@ -34,11 +35,12 @@ const fetchEntities = function (apiFunction, actions, type, param) {
   })
 };
 
-export const fetchTopics = fetchEntities.bind(null, api.fetchTopics, topicRequestAction, 'topics');
-export const fetchTopic = fetchEntities.bind(null, api.fetchTopic, topicRequestAction, 'topic');
-export const postLogin = fetchEntities.bind(null, api.postLogin, authRequestAction, 'login');
-export const fetchUser = fetchEntities.bind(null, api.fetchUser, userRequestAction, 'user');
-export const postReplyUp = fetchEntities.bind(null, api.postReplyUp, replyRequestAction, 'replyup');
-export const fetchMessageCount = fetchEntities.bind(null, api.fetchMessageCount, messageRequestAction, 'messagecount');
-export const fetchMessages = fetchEntities.bind(null, api.fetchMessages, messageRequestAction, 'messages');
-export const postMessageMarkAll = fetchEntities.bind(null, api.postMessageMarkAll, messageRequestAction, 'messagemarkall');
+export const fetchTopics = fetchEntities.bind(null, api.fetchTopics, topicRequestActions, 'topics');
+export const fetchTopic = fetchEntities.bind(null, api.fetchTopic, topicRequestActions, 'topic');
+export const postLogin = fetchEntities.bind(null, api.postLogin, authRequestActions, 'login');
+export const fetchUser = fetchEntities.bind(null, api.fetchUser, userRequestActions, 'user');
+export const postReplyUp = fetchEntities.bind(null, api.postReplyUp, replyRequestActions, 'replyup');
+export const fetchMessageCount = fetchEntities.bind(null, api.fetchMessageCount, messageRequestActions, 'messagecount');
+export const fetchMessages = fetchEntities.bind(null, api.fetchMessages, messageRequestActions, 'messages');
+export const postMessageMarkAll = fetchEntities.bind(null, api.postMessageMarkAll, messageRequestActions, 'messagemarkall');
+export const fetchCollections = fetchEntities.bind(null, api.fetchCollections, collectionRequestActions, 'collections');

@@ -11,7 +11,8 @@ import {
   API_MESSAGE_COUNT_URL,
   API_MESSAGES_URL,
   API_MESSAGES_DEFAULT,
-  API_MESSAGE_MARKALL_URL
+  API_MESSAGE_MARKALL_URL,
+  API_COLLECTIONS_URL
 } from '../constants';
 
 export const api = {
@@ -65,6 +66,11 @@ export const api = {
     API_MESSAGE_MARKALL_URL,
     param,
     'post'
+  ),
+
+  fetchCollections: (param) => dispatch(
+    `${API_COLLECTIONS_URL}/${param.loginname}`,
+    param
   ),
 };
 

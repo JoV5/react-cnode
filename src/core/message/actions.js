@@ -38,7 +38,7 @@ export const messageActions = {
   })
 };
 
-export const messageRequestAction = {
+export const messageRequestActions = {
   failed: messageActions.fetchMessageFailed,
   fulfilled: messageActions.fetchMessageFulfilled,
   pending: messageActions.fetchMessagePending

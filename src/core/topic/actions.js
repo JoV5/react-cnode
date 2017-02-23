@@ -44,7 +44,7 @@ export const topicActions = {
   })
 };
 
-export const topicRequestAction = {
+export const topicRequestActions = {
   failed: topicActions.fetchTopicFailed,
   fulfilled: topicActions.fetchTopicFulfilled,
   pending: topicActions.fetchTopicPending

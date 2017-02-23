@@ -7,6 +7,7 @@ import {replyEpics} from './reply';
 import {messageEpics} from './message';
 import {appEpics} from './app';
 import {authEpics} from './auth';
+import {collectionEpics} from './collection';
 
 export default combineEpics(
   ...topicEpics,
@@ -15,5 +16,6 @@ export default combineEpics(
   ...replyEpics,
   ...messageEpics,
   ...appEpics,
-  ...authEpics
+  ...authEpics,
+  ...collectionEpics
 );
