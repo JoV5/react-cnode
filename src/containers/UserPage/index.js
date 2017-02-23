@@ -112,7 +112,6 @@ export class UserPage extends Component {
   }
 }
 
-
 const mapStateToProps = createSelector(
   getDBTopics,
   getDBUsers,
@@ -122,37 +121,17 @@ const mapStateToProps = createSelector(
     let recentTopics = false;
     let recentReplies = false;
 
+    const getTopicById = (topicId) => {
+      const topic = dbTopics.get(topicId);
+      return topic.set('author', dbUsers.get(topic.get('author')))
+    };
+
     if (matchedUser) {
-      const matchedRecentTopics = matchedUser.get('recent_topics');
-      const matchedRecentReplies = matchedUser.get('recent_replies');
+      recentTopics = matchedUser.get('recent_topics');
+      recentReplies = matchedUser.get('recent_replies');
 
-      if (matchedRecentTopics) {
-        recentTopics = new List();
-        matchedRecentTopics.forEach((d) => {
-          const topic = dbTopics.get(d);
-
-          if (topic) {
-            recentTopics = recentTopics.push(topic.set('author', dbUsers.get(topic.get('author'))));
-          } else {
-            recentTopics = false;
-            return false;
-          }
-        });
-      }
-
-      if (matchedRecentReplies) {
-        recentReplies = new List();
-        matchedRecentReplies.forEach((d) => {
-          const topic = dbTopics.get(d);
-
-          if (topic) {
-            recentReplies = recentReplies.push(topic.set('author', dbUsers.get(topic.get('author'))));
-          } else {
-            recentReplies = false;
-            return false;
-          }
-        });
-      }
+      recentTopics && (recentTopics = recentTopics.map(getTopicById));
+      recentReplies && (recentReplies = recentReplies.map(getTopicById));
     } else {
       matchedUser = false;
     }

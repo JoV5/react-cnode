@@ -23,12 +23,12 @@ export class TopicPage extends Component {
   }
 
   componentWillMount() {
-    const {matchedTopic, auth, loadTopic, matchedId} = this.props;
+    const {matchedTopic, auth, loadTopic, matchedTopicId} = this.props;
     const accesstoken = auth.get('accesstoken');
 
     if (!matchedTopic || !matchedTopic.get('content')) {
       loadTopic({
-        topicid: matchedId,
+        topicid: matchedTopicId,
         accesstoken: accesstoken ? accesstoken : ''
       });
     }
@@ -54,7 +54,7 @@ export class TopicPage extends Component {
   }
 
   render() {
-    const {matchedTopic, auth} = this.props;
+    const {matchedTopic, auth, topicReplies} = this.props;
     const userId = auth.get('id');
 
     if (matchedTopic && matchedTopic.get('content')) {
@@ -68,7 +68,6 @@ export class TopicPage extends Component {
       const avatar_url = author.get('avatar_url');
       const create_at = matchedTopic.get('create_at');
       const visit_count = matchedTopic.get('visit_count');
-      const replies = matchedTopic.get('replies');
       const last_reply_at = matchedTopic.get('last_reply_at');
       const content = matchedTopic.get('content');
       const realTab = top ? 'top' : (good ? 'good' : tab);
@@ -96,11 +95,12 @@ export class TopicPage extends Component {
           </div>
           <div className="markdown-body topic_page_content" dangerouslySetInnerHTML={{__html: content}}/>
           {
-            replies !== false ?
+            topicReplies ?
               <div>
-                <div className="topic_page_reply_count">{replies.size} 回复</div>
+                <div className="topic_page_reply_count">{topicReplies.size} 回复</div>
                 {
-                  replies.map((reply, i) => <ReplyCard data={reply} key={i} i={i} replyUp={this.replyUp} userId={userId}/>)
+                  topicReplies.map((reply, i) =>
+                    <ReplyCard data={reply} key={i} i={i} replyUp={this.replyUp} userId={userId}/>)
                 }
               </div> :
               <div>
@@ -125,34 +125,27 @@ const mapStateToProps = createSelector(
   getDBReplies,
   getMatchedTopicId,
   getAuth,
-  (dbTopics, dbUsers, dbReplies, matchedId, auth) => {
-    let matchedTopic = dbTopics.get(matchedId);
+  (dbTopics, dbUsers, dbReplies, matchedTopicId, auth) => {
+    let matchedTopic = dbTopics.get(matchedTopicId);
+    let topicReplies = false;
 
     if (matchedTopic) {
-      const matchedTopicReplies = matchedTopic.get('replies');
-      let replies;
+      topicReplies = matchedTopic.get('replies');
 
-      if (matchedTopicReplies) {
-        replies = new List();
-        matchedTopicReplies.forEach((d) => {
-          const reply = dbReplies.get(d);
+      topicReplies &&
+      (topicReplies = topicReplies.map((replyId) => {
+        const reply = dbReplies.get(replyId);
+        return reply.set('author', dbUsers.get(reply.get('author')))
+      }));
 
-          replies = replies.push(reply.set('author', dbUsers.get(reply.get('author'))));
-        });
-      } else {
-        replies = false
-      }
-
-      matchedTopic = matchedTopic.merge({
-        author: dbUsers.get(matchedTopic.get('author')),
-        replies
-      });
+      matchedTopic = matchedTopic.set('author', dbUsers.get(matchedTopic.get('author')));
     }
 
     return {
       auth,
       matchedTopic,
-      matchedId
+      matchedTopicId,
+      topicReplies
     }
   }
 );

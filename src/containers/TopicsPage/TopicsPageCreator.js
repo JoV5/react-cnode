@@ -50,23 +50,23 @@ export default function (tab) {
     getDBUsers,
     getTabTopicCreator(tab),
     (dbTopics, dbUsers, tabTopic) => {
-      const tabTopicData = tabTopic.get('data');
-      let topics;
+      let tabTopicIds = tabTopic.get('data');
+      let topics = false;
 
-      if (tabTopicData) {
+      if (tabTopicIds) {
+        tabTopicIds = tabTopicIds.map((topic) => topic.get('id'));
         topics = new List();
-        tabTopicData.forEach((d) => {
-          const topic = dbTopics.get(d.get('id'));
+
+        tabTopicIds.forEach((topicId, index) => {
+          const topic = dbTopics.get(topicId);
 
           if (topic) {
-            topics = topics.push(topic.set('author', dbUsers.get(topic.get('author'))));
+            topics = topics.set(index, topic.set('author', dbUsers.get(topic.get('author'))));
           } else {
             topics = false;
             return false;
           }
         });
-      } else {
-        topics = false;
       }
 
       return {
