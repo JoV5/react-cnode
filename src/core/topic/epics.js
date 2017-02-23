@@ -21,6 +21,7 @@ export function fetchTopicFulfilled(action$) {
       const data = result.data.data;
 
       if (type === 'topic') {
+        data.replies = data.replies.reverse(); // 按最新排序
         return dbActions.mergeDeep(normalize(data, topicSchema).entities);
       } else {
         return dbActions.mergeDeep(normalize(data, topicsSchema).entities);

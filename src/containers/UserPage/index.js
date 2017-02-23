@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
-import {List} from 'immutable';
 
 import {userActions} from '../../core/user';
 import {timeago} from '../../core/utils';
@@ -29,6 +28,7 @@ export class UserPage extends Component {
     const {props} = this;
     const {loadUser, recentTopics, matchedName} = props;
 
+    // 根据是否有recentTopics判断是否需要加载数据
     if (!recentTopics) {
       loadUser({
         loginname: matchedName
@@ -43,6 +43,7 @@ export class UserPage extends Component {
   componentWillReceiveProps(nextProps) {
     const {loadUser, matchedName, recentTopics} = nextProps;
 
+    // 根据是否有recentTopics判断是否需要加载数据
     if (!recentTopics) {
       loadUser({
         loginname: matchedName

@@ -73,7 +73,7 @@ const mapStateToProps = createSelector(
 
     if (messagesIds) {
       messages = new List();
-      messagesIds = messagesIds.map((message) => message.id);
+      //messagesIds = messagesIds.map((message) => message.id);
 
       messagesIds.forEach((messagesId, index) => {
         const message = dbMessages.get(messagesId);

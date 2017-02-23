@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {createSelector} from 'reselect';
-import {List} from 'immutable';
 
 import {topicActions} from '../../core/topic';
 import {replyActions} from '../../core/reply';
@@ -54,7 +53,7 @@ export class TopicPage extends Component {
   }
 
   render() {
-    const {matchedTopic, auth, topicReplies} = this.props;
+    const {matchedTopic, auth, topicReplies, loadTopic, matchedTopicId} = this.props;
     const userId = auth.get('id');
 
     if (matchedTopic && matchedTopic.get('content')) {
@@ -103,7 +102,7 @@ export class TopicPage extends Component {
                     <ReplyCard data={reply} key={i} i={i} replyUp={this.replyUp} userId={userId}/>)
                 }
               </div> :
-              <div>
+              <div className="topic_page_load_replies" onClick={() => loadTopic({topicid: matchedTopicId})}>
                 加载评论
               </div>
           }
@@ -133,10 +132,13 @@ const mapStateToProps = createSelector(
       topicReplies = matchedTopic.get('replies');
 
       topicReplies &&
-      (topicReplies = topicReplies.map((replyId) => {
-        const reply = dbReplies.get(replyId);
-        return reply.set('author', dbUsers.get(reply.get('author')))
-      }));
+      (topicReplies =
+        topicReplies
+          .map((replyId) => {
+            const reply = dbReplies.get(replyId);
+            return reply.set('author', dbUsers.get(reply.get('author')))
+          })
+      );
 
       matchedTopic = matchedTopic.set('author', dbUsers.get(matchedTopic.get('author')));
     }

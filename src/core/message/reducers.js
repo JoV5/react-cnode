@@ -17,8 +17,6 @@ export function messageReducer(state = fromJS(MessageState), action) {
 
   switch (type) {
     case messageActions.FETCH_MESSAGE_PENDING:
-      return state;
-
     case messageActions.FETCH_MESSAGE_FAILED:
       return state;
 
@@ -28,10 +26,12 @@ export function messageReducer(state = fromJS(MessageState), action) {
       } else if (payloadType === 'messages') {
         const messages = new List().concat(result.data.data.hasnot_read_messages, result.data.data.has_read_messages);
 
-        // 按时间排序
-        return state.set('messages', messages.sort((message1, message2) => {
-          return new Date(message2.create_at).getTime() - new Date(message1.create_at).getTime()
-        }));
+        return state.set('messages',
+          messages
+            .map((messages) =>
+              messages.id
+            )
+        );
       } else if (payloadType === 'messagemarkall') {
         const messages = state.get('messages');
 
