@@ -22,12 +22,22 @@ export function markAllMessage(action$) {
 
 export function fetchMessageFulfilled(action$) {
   return action$.ofType(messageActions.FETCH_MESSAGE_FULFILLED)
-    .filter(({payload: {result, type}}) => type === 'messages')
-    .map(({payload: {result}}) => {
-      let data = result.data.data;
-      data = data.has_read_messages.concat(data.hasnot_read_messages);
+    .map(({payload: {result, type}}) => {
+      if (type === 'messages') {
 
-      return dbActions.mergeDeep(normalize(data, messagesSchmas).entities);
+        let data = result.data.data;
+        data = data.has_read_messages.concat(data.hasnot_read_messages);
+
+        return dbActions.mergeDeep(normalize(data, messagesSchmas).entities);
+
+      } else if (type === 'messagemarkall') { // 标记db中的message
+
+        if (result.data.success) {
+          return dbActions.markMessage(result.data);
+        }
+      }
+
+      return false;
     });
 }
 

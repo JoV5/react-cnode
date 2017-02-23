@@ -21,6 +21,14 @@ export function dbReducer(state = fromJS(DBState), action) {
     case dbActions.DB_MERGE_DEEP:
       return state.mergeDeep(payload);
 
+    case dbActions.DB_MARK_MESSAGE:
+
+      return state.update('messages', messages =>
+        messages.map(message =>
+          message.set('has_read', true)
+        )
+      );
+
     default:
       return state;
   }

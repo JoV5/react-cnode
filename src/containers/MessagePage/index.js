@@ -30,10 +30,10 @@ export class MessagePage extends Component {
 
     // 在退出页面时，若有未读消息，标记未读消息为已读
     if (messageCount) {
-      markAllMessage({
-        accesstoken
-      });
     }
+    markAllMessage({
+      accesstoken
+    });
   }
 
   render() {

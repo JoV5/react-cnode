@@ -16,9 +16,6 @@ export function messageReducer(state = fromJS(MessageState), action) {
   const {payload: {type: payloadType, result}} = action;
 
   switch (type) {
-    case messageActions.FETCH_MESSAGE_PENDING:
-    case messageActions.FETCH_MESSAGE_FAILED:
-      return state;
 
     case messageActions.FETCH_MESSAGE_FULFILLED:
       if (payloadType === 'messagecount') {
@@ -28,24 +25,19 @@ export function messageReducer(state = fromJS(MessageState), action) {
 
         return state.set('messages',
           messages
+            .sort((message1, message2) => { // 不管是否标记为已读都按创建时间最新排序
+              return new Date(message2.create_at).getTime() - new Date(message1.create_at).getTime()
+            })
             .map((messages) =>
               messages.id
             )
         );
       } else if (payloadType === 'messagemarkall') {
-        const messages = state.get('messages');
-
-        if (messages) {
-          // 标记成功后更新state相应数据
-          return state.merge({
-            messageCount: 0,
-            messages: messages.map((message) => {
-              message.has_read = true;
-              return message;
-            })
-          })
+        if (result.data.success) {
+          return state.set('messageCount', 0);
         }
       }
+
       return state;
 
     default:
