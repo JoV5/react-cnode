@@ -11,7 +11,7 @@ const MessageCard = ({data}) => {
   const loginname = author.get('loginname');
   const avatar_url = author.get('avatar_url');
   const content = data.getIn(['reply', 'content']);
-  const topic = data.get('author');
+  const topic = data.get('topic');
   const title = topic.get('title');
   const id = topic.get('id');
   const create_at = data.get('create_at');
