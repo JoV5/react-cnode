@@ -1,0 +1,1 @@
+export const getStateMessage = (state) => state.message;
