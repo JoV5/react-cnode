@@ -5,12 +5,24 @@ import {List} from 'immutable';
 
 import {topicActions} from '../../core/topic';
 import TopicCard from '../../components/TopicCard';
+import PullView from '../../components/PullView';
 import {getDBTopics, getDBUsers} from '../../core/db';
 import {getTabTopicCreator} from '../../core/topic';
 
 export default function (tab) {
 
   class TopicsBasePage extends Component {
+
+    constructor() {
+      super(...arguments);
+      this.onPulling = this.onPulling.bind(this);
+      this.onPullEnd = this.onPullEnd.bind(this);
+    }
+
+    state = {
+      pulledY: 0,
+      text: '下拉刷新'
+    };
 
     componentWillMount() {
       const {data, isPending, loadTopics} = this.props;
@@ -22,26 +34,65 @@ export default function (tab) {
       }
     }
 
-    render() {
-      const {data} = this.props;
+    onPulling(pulledY) {
+      if (pulledY > 40) {
+        this.setState({
+          pulledY,
+          text: '释放更新'
+        });
+      } else {
+        this.setState({
+          pulledY,
+          text: '下拉刷新'
+        });
+      }
+    }
 
-      if (data) {
-        return (
-          <div>
+
+    onPullEnd(pulledY) {
+      if (pulledY > 40) {
+        this.setState({
+          pulledY: 40,
+          text: '加载中'
+        });
+        return true;
+      } else {
+        this.setState({
+          pulledY: 0
+        });
+        return false;
+      }
+    }
+
+    render() {
+      const {props: {data}, state: {pulledY, text}} = this;
+
+      return (
+        <div style={{
+          position: 'absolute',
+          height: '100%',
+          width: '100%'
+        }}>
+          <div style={{
+            position: 'absolute',
+            top: '-25px',
+            textAlign: 'center',
+            width: '100%',
+            transform: `translate3d(0px, ${pulledY}px, 0px)`
+          }}>{text}</div>
+          <PullView
+            onPulling={this.onPulling}
+            onPullEnd={this.onPullEnd}
+            pulledPauseY={40}
+          >
             {
-              data.map((topic, i) => (
+              data && data.map((topic, i) => (
                 <TopicCard data={topic} key={i}/>
               ))
             }
-          </div>
-        );
-      } else {
-        return (
-          <div>
-            加载中..
-          </div>
-        );
-      }
+          </PullView>
+        </div>
+      )
     }
   }
 

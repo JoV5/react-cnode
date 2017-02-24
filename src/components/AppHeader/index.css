@@ -4,6 +4,7 @@
   width: 100%;
   background-color: hsla(0,0%,100%,.95);
   box-shadow: 0 0 4px rgba(0,0,0,.25);
+  z-index: 9;
 }
 
 .app_header_left_btn {
