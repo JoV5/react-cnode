@@ -16,6 +16,7 @@ export default function (tab) {
     constructor() {
       super(...arguments);
       this.onPulling = this.onPulling.bind(this);
+      this.onPullingPause = this.onPullingPause.bind(this);
       this.onPullEnd = this.onPullEnd.bind(this);
     }
 
@@ -46,6 +47,13 @@ export default function (tab) {
           text: '下拉刷新'
         });
       }
+    }
+
+    onPullingPause(pulledY) {
+      this.setState({
+        pulledY: pulledY,
+        text: '加载中'
+      });
     }
 
 
@@ -83,6 +91,7 @@ export default function (tab) {
           <PullView
             onPulling={this.onPulling}
             onPullEnd={this.onPullEnd}
+            onPullingPause={this.onPullingPause}
             pulledPauseY={40}
           >
             {

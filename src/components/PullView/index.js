@@ -35,7 +35,7 @@ export default class PullView extends Component {
   }
 
   onTouchMove(e) {
-    const {container, state: {pulling, startY}, props: {onPulling, scaleY = 0.15}} = this;
+    const {container, state: {pulling, startY, ifPause}, props: {onPulling, onPullingPause, scaleY = 0.15}} = this;
     const eTouchScreenY = e.touches[0].screenY;
 
     if (pulling) {
@@ -46,16 +46,28 @@ export default class PullView extends Component {
           endY: eTouchScreenY,
           pulledY: pulledY
         });
-        onPulling && onPulling(pulledY);
+
+        if (ifPause) {
+          onPullingPause && onPullingPause(pulledY);
+        } else {
+          onPulling && onPulling(pulledY);
+        }
+
         e.preventDefault();
       } else {
-        this.setState({
-          pulledY: 0
-        });
+        if (ifPause) {
+          this.setState({
+            pulledY: 0,
+            ifPause: false
+          });
+        } else {
+          this.setState({
+            pulledY: 0
+          });
+        }
       }
     } else {
       if (container.scrollTop === 0) {
-        console.log('------------------startpu')
         this.setState({
           startY: eTouchScreenY,
           pulling: true
@@ -68,7 +80,8 @@ export default class PullView extends Component {
     const {props: {onPullEnd, pulledPauseY = 0}, state: {pulling, pulledY}} = this;
 
     if (pulling) {
-      const ifPause = onPullEnd ? onPullEnd(pulledY) : false;console.log(ifPause)
+      const ifPause = onPullEnd ? onPullEnd(pulledY) : false;
+
       this.setState({
         pulling: ifPause,
         pulledY: ifPause ? pulledPauseY : 0,
