@@ -10,11 +10,13 @@ import TopicCard from '../../components/TopicCard';
 export class CollectionPage extends Component {
 
   componentWillMount() {
-    const {loadCollections, matchedName} = this.props;
+    const {loadCollections, matchedName, collections} = this.props;
 
-    loadCollections({
-      loginname: matchedName
-    });
+    if (!collections) {
+      loadCollections({
+        loginname: matchedName
+      });
+    }
   }
 
   render() {
