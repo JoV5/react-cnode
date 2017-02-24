@@ -3,18 +3,18 @@ export const MathFloor = Math.floor;
 export function timeago(date) {
   date = new Date(date);
   const dateYear = date.getFullYear();
-  const dateMonth = date.getMonth();
+  const dateMonths = date.getMonth() + dateYear * 12; // 计算总月数
   const time = date.getTime();
   const curDate = new Date();
   const curDateYear = curDate.getFullYear();
-  const curDateMonth = curDate.getMonth();
+  const curDateMonths = curDate.getMonth() + curDateYear * 12; // 计算总月数
   const curTime = curDate.getTime();
   const deltaTime = MathFloor((curTime - time) / 1000); // 转为秒
 
-  if (dateYear < curDateYear) {
-    return `${curDateYear - dateYear}年前`;
-  } else if (dateMonth < curDateMonth) {
-    return `${curDateMonth - dateMonth}个月前`;
+  if (curDateMonths - dateMonths >= 12) {
+    return `${Math.floor((curDateMonths - dateMonths) / 12)}年前`;
+  } else if (curDateMonths > dateMonths) {
+    return `${curDateMonths - dateMonths}个月前`;
   } else {
     if (deltaTime < 60) {
       return `${deltaTime}秒前`;

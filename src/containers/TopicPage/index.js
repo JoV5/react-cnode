@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {createSelector} from 'reselect';
+import marked from 'marked';
 
 import {topicActions} from '../../core/topic';
 import {replyActions} from '../../core/reply';
@@ -92,7 +93,7 @@ export class TopicPage extends Component {
               </div>
             </div>
           </div>
-          <div className="markdown-body topic_page_content" dangerouslySetInnerHTML={{__html: content}}/>
+          <div className="markdown-body topic_page_content" dangerouslySetInnerHTML={{__html: marked(content)}}/>
           {
             topicReplies ?
               <div>

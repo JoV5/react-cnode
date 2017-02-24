@@ -61,7 +61,7 @@ export class App extends Component {
             <Route path="/login" component={LoginPage}/>
             <Route path="/user/:loginname" component={UserPage}/>
             <PrivateRoute path="/message" component={MessagePage} hasLogin={hasLogin}/>
-            <PrivateRoute path="/collection" component={CollectionPage} hasLogin={hasLogin}/>
+            <PrivateRoute path="/collection/:loginname" component={CollectionPage} hasLogin={hasLogin}/>
           </Switch>
         </main>
       </div>

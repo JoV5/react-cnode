@@ -6,13 +6,13 @@ export const API_TOPICS_DEFAULT = {
   page: 1,
   limit: 20,
   tab: 'all',
-  mdrender: true
+  mdrender: false
 };
 
 export const API_TOPIC_URL = `${API_URL}/topic`;
 
 export const API_TOPIC_DEFAULT = {
-  mdrender : true,
+  mdrender : false,
   //accesstoken
 };
 

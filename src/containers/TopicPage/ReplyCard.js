@@ -1,5 +1,6 @@
 import React, {PropTypes} from "react";
 import {Link} from 'react-router-dom';
+import marked from 'marked';
 
 import {timeago} from '../../core/utils';
 
@@ -31,7 +32,7 @@ const ReplyCard = ({data, i, replyUp, userId}) => {
         {!!up && <i className="reply_card_good_count">{up}</i>}
         <i className={`iconfont reply_card_icon ${gooded ? 'good' : ''}`} onClick={() => replyUp(id)}>&#xe65d;</i>
       </div>
-      <div className="markdown-body reply_card_content" dangerouslySetInnerHTML={{__html: content}} />
+      <div className="markdown-body reply_card_content" dangerouslySetInnerHTML={{__html: marked(content)}} />
     </div>
   )
 };

@@ -1,5 +1,6 @@
 import React, {PropTypes} from "react";
 import {Link} from 'react-router-dom';
+import marked from 'marked';
 
 import {timeago} from '../../core/utils';
 
@@ -31,7 +32,7 @@ const MessageCard = ({data}) => {
           <span className="message_card_time">{timeago(create_at)}</span>
         </Link>
         <Link to={`/topic/${id}`}><span className="message_card_title">{title}</span></Link>
-        <div className="markdown-body message_card_content" dangerouslySetInnerHTML={{__html: content}} />
+        <div className="markdown-body message_card_content" dangerouslySetInnerHTML={{__html: marked(content)}} />
       </div>
     </div>
   )
