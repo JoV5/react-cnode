@@ -7,6 +7,7 @@ export const topicActions = {
   LOAD_TOPIC: 'LOAD_TOPIC',
 
   UPDATE_REPLY_UP: 'UPDATE_REPLY_UP',
+  SAVE_SCROLL_TOP: 'SAVE_SCROLL_TOP',
 
   fetchTopicFailed: result => ({
     type: topicActions.FETCH_TOPIC_FAILED,
@@ -40,6 +41,14 @@ export const topicActions = {
       replyid,
       userid,
       action
+    }
+  }),
+
+  saveScrollTop: (tab, scrollTop) => ({
+    type: topicActions.SAVE_SCROLL_TOP,
+    payload: {
+      tab,
+      scrollTop
     }
   })
 };

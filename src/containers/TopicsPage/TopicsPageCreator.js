@@ -18,6 +18,8 @@ export default function (tab) {
       this.onPulling = this.onPulling.bind(this);
       this.onPullingPause = this.onPullingPause.bind(this);
       this.onPullEnd = this.onPullEnd.bind(this);
+      this.onScrollToBottom = this.onScrollToBottom.bind(this);
+      this.onPullViewUnmount = this.onPullViewUnmount.bind(this);
     }
 
     state = {
@@ -30,7 +32,8 @@ export default function (tab) {
 
       if (!data && !isPending) {
         loadTopics({
-          tab: tab
+          tab: tab,
+          page: 1
         });
       }
     }
@@ -58,11 +61,18 @@ export default function (tab) {
 
 
     onPullEnd(pulledY) {
+      const {isPending, loadTopics} = this.props;
       if (pulledY > 40) {
         this.setState({
           pulledY: 40,
           text: '加载中'
         });
+
+        if (!isPending) {
+          loadTopics({
+            tab: tab
+          });
+        }
         return true;
       } else {
         this.setState({
@@ -72,13 +82,30 @@ export default function (tab) {
       }
     }
 
+    onScrollToBottom() {
+      const {page, isPending, loadTopics} = this.props;
+
+      if (!isPending) {
+        loadTopics({
+          tab: tab,
+          page: page + 1
+        });
+      }
+    }
+
+    onPullViewUnmount(scrollTop) {
+      const {saveScrollTop} = this.props;
+      saveScrollTop(tab, scrollTop);
+    }
+
     render() {
-      const {props: {data}, state: {pulledY, text}} = this;
+      const {props: {data, mountScrollTop}, state: {pulledY, text}} = this;
 
       return (
         <div style={{
           position: 'absolute',
-          height: '100%',
+          top: '42px',
+          bottom: 0,
           width: '100%'
         }}>
           <div style={{
@@ -92,6 +119,10 @@ export default function (tab) {
             onPulling={this.onPulling}
             onPullEnd={this.onPullEnd}
             onPullingPause={this.onPullingPause}
+            onScrollToBottom={this.onScrollToBottom}
+            componentWillUnmount={this.onPullViewUnmount}
+            mountScrollTop={mountScrollTop}
+            toBottom={50}
             pulledPauseY={40}
           >
             {
@@ -113,8 +144,7 @@ export default function (tab) {
       let tabTopicIds = tabTopic.get('data');
       let topics = false;
 
-      if (tabTopicIds) {
-        tabTopicIds = tabTopicIds.map((topic) => topic.get('id'));
+      if (tabTopicIds.size) {
         topics = new List();
 
         tabTopicIds.forEach((topicId, index) => {
@@ -131,13 +161,16 @@ export default function (tab) {
 
       return {
         isPending: tabTopic.get('isPending'),
-        data: topics
+        page: tabTopic.get('page'),
+        data: topics,
+        mountScrollTop: tabTopic.get('scrollTop')
       }
     }
   );
 
   const mapDispatchToProps = {
-    loadTopics: topicActions.loadTopics
+    loadTopics: topicActions.loadTopics,
+    saveScrollTop: topicActions.saveScrollTop
   };
 
   return connect(

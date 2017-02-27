@@ -3,19 +3,29 @@ import {topicActions} from './actions';
 
 export const TopicState = {
   all: {
-    isPending: false
+    isPending: false,
+    data: [],
+    scrollTop: 0
   },
   ask: {
-    isPending: false
+    isPending: false,
+    data: [],
+    scrollTop: 0
   },
   good: {
-    isPending: false
+    isPending: false,
+    data: [],
+    scrollTop: 0
   },
   job: {
-    isPending: false
+    isPending: false,
+    data: [],
+    scrollTop: 0
   },
   share: {
-    isPending: false
+    isPending: false,
+    data: [],
+    scrollTop: 0
   },
   list: []
 };
@@ -57,8 +67,9 @@ export function topicReducer(state = fromJS(TopicState), action) {
       if (payloadType === 'topics') {
         return state.merge({
           [param.tab]: {
-            ...result.data,
-            isPending: false
+            data: state.getIn([param.tab, 'data']).concat(result.data.data.map(data => data.id)),
+            isPending: false,
+            page: param.page
           }
         });
       }
@@ -83,6 +94,9 @@ export function topicReducer(state = fromJS(TopicState), action) {
       }
 
       return state.set('list', topicList.set(findedTopicIndex, {...findedTopic}));
+
+    case topicActions.SAVE_SCROLL_TOP:
+      return state.setIn([payload.tab, 'scrollTop'], payload.scrollTop);
 
     default:
       return state;

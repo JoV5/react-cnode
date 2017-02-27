@@ -33,9 +33,8 @@ export class TopicPage extends Component {
       });
     }
 
-    // TODO rr4 has some problem with scroll position
     // https://github.com/ReactTraining/react-router/issues/3950
-    window.scrollTo(0, 0);
+    //window.scrollTo(0, 0);
   }
 
   replyUp(replyid) {

@@ -20,7 +20,14 @@ export default class PullView extends Component {
   }
 
   componentDidMount() {
+    const {props: {mountScrollTop}, container} = this;
+    container.scrollTop = mountScrollTop;
     this.container.addEventListener('touchmove', this.onTouchMove);
+  }
+
+  componentWillUnmount() {
+    const {props: {componentWillUnmount}, container} = this;
+    componentWillUnmount && componentWillUnmount(container.scrollTop);
   }
 
   state = {
@@ -35,7 +42,9 @@ export default class PullView extends Component {
   }
 
   onTouchMove(e) {
-    const {container, state: {pulling, startY, ifPause}, props: {onPulling, onPullingPause, scaleY = 0.15}} = this;
+    const {container,
+      state: {pulling, startY, ifPause},
+      props: {onPulling, onPullingPause, onScrollToBottom, scaleY = 0.2, toBottom = 0}} = this;
     const eTouchScreenY = e.touches[0].screenY;
 
     if (pulling) {
@@ -72,6 +81,8 @@ export default class PullView extends Component {
           startY: eTouchScreenY,
           pulling: true
         });
+      } else if (container.scrollTop + container.clientHeight + toBottom >= container.scrollHeight) {
+        onScrollToBottom && onScrollToBottom();
       }
     }
   }
