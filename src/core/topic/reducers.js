@@ -76,25 +76,6 @@ export function topicReducer(state = fromJS(TopicState), action) {
 
       return state;
 
-    case topicActions.UPDATE_REPLY_UP:
-      const findedTopicIndex = findIndexByTopidId(topicList, payload.topicid);
-      const findedTopic = topicList.get(findedTopicIndex);
-      const findedRepliesIndex = findedTopic.replies.findIndex((reply) => {
-        return reply.id === payload.replyid;
-      });
-      const findedReplies = findedTopic.replies[findedRepliesIndex];
-      const findedIndex = findedReplies.ups.findIndex((id) => {
-        return id === payload.userid;
-      });
-
-      if (findedIndex > -1) {
-        payload.action === 'down' && findedReplies.ups.splice(findedIndex, 1);
-      } else {
-        payload.action === 'up' && findedReplies.ups.push(payload.userid)
-      }
-
-      return state.set('list', topicList.set(findedTopicIndex, {...findedTopic}));
-
     case topicActions.SAVE_SCROLL_TOP:
       return state.setIn([payload.tab, 'scrollTop'], payload.scrollTop);
 

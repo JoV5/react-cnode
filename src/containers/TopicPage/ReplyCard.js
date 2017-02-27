@@ -16,7 +16,7 @@ const ReplyCard = ({data, i, replyUp, userId}) => {
   const create_at = data.get('create_at');
   const id = data.get('id');
   const gooded = !!ups.find((upId) => upId === userId);
-  const up = ups.length;
+  const up = ups.size;
 
   return (
     <div className="reply_card">

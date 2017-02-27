@@ -29,6 +29,20 @@ export function dbReducer(state = fromJS(DBState), action) {
         )
       );
 
+    case dbActions.DB_UPDATE_REPLY_UP:
+
+      return state.updateIn(['replies', payload.replyid, 'ups'], ups => {
+        const findedIndex = ups.findIndex((up) => up === payload.userid);
+
+        if (findedIndex > -1 && payload.action === 'down') {
+          return ups.splice(findedIndex, 1);
+        } else if (findedIndex <= -1 && payload.action === 'up'){
+          return ups.push(payload.userid);
+        }
+
+        return ups;
+      });
+
     default:
       return state;
   }
