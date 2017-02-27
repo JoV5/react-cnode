@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
-import {List} from 'immutable';
+import {List, is} from 'immutable';
 
 import {topicActions} from '../../core/topic';
 import TopicCard from '../../components/TopicCard';
@@ -28,9 +28,9 @@ export default function (tab) {
     };
 
     componentWillMount() {
-      const {data, isPending, loadTopics} = this.props;
+      const {data, loadTopics} = this.props;
 
-      if (!data && !isPending) {
+      if (!data) {
         loadTopics({
           tab: tab,
           page: 1
@@ -61,16 +61,17 @@ export default function (tab) {
 
 
     onPullEnd(pulledY) {
-      const {isPending, loadTopics} = this.props;
+      const {isReloading, loadTopics} = this.props;
       if (pulledY > 40) {
         this.setState({
           pulledY: 40,
           text: '加载中'
         });
 
-        if (!isPending) {
+        if (!isReloading) {
           loadTopics({
-            tab: tab
+            tab: tab,
+            reload: true
           });
         }
         return true;
@@ -96,6 +97,10 @@ export default function (tab) {
     onPullViewUnmount(scrollTop) {
       const {saveScrollTop} = this.props;
       saveScrollTop(tab, scrollTop);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+      return !is(nextProps.data, this.props.data) || !is(nextState, this.state);
     }
 
     render() {
@@ -161,6 +166,7 @@ export default function (tab) {
 
       return {
         isPending: tabTopic.get('isPending'),
+        isReloading: tabTopic.get('isReloading'),
         page: tabTopic.get('page'),
         data: topics,
         mountScrollTop: tabTopic.get('scrollTop')

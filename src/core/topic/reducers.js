@@ -4,36 +4,36 @@ import {topicActions} from './actions';
 export const TopicState = {
   all: {
     isPending: false,
+    isReloading: false,
     data: [],
     scrollTop: 0
   },
   ask: {
     isPending: false,
+    isReloading: false,
     data: [],
     scrollTop: 0
   },
   good: {
     isPending: false,
+    isReloading: false,
     data: [],
     scrollTop: 0
   },
   job: {
     isPending: false,
+    isReloading: false,
     data: [],
     scrollTop: 0
   },
   share: {
     isPending: false,
+    isReloading: false,
     data: [],
     scrollTop: 0
   },
   list: []
 };
-
-const findIndexByTopidId = (topicList, topicid) =>
-  topicList.findIndex((data) => {
-    return data.id === topicid;
-  });
 
 export function topicReducer(state = fromJS(TopicState), action) {
 
@@ -43,13 +43,12 @@ export function topicReducer(state = fromJS(TopicState), action) {
 
   const {payload, type} = action;
   const {type: payloadType, param, result} = payload;
-  const topicList = state.get('list');
 
   switch (type) {
     case topicActions.FETCH_TOPIC_PENDING:
 
       if (payloadType === 'topics') {
-        return state.setIn([param.tab, 'isPending'], true);
+        return state.setIn([param.tab, param.reload ? 'isReloading' : 'isPending'], true);
       }
 
       return state;
@@ -57,7 +56,7 @@ export function topicReducer(state = fromJS(TopicState), action) {
     case topicActions.FETCH_TOPIC_FAILED:
 
       if (payloadType === 'topics') {
-        return state.setIn([param.tab, 'isPending'], false);
+        return state.setIn([param.tab, param.reload ? 'isReloading' : 'isPending'], false);
       }
 
       return state;
@@ -65,10 +64,12 @@ export function topicReducer(state = fromJS(TopicState), action) {
     case topicActions.FETCH_TOPIC_FULFILLED:
 
       if (payloadType === 'topics') {
-        return state.merge({
+        const ids = result.data.data.map(data => data.id);
+
+        return state.mergeDeep({
           [param.tab]: {
-            data: state.getIn([param.tab, 'data']).concat(result.data.data.map(data => data.id)),
-            isPending: false,
+            data: param.reload ? ids : state.getIn([param.tab, 'data']).concat(ids),
+            [param.reload ? 'isReloading' : 'isPending']: false,
             page: param.page
           }
         });
