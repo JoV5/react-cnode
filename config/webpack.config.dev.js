@@ -42,8 +42,7 @@ const webpackEntry = {
     // We include the app code last so that if there is a runtime error during
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.
-  ],
-  vendors: ['react', 'react-dom']
+  ]
 };
 
 // This is the development configuration.
@@ -101,7 +100,10 @@ module.exports = {
         test: /\.(js|jsx)$/,
         loader: 'eslint-loader',
         include: paths.appSrc,
-        enforce: 'pre'
+        enforce: 'pre',
+        options: {
+          cache: true
+        }
       },
 
       // Default loader: load all assets that are not handled
