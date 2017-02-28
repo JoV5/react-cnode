@@ -30,7 +30,6 @@ export default function (tab) {
     state = {
       pulledY: 0,
       status: 0, // 0：下拉刷新，1：释放刷新，2：加载中
-      pausedY: 40,
       needStopPause: false
     };
 
@@ -128,7 +127,7 @@ export default function (tab) {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-      return !shallowEqual(nextProps, this.props) || !shallowEqual(nextState, this.state) || !is(nextProps.data, this.props.data);
+      return !shallowEqual(nextState, this.state) || !is(nextProps.data, this.props.data);
     }
 
     render() {
@@ -151,7 +150,6 @@ export default function (tab) {
             mountScrollTop={mountScrollTop}
             pulledPauseY={40}
             needStopPause={needStopPause}
-            onScrollUp={this.onScrollUp}
           >
             {
               data && data.map((topic, i) => (
@@ -164,13 +162,15 @@ export default function (tab) {
     }
   }
 
+  let lastTopics = false;
+
   const mapStateToProps = createSelector(
     getDBTopics,
     getDBUsers,
     getTabTopicCreator(tab),
     (dbTopics, dbUsers, tabTopic) => {
       let tabTopicIds = tabTopic.get('data');
-      let topics = false;
+      let topics = lastTopics;
 
       if (tabTopicIds.size) {
         topics = new List();
@@ -181,11 +181,13 @@ export default function (tab) {
           if (topic) {
             topics = topics.set(index, topic.set('author', dbUsers.get(topic.get('author'))));
           } else {
-            topics = false;
+            topics = lastTopics;
             return false;
           }
         });
       }
+
+      lastTopics = topics;
 
       return {
         isPending: tabTopic.get('isPending'),
