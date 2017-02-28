@@ -10,6 +10,8 @@ import {getDBTopics, getDBUsers} from '../../core/db';
 import {getTabTopicCreator} from '../../core/topic';
 import {shallowEqual} from '../../core/utils';
 
+import './index.css';
+
 const StatusText = ['↓ 下拉刷新', '↑ 释放更新', '加载中...'];
 
 export default function (tab) {
@@ -133,19 +135,13 @@ export default function (tab) {
       const {props: {data, mountScrollTop}, state: {pulledY, needStopPause, status}} = this;
 
       return (
-        <div style={{
-          position: 'absolute',
-          top: '42px',
-          bottom: 0,
-          width: '100%'
-        }}>
-          <div style={{
-            position: 'absolute',
-            top: '-25px',
-            textAlign: 'center',
-            width: '100%',
-            transform: `translate3d(0px, ${pulledY}px, 0px)`
-          }}>{StatusText[status]}</div>
+        <div className="topics_page">
+          <div
+            className="pull_status_div"
+            style={{
+              transform: `translate3d(0px, ${pulledY}px, 0px)`
+            }}
+          >{StatusText[status]}</div>
           <PullView
             onPulling={this.onPulling}
             onPullEnd={this.onPullEnd}
@@ -153,9 +149,9 @@ export default function (tab) {
             onScrollToBottom={this.onScrollToBottom}
             componentWillUnmount={this.onPullViewUnmount}
             mountScrollTop={mountScrollTop}
-            toBottom={50}
             pulledPauseY={40}
             needStopPause={needStopPause}
+            onScrollUp={this.onScrollUp}
           >
             {
               data && data.map((topic, i) => (

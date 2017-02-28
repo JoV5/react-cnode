@@ -6,7 +6,8 @@ const defaultStyle = {
   bottom: 0,
   left: 0,
   right: 0,
-  overflow: 'scroll'
+  overflowY: 'scroll',
+  paddingTop: 'inherit'
 };
 
 export default class PullView extends PureComponent {
@@ -27,17 +28,20 @@ export default class PullView extends PureComponent {
   static defaultProps = {
     scaleY: 0.2,
     toBottom: 0,
-    pulledPauseY: 0
+    pulledPauseY: 0,
+    mountScrollTop: 0
   };
 
   state = {
-    startY: undefined,
-    endY: undefined,
-    pulling: false,
-    pulledY: 0,
-    ifPause: false,
-    touching: false
+    pulledY: 0
   };
+
+  touching = false;
+  startY = undefined;
+  endY = undefined;
+  pulling = false;
+  ifPause = false;
+  lastScrollTop = undefined;
 
   constructor() {
     super(...arguments);
@@ -50,15 +54,16 @@ export default class PullView extends PureComponent {
   componentDidMount() {
     const {props: {mountScrollTop}, container} = this;
     container.scrollTop = mountScrollTop;
+    this.lastScrollTop = mountScrollTop;
     this.container.addEventListener('touchmove', this.onTouchMove);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.needStopPause) {
+      this.pulling = false;
+      this.ifPause = false;
       this.setState({
-        ifPause: false,
-        pulledY: 0,
-        pulling: false
+        pulledY: 0
       })
     }
   }
@@ -69,16 +74,14 @@ export default class PullView extends PureComponent {
   }
 
   onTouchStart() {
-    this.setState({
-      touching: true
-    })
+    this.touching = true;
   }
 
   onTouchMove(e) {
     const {
       container,
-      state: {pulling, startY, ifPause, touching},
-      props: {onPulling, onPullingPause, scaleY}
+      props: {onPulling, onPullingPause, scaleY},
+      touching, startY, pulling, ifPause
     } = this;
     const eTouchScreenY = e.touches ? e.touches[0].screenY : e.screenY;
 
@@ -88,8 +91,8 @@ export default class PullView extends PureComponent {
       const pulledY = (eTouchScreenY - startY) * scaleY;
 
       if (pulledY >= 0) {
+        this.endY = eTouchScreenY;
         this.setState({
-          endY: eTouchScreenY,
           pulledY: pulledY
         });
 
@@ -102,9 +105,9 @@ export default class PullView extends PureComponent {
         e.preventDefault();
       } else {
         if (ifPause) {
+          this.ifPause = false;
           this.setState({
-            pulledY: 0,
-            ifPause: false
+            pulledY: 0
           });
         } else {
           this.setState({
@@ -114,38 +117,42 @@ export default class PullView extends PureComponent {
       }
     } else {
       if (container.scrollTop === 0) {
-        this.setState({
-          startY: eTouchScreenY,
-          pulling: true
-        });
+        this.startY = eTouchScreenY;
+        this.pulling = true;
       }
     }
   }
 
   onScroll() {
-    const {container, props: {toBottom, onScrollToBottom}} = this;
+    const {container, props: {toBottom, onScrollToBottom, onScrollUp, onScrollDown}} = this;
 
     if (container.scrollTop + container.clientHeight + toBottom >= container.scrollHeight) {
       onScrollToBottom && onScrollToBottom();
     }
+
+    if (container.scrollTop > this.lastScrollTop) {
+      onScrollUp && onScrollUp();
+    } else {
+      onScrollDown && onScrollDown();
+    }
+
+    this.lastScrollTop = container.scrollTop;
   }
 
   onTouchEnd() {
-    const {props: {onPullEnd, pulledPauseY}, state: {pulling, pulledY}} = this;
+    const {props: {onPullEnd, pulledPauseY}, state: {pulledY}, pulling} = this;
 
     if (pulling) {
       const ifPause = onPullEnd ? onPullEnd(pulledY) : false;
 
       this.setState({
-        pulling: ifPause,
-        pulledY: ifPause ? pulledPauseY : 0,
-        ifPause
+        pulledY: ifPause ? pulledPauseY : 0
       });
+      this.ifPause = ifPause;
+      this.pulling = ifPause;
     }
 
-    this.setState({
-      touching: false
-    })
+    this.touching = false;
   }
 
   render() {
