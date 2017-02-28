@@ -65,10 +65,15 @@ export function topicReducer(state = fromJS(TopicState), action) {
 
       if (payloadType === 'topics') {
         const ids = result.data.data.map(data => data.id);
+        const loadState = {
+          isReloading: state.getIn([param.tab, 'isReloading']),
+          isPending: state.getIn([param.tab, 'isPending']),
+        };
 
-        return state.mergeDeep({
+        return state.merge({
           [param.tab]: {
             data: param.reload ? ids : state.getIn([param.tab, 'data']).concat(ids),
+            ...loadState,
             [param.reload ? 'isReloading' : 'isPending']: false,
             page: param.page
           }

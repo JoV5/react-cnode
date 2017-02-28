@@ -51,11 +51,11 @@ export class App extends Component {
         <main className="app_main">
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/topics/all"/>}/>
-            <Route path="/topics/all" component={TopicsAllPage}/>
-            <Route path="/topics/good" component={TopicsGoodPage}/>
-            <Route path="/topics/share" component={TopicsSharePage}/>
-            <Route path="/topics/ask" component={TopicsAskPage}/>
-            <Route path="/topics/job" component={TopicsJobPage}/>
+            <Route path="/topics/all" render={() => <TopicsAllPage/>}/>
+            <Route path="/topics/good" render={() => <TopicsGoodPage/>}/>
+            <Route path="/topics/share" render={() => <TopicsSharePage/>}/>
+            <Route path="/topics/ask" render={() => <TopicsAskPage/>}/>
+            <Route path="/topics/job" render={() => <TopicsJobPage/>}/>
             <Route path="/topic/:topicid" component={TopicPage}/>
             <Route path="/newtopic" component={NewTopicPage}/>
             <Route path="/login" component={LoginPage}/>

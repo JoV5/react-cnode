@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 
 const defaultStyle = {
   position: 'absolute',
@@ -9,7 +9,35 @@ const defaultStyle = {
   overflow: 'scroll'
 };
 
-export default class PullView extends Component {
+export default class PullView extends PureComponent {
+
+  static propTypes = {
+    onPulling: PropTypes.func,
+    onPullEnd: PropTypes.func,
+    onPullingPause: PropTypes.func,
+    onScrollToBottom: PropTypes.func,
+    componentWillUnmount: PropTypes.func,
+    mountScrollTop: PropTypes.number,
+    toBottom: PropTypes.number,
+    pulledPauseY: PropTypes.number,
+    needStopPause: PropTypes.bool,
+    scaleY: PropTypes.number
+  };
+
+  static defaultProps = {
+    scaleY: 0.2,
+    toBottom: 0,
+    pulledPauseY: 0
+  };
+
+  state = {
+    startY: undefined,
+    endY: undefined,
+    pulling: false,
+    pulledY: 0,
+    ifPause: false,
+    touching: false
+  };
 
   constructor() {
     super(...arguments);
@@ -25,19 +53,20 @@ export default class PullView extends Component {
     this.container.addEventListener('touchmove', this.onTouchMove);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.needStopPause) {
+      this.setState({
+        ifPause: false,
+        pulledY: 0,
+        pulling: false
+      })
+    }
+  }
+
   componentWillUnmount() {
     const {props: {componentWillUnmount}, container} = this;
     componentWillUnmount && componentWillUnmount(container.scrollTop);
   }
-
-  state = {
-    startY: undefined,
-    endY: undefined,
-    pulling: false,
-    pulledY: 0,
-    ifPause: false,
-    touching: false
-  };
 
   onTouchStart() {
     this.setState({
@@ -49,7 +78,7 @@ export default class PullView extends Component {
     const {
       container,
       state: {pulling, startY, ifPause, touching},
-      props: {onPulling, onPullingPause, scaleY = 0.2}
+      props: {onPulling, onPullingPause, scaleY}
     } = this;
     const eTouchScreenY = e.touches ? e.touches[0].screenY : e.screenY;
 
@@ -94,7 +123,7 @@ export default class PullView extends Component {
   }
 
   onScroll() {
-    const {container, props: {toBottom = 0, onScrollToBottom}} = this;
+    const {container, props: {toBottom, onScrollToBottom}} = this;
 
     if (container.scrollTop + container.clientHeight + toBottom >= container.scrollHeight) {
       onScrollToBottom && onScrollToBottom();
@@ -102,7 +131,7 @@ export default class PullView extends Component {
   }
 
   onTouchEnd() {
-    const {props: {onPullEnd, pulledPauseY = 0}, state: {pulling, pulledY}} = this;
+    const {props: {onPullEnd, pulledPauseY}, state: {pulling, pulledY}} = this;
 
     if (pulling) {
       const ifPause = onPullEnd ? onPullEnd(pulledY) : false;
@@ -120,7 +149,7 @@ export default class PullView extends Component {
   }
 
   render() {
-    const {props: {children, style}, state: {pulledY}, onTouchStart, onTouchMove, onTouchEnd, onScroll} = this;
+    const {props: {style, children}, state: {pulledY}, onTouchStart, onTouchMove, onTouchEnd, onScroll} = this;
 
     return (
       <div
@@ -135,7 +164,8 @@ export default class PullView extends Component {
         onMouseDown={onTouchStart}
         onMouseMove={onTouchMove}
         onMouseUp={onTouchEnd}
-        onScroll={onScroll}>
+        onScroll={onScroll}
+      >
         {children}
       </div>
     )

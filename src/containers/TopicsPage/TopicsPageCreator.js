@@ -8,6 +8,9 @@ import TopicCard from '../../components/TopicCard';
 import PullView from '../../components/PullView';
 import {getDBTopics, getDBUsers} from '../../core/db';
 import {getTabTopicCreator} from '../../core/topic';
+import {shallowEqual} from '../../core/utils';
+
+const StatusText = ['↓ 下拉刷新', '↑ 释放更新', '加载中...'];
 
 export default function (tab) {
 
@@ -24,7 +27,9 @@ export default function (tab) {
 
     state = {
       pulledY: 0,
-      text: '下拉刷新'
+      status: 0, // 0：下拉刷新，1：释放刷新，2：加载中
+      pausedY: 40,
+      needStopPause: false
     };
 
     componentWillMount() {
@@ -42,12 +47,14 @@ export default function (tab) {
       if (pulledY > 40) {
         this.setState({
           pulledY,
-          text: '释放更新'
+          status: 1,
+          needStopPause: false
         });
       } else {
         this.setState({
           pulledY,
-          text: '下拉刷新'
+          status: 0,
+          needStopPause: false
         });
       }
     }
@@ -55,7 +62,8 @@ export default function (tab) {
     onPullingPause(pulledY) {
       this.setState({
         pulledY: pulledY,
-        text: '加载中'
+        status: 2,
+        needStopPause: false
       });
     }
 
@@ -65,19 +73,23 @@ export default function (tab) {
       if (pulledY > 40) {
         this.setState({
           pulledY: 40,
-          text: '加载中'
+          status: 2,
+          needStopPause: false
         });
 
         if (!isReloading) {
           loadTopics({
             tab: tab,
-            reload: true
+            reload: true,
+            page: 1
           });
         }
         return true;
       } else {
         this.setState({
-          pulledY: 0
+          pulledY: 0,
+          status: 0,
+          needStopPause: false
         });
         return false;
       }
@@ -99,12 +111,26 @@ export default function (tab) {
       saveScrollTop(tab, scrollTop);
     }
 
+    componentWillReceiveProps(nextProps) {
+      if (!nextProps.isReloading && this.props.isReloading && this.state.status === 2) {
+        this.setState({
+          status: 0,
+          needStopPause: true,
+          pulledY: 0
+        })
+      } else {
+        this.setState({
+          needStopPause: false
+        })
+      }
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
-      return !is(nextProps.data, this.props.data) || !is(nextState, this.state);
+      return !shallowEqual(nextProps, this.props) || !shallowEqual(nextState, this.state) || !is(nextProps.data, this.props.data);
     }
 
     render() {
-      const {props: {data, mountScrollTop}, state: {pulledY, text}} = this;
+      const {props: {data, mountScrollTop}, state: {pulledY, needStopPause, status}} = this;
 
       return (
         <div style={{
@@ -119,7 +145,7 @@ export default function (tab) {
             textAlign: 'center',
             width: '100%',
             transform: `translate3d(0px, ${pulledY}px, 0px)`
-          }}>{text}</div>
+          }}>{StatusText[status]}</div>
           <PullView
             onPulling={this.onPulling}
             onPullEnd={this.onPullEnd}
@@ -129,6 +155,7 @@ export default function (tab) {
             mountScrollTop={mountScrollTop}
             toBottom={50}
             pulledPauseY={40}
+            needStopPause={needStopPause}
           >
             {
               data && data.map((topic, i) => (
