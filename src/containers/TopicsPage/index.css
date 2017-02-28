@@ -1,0 +1,12 @@
+.topics_page {
+  padding-top: inherit;
+}
+
+.pull_status_div {
+  position: absolute;
+  top: 0;
+  height: 42px;
+  line-height: 42px;
+  text-align: center;
+  width: 100%;
+}
