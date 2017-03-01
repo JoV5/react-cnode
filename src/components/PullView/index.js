@@ -1,15 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react';
 
-const defaultStyle = {
-  position: 'absolute',
-  top: 0,
-  bottom: 0,
-  left: 0,
-  right: 0,
-  overflowY: 'scroll',
-  paddingTop: 'inherit'
-};
-
 export default class PullView extends PureComponent {
 
   static propTypes = {
@@ -17,6 +7,8 @@ export default class PullView extends PureComponent {
     onPullEnd: PropTypes.func,
     onPullingPause: PropTypes.func,
     onScrollToBottom: PropTypes.func,
+    onScrollUp: PropTypes.func,
+    onScrollDown: PropTypes.func,
     componentWillUnmount: PropTypes.func,
     mountScrollTop: PropTypes.number,
     toBottom: PropTypes.number,
@@ -42,6 +34,7 @@ export default class PullView extends PureComponent {
   pulling = false;
   ifPause = false;
   lastScrollTop = undefined;
+  container = document.body;
 
   constructor() {
     super(...arguments);
@@ -55,7 +48,14 @@ export default class PullView extends PureComponent {
     const {props: {mountScrollTop}, container} = this;
     container.scrollTop = mountScrollTop;
     this.lastScrollTop = mountScrollTop;
-    this.container.addEventListener('touchmove', this.onTouchMove);
+
+    this.container.addEventListener('touchstart', this.onTouchStart);
+    this.container.addEventListener('touchmove', this.onTouchMove, {passive: false});
+    this.container.addEventListener('touchend', this.onTouchEnd);
+    this.container.addEventListener('mousedown', this.onTouchStart);
+    this.container.addEventListener('mousemove', this.onTouchMove, {passive: false});
+    this.container.addEventListener('mouseup', this.onTouchEnd);
+    window.addEventListener('scroll', this.onScroll);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -71,6 +71,14 @@ export default class PullView extends PureComponent {
   componentWillUnmount() {
     const {props: {componentWillUnmount}, container} = this;
     componentWillUnmount && componentWillUnmount(container.scrollTop);
+
+    this.container.removeEventListener('touchstart', this.onTouchStart);
+    this.container.removeEventListener('touchmove', this.onTouchMove);
+    this.container.removeEventListener('touchend', this.onTouchEnd);
+    this.container.removeEventListener('mousedown', this.onTouchStart);
+    this.container.removeEventListener('mousemove', this.onTouchMove);
+    this.container.removeEventListener('mouseup', this.onTouchEnd);
+    window.removeEventListener('scroll', this.onScroll);
   }
 
   onTouchStart() {
@@ -125,18 +133,21 @@ export default class PullView extends PureComponent {
 
   onScroll() {
     const {container, props: {toBottom, onScrollToBottom, onScrollUp, onScrollDown}} = this;
+    const scrollTop = container.scrollTop;
+    const clientHeight = container.clientHeight;
+    const scrollHeight = container.scrollHeight;
 
-    if (container.scrollTop + container.clientHeight + toBottom >= container.scrollHeight) {
+    if (scrollTop + clientHeight + toBottom >= scrollHeight) {
       onScrollToBottom && onScrollToBottom();
     }
 
-    if (container.scrollTop > this.lastScrollTop) {
+    if (scrollTop > this.lastScrollTop) {
       onScrollUp && onScrollUp();
     } else {
       onScrollDown && onScrollDown();
     }
 
-    this.lastScrollTop = container.scrollTop;
+    this.lastScrollTop = scrollTop;
   }
 
   onTouchEnd() {
@@ -156,22 +167,13 @@ export default class PullView extends PureComponent {
   }
 
   render() {
-    const {props: {style, children}, state: {pulledY}, onTouchStart, onTouchMove, onTouchEnd, onScroll} = this;
+    const {props: {children}, state: {pulledY}} = this;
 
     return (
       <div
         style={{
-          ...defaultStyle,
-          ...style,
           transform: `translate3d(0px, ${pulledY}px, 0px)`
         }}
-        ref={(container) => this.container = container}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-        onMouseDown={onTouchStart}
-        onMouseMove={onTouchMove}
-        onMouseUp={onTouchEnd}
-        onScroll={onScroll}
       >
         {children}
       </div>

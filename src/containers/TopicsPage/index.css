@@ -1,12 +1,15 @@
-.topics_page {
-  padding-top: inherit;
-}
-
 .pull_status_div {
   position: absolute;
-  top: 0;
+  top: 0px;
   height: 42px;
   line-height: 42px;
   text-align: center;
+  width: 100%;
+}
+
+.load_more_info {
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
   width: 100%;
 }

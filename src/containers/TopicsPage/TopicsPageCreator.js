@@ -134,7 +134,7 @@ export default function (tab) {
       const {props: {data, mountScrollTop}, state: {pulledY, needStopPause, status}} = this;
 
       return (
-        <div className="topics_page">
+        <div>
           <div
             className="pull_status_div"
             style={{
@@ -156,6 +156,7 @@ export default function (tab) {
                 <TopicCard data={topic} key={i}/>
               ))
             }
+            <div className="load_more_info">加载中...</div>
           </PullView>
         </div>
       )
