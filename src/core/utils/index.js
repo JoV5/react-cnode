@@ -13,7 +13,7 @@ export function timeago(date) {
 
   if (curDateMonths - dateMonths > 12) {
     return `${Math.floor((curDateMonths - dateMonths) / 12)}年前`;
-  } else if (curDateMonths - dateMonths > 1) {console.log(curDateMonths, dateMonths)
+  } else if (curDateMonths - dateMonths > 1) {
     return `${curDateMonths - dateMonths}个月前`;
   } else {
     if (deltaTime < 60) {
