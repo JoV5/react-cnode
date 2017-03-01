@@ -11,9 +11,9 @@ export function timeago(date) {
   const curTime = curDate.getTime();
   const deltaTime = MathFloor((curTime - time) / 1000); // 转为秒
 
-  if (curDateMonths - dateMonths >= 12) {
+  if (curDateMonths - dateMonths > 12) {
     return `${Math.floor((curDateMonths - dateMonths) / 12)}年前`;
-  } else if (curDateMonths > dateMonths) {
+  } else if (curDateMonths - dateMonths > 1) {console.log(curDateMonths, dateMonths)
     return `${curDateMonths - dateMonths}个月前`;
   } else {
     if (deltaTime < 60) {

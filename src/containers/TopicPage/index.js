@@ -34,7 +34,7 @@ export class TopicPage extends Component {
     }
 
     // https://github.com/ReactTraining/react-router/issues/3950
-    //window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }
 
   replyUp(replyid) {

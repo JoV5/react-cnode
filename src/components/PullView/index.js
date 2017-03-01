@@ -134,7 +134,7 @@ export default class PullView extends PureComponent {
   onScroll() {
     const {container, props: {toBottom, onScrollToBottom, onScrollUp, onScrollDown}} = this;
     const scrollTop = container.scrollTop;
-    const clientHeight = container.clientHeight;
+    const clientHeight = window.innerHeight;
     const scrollHeight = container.scrollHeight;
 
     if (scrollTop + clientHeight + toBottom >= scrollHeight) {
