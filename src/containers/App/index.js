@@ -8,6 +8,7 @@ import {authActions} from '../../core/auth';
 import {TopicsAllPage, TopicsAskPage, TopicsGoodPage, TopicsJobPage, TopicsSharePage} from '../TopicsPage';
 import AppHeader from '../../components/AppHeader';
 import AppNav from '../../components/AppNav';
+import AppBottomNav from '../../components/AppBottomNav';
 import PrivateRoute from '../../components/PrivateRoute';
 //import UserPage from '../UserPage';
 
@@ -46,16 +47,25 @@ export class App extends Component {
 
     return (
       <div className="root">
-        <AppHeader onLeftBtnClick={onHeaderLeftClick} onRightBtnClick={onHeaderRightClick}/>
-        <AppNav toggleAppNav={toggleAppNav} appNavIsShow={appNavIsShow} auth={auth} logout={logout} messageCount={messageCount}/>
+        {/*<AppNav toggleAppNav={toggleAppNav} appNavIsShow={appNavIsShow} auth={auth} logout={logout} messageCount={messageCount}/>*/}
         <main className="app_main">
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/topics/all"/>}/>
-            <Route path="/topics/all" render={() => <TopicsAllPage/>}/>
-            <Route path="/topics/good" render={() => <TopicsGoodPage/>}/>
-            <Route path="/topics/share" render={() => <TopicsSharePage/>}/>
-            <Route path="/topics/ask" render={() => <TopicsAskPage/>}/>
-            <Route path="/topics/job" render={() => <TopicsJobPage/>}/>
+            <Route path="/topics" render={({location: {pathname}}) => {
+              if (pathname === '/topics') {
+                return <Redirect to="/topics/all"/>;
+              } else {
+                return (
+                  <div>
+                    <Route path="/topics/all" render={() => <TopicsAllPage/>}/>
+                    <Route path="/topics/good" render={() => <TopicsGoodPage/>}/>
+                    <Route path="/topics/share" render={() => <TopicsSharePage/>}/>
+                    <Route path="/topics/ask" render={() => <TopicsAskPage/>}/>
+                    <Route path="/topics/job" render={() => <TopicsJobPage/>}/>
+                  </div>
+                )
+              }
+            }}/>
             <Route path="/topic/:topicid" component={TopicPage}/>
             <Route path="/newtopic" component={NewTopicPage}/>
             <Route path="/login" component={LoginPage}/>
@@ -64,6 +74,7 @@ export class App extends Component {
             <PrivateRoute path="/collection/:loginname" component={CollectionPage} hasLogin={hasLogin}/>
           </Switch>
         </main>
+        <AppBottomNav auth={auth}/>
       </div>
     )
   }

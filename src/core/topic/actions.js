@@ -7,6 +7,7 @@ export const topicActions = {
   LOAD_TOPIC: 'LOAD_TOPIC',
 
   SAVE_SCROLL_TOP: 'SAVE_SCROLL_TOP',
+  TOGGLE_TOPICS_NAV: 'TOGGLE_TOPICS_NAV',
 
   fetchTopicFailed: result => ({
     type: topicActions.FETCH_TOPIC_FAILED,
@@ -39,6 +40,10 @@ export const topicActions = {
       tab,
       scrollTop
     }
+  }),
+
+  toggleTopicsNav: () => ({
+    type: topicActions.TOGGLE_TOPICS_NAV
   })
 };
 

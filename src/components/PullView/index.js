@@ -49,12 +49,12 @@ export default class PullView extends PureComponent {
     container.scrollTop = mountScrollTop;
     this.lastScrollTop = mountScrollTop;
 
-    this.container.addEventListener('touchstart', this.onTouchStart);
-    this.container.addEventListener('touchmove', this.onTouchMove, {passive: false});
-    this.container.addEventListener('touchend', this.onTouchEnd);
-    this.container.addEventListener('mousedown', this.onTouchStart);
-    this.container.addEventListener('mousemove', this.onTouchMove, {passive: false});
-    this.container.addEventListener('mouseup', this.onTouchEnd);
+    container.addEventListener('touchstart', this.onTouchStart);
+    container.addEventListener('touchmove', this.onTouchMove, {passive: false});
+    container.addEventListener('touchend', this.onTouchEnd);
+    container.addEventListener('mousedown', this.onTouchStart);
+    container.addEventListener('mousemove', this.onTouchMove, {passive: false});
+    container.addEventListener('mouseup', this.onTouchEnd);
     window.addEventListener('scroll', this.onScroll);
   }
 
@@ -72,12 +72,12 @@ export default class PullView extends PureComponent {
     const {props: {componentWillUnmount}, container} = this;
     componentWillUnmount && componentWillUnmount(container.scrollTop);
 
-    this.container.removeEventListener('touchstart', this.onTouchStart);
-    this.container.removeEventListener('touchmove', this.onTouchMove);
-    this.container.removeEventListener('touchend', this.onTouchEnd);
-    this.container.removeEventListener('mousedown', this.onTouchStart);
-    this.container.removeEventListener('mousemove', this.onTouchMove);
-    this.container.removeEventListener('mouseup', this.onTouchEnd);
+    container.removeEventListener('touchstart', this.onTouchStart);
+    container.removeEventListener('touchmove', this.onTouchMove);
+    container.removeEventListener('touchend', this.onTouchEnd);
+    container.removeEventListener('mousedown', this.onTouchStart);
+    container.removeEventListener('mousemove', this.onTouchMove);
+    container.removeEventListener('mouseup', this.onTouchEnd);
     window.removeEventListener('scroll', this.onScroll);
   }
 

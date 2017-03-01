@@ -1,0 +1,21 @@
+.app_bottom_nav {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+  background-color: white;
+  flex-direction: row;
+  border-top: 1px solid #d5dbdb;
+}
+
+.app_bottom_nav_item {
+  width: 100%;
+  text-align: center;
+  color: #7F8286;
+}
+
+.app_bottom_nav_item.active_item {
+  color: #80bd01;
+}

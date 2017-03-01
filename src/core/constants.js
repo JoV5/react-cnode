@@ -39,5 +39,6 @@ export const TAB_MAP = {
   good: '精华',
   ask: '问答',
   job: '招聘',
-  top: '置顶'
+  top: '置顶',
+  all: '全部'
 };

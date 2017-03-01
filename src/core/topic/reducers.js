@@ -32,7 +32,8 @@ export const TopicState = {
     data: [],
     scrollTop: 0
   },
-  list: []
+  list: [],
+  topicsNavIsShow: false
 };
 
 export function topicReducer(state = fromJS(TopicState), action) {
@@ -42,40 +43,39 @@ export function topicReducer(state = fromJS(TopicState), action) {
   }
 
   const {payload, type} = action;
-  const {type: payloadType, param, result} = payload;
 
   switch (type) {
     case topicActions.FETCH_TOPIC_PENDING:
 
-      if (payloadType === 'topics') {
-        return state.setIn([param.tab, param.reload ? 'isReloading' : 'isPending'], true);
+      if (payload.type === 'topics') {
+        return state.setIn([payload.param.tab, payload.param.reload ? 'isReloading' : 'isPending'], true);
       }
 
       return state;
 
     case topicActions.FETCH_TOPIC_FAILED:
 
-      if (payloadType === 'topics') {
-        return state.setIn([param.tab, param.reload ? 'isReloading' : 'isPending'], false);
+      if (payload.type === 'topics') {
+        return state.setIn([payload.param.tab, payload.param.reload ? 'isReloading' : 'isPending'], false);
       }
 
       return state;
 
     case topicActions.FETCH_TOPIC_FULFILLED:
 
-      if (payloadType === 'topics') {
-        const ids = result.data.data.map(data => data.id);
+      if (payload.type === 'topics') {
+        const ids = payload.result.data.data.map(data => data.id);
         const loadState = {
-          isReloading: state.getIn([param.tab, 'isReloading']),
-          isPending: state.getIn([param.tab, 'isPending']),
+          isReloading: state.getIn([payload.param.tab, 'isReloading']),
+          isPending: state.getIn([payload.param.tab, 'isPending']),
         };
 
         return state.merge({
-          [param.tab]: {
-            data: param.reload ? ids : state.getIn([param.tab, 'data']).concat(ids),
+          [payload.param.tab]: {
+            data: payload.param.reload ? ids : state.getIn([payload.param.tab, 'data']).concat(ids),
             ...loadState,
-            [param.reload ? 'isReloading' : 'isPending']: false,
-            page: param.page
+            [payload.param.reload ? 'isReloading' : 'isPending']: false,
+            page: payload.param.page
           }
         });
       }
@@ -84,6 +84,9 @@ export function topicReducer(state = fromJS(TopicState), action) {
 
     case topicActions.SAVE_SCROLL_TOP:
       return state.setIn([payload.tab, 'scrollTop'], payload.scrollTop);
+
+    case topicActions.TOGGLE_TOPICS_NAV:
+      return state.set('topicsNavIsShow', !state.get('topicsNavIsShow'));
 
     default:
       return state;

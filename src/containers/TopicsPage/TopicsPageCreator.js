@@ -7,8 +7,9 @@ import {topicActions} from '../../core/topic';
 import TopicCard from '../../components/TopicCard';
 import PullView from '../../components/PullView';
 import {getDBTopics, getDBUsers} from '../../core/db';
-import {getTabTopicCreator} from '../../core/topic';
+import {getTabTopicCreator, getTopicsNavIsShow} from '../../core/topic';
 import {shallowEqual} from '../../core/utils';
+import TopicsHeader from './TopicsHeader';
 
 import './index.css';
 
@@ -127,14 +128,15 @@ export default function (tab) {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-      return !shallowEqual(nextState, this.state) || !is(nextProps.data, this.props.data);
+      return !shallowEqual(nextState, this.state) || !shallowEqual(nextProps, this.props) || !is(nextProps.data, this.props.data);
     }
 
     render() {
-      const {props: {data, mountScrollTop}, state: {pulledY, needStopPause, status}} = this;
+      const {props: {data, mountScrollTop, toggleTopicsNav, topicsNavIsShow}, state: {pulledY, needStopPause, status}} = this;
 
       return (
-        <div>
+        <div className="topics_page">
+          <TopicsHeader tab={tab} toggleTopicsNav={toggleTopicsNav} topicsNavIsShow={topicsNavIsShow}/>
           <div
             className="pull_status_div"
             style={{
@@ -168,8 +170,9 @@ export default function (tab) {
   const mapStateToProps = createSelector(
     getDBTopics,
     getDBUsers,
+    getTopicsNavIsShow,
     getTabTopicCreator(tab),
-    (dbTopics, dbUsers, tabTopic) => {
+    (dbTopics, dbUsers, topicsNavIsShow, tabTopic) => {
       let tabTopicIds = tabTopic.get('data');
       let topics = lastTopics;
 
@@ -195,13 +198,15 @@ export default function (tab) {
         isReloading: tabTopic.get('isReloading'),
         page: tabTopic.get('page'),
         data: topics,
-        mountScrollTop: tabTopic.get('scrollTop')
+        mountScrollTop: tabTopic.get('scrollTop'),
+        topicsNavIsShow: topicsNavIsShow
       }
     }
   );
 
   const mapDispatchToProps = {
     loadTopics: topicActions.loadTopics,
+    toggleTopicsNav: topicActions.toggleTopicsNav,
     saveScrollTop: topicActions.saveScrollTop
   };
 
