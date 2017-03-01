@@ -33,7 +33,8 @@ export const TopicState = {
     scrollTop: 0
   },
   list: [],
-  topicsNavIsShow: false
+  topicsNavIsShow: false,
+  selectedTab: 'all'
 };
 
 export function topicReducer(state = fromJS(TopicState), action) {
@@ -87,6 +88,9 @@ export function topicReducer(state = fromJS(TopicState), action) {
 
     case topicActions.TOGGLE_TOPICS_NAV:
       return state.set('topicsNavIsShow', !state.get('topicsNavIsShow'));
+
+    case topicActions.SAVE_SELECTED_TAB:
+      return state.set('selectedTab', payload);
 
     default:
       return state;

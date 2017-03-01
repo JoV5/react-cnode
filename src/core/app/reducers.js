@@ -2,7 +2,7 @@ import {Map} from 'immutable';
 import {appActions} from './actions';
 
 const AppState = {
-  appNavIsShow: false
+  appNavIsShow: true
 };
 
 export function appReducer(state = new Map(AppState), action) {

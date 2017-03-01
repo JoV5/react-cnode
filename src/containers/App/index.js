@@ -4,13 +4,9 @@ import {connect} from 'react-redux';
 import lazyme from 'lazy-load-react';
 
 import {appActions} from '../../core/app';
-import {authActions} from '../../core/auth';
 import {TopicsAllPage, TopicsAskPage, TopicsGoodPage, TopicsJobPage, TopicsSharePage} from '../TopicsPage';
-import AppHeader from '../../components/AppHeader';
-import AppNav from '../../components/AppNav';
 import AppBottomNav from '../../components/AppBottomNav';
 import PrivateRoute from '../../components/PrivateRoute';
-//import UserPage from '../UserPage';
 
 const TopicPage = lazyme(() => System.import('../TopicPage'));
 const NewTopicPage = lazyme(() => System.import('../NewTopicPage'));
@@ -23,6 +19,8 @@ import './index.css';
 
 export class App extends Component {
 
+  lastScrollTop = 0;
+
   constructor() {
     super(...arguments);
     this.onHeaderLeftClick = this.onHeaderLeftClick.bind(this);
@@ -31,7 +29,16 @@ export class App extends Component {
 
   onHeaderLeftClick() {
     const {toggleAppNav, app} = this.props;
-    toggleAppNav(!app.get('appNavIsShow'));
+    const appNavIsShow = app.get('appNavIsShow');
+    const scrollTop = document.body.scrollTop;
+
+    if (scrollTop > this.lastScrollTop) {
+      appNavIsShow && toggleAppNav(false);
+    } else {
+      !appNavIsShow && toggleAppNav(true);
+    }
+
+    this.lastScrollTop = scrollTop;
   }
 
   onHeaderRightClick() {
@@ -39,15 +46,18 @@ export class App extends Component {
     push('/newtopic');
   }
 
+  componentDidMount() {
+    window.addEventListener('scroll', this.onHeaderLeftClick)
+  }
+
   render() {
-    const {props, onHeaderLeftClick, onHeaderRightClick} = this;
-    const {toggleAppNav, app, auth, logout, messageCount} = props;
+    const {props} = this;
+    const {app, auth, selectedTab} = props;
     const hasLogin = !!auth.get('accesstoken');
     const appNavIsShow = app.get('appNavIsShow');
 
     return (
       <div className="root">
-        {/*<AppNav toggleAppNav={toggleAppNav} appNavIsShow={appNavIsShow} auth={auth} logout={logout} messageCount={messageCount}/>*/}
         <main className="app_main">
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/topics/all"/>}/>
@@ -56,13 +66,13 @@ export class App extends Component {
                 return <Redirect to="/topics/all"/>;
               } else {
                 return (
-                  <div>
+                  <Switch>
                     <Route path="/topics/all" render={() => <TopicsAllPage/>}/>
                     <Route path="/topics/good" render={() => <TopicsGoodPage/>}/>
                     <Route path="/topics/share" render={() => <TopicsSharePage/>}/>
                     <Route path="/topics/ask" render={() => <TopicsAskPage/>}/>
                     <Route path="/topics/job" render={() => <TopicsJobPage/>}/>
-                  </div>
+                  </Switch>
                 )
               }
             }}/>
@@ -74,7 +84,7 @@ export class App extends Component {
             <PrivateRoute path="/collection/:loginname" component={CollectionPage} hasLogin={hasLogin}/>
           </Switch>
         </main>
-        <AppBottomNav auth={auth}/>
+        <AppBottomNav auth={auth} show={appNavIsShow} selectedTab={selectedTab}/>
       </div>
     )
   }
@@ -84,13 +94,13 @@ const mapStateToProps = (state) => {
   return {
     app: state.app,
     auth: state.auth,
+    selectedTab: state.topic.get('selectedTab'),
     messageCount: state.message.get('messageCount')
   };
 };
 
 const mapDispatchToProps = {
-  toggleAppNav: appActions.toggleAppNav,
-  logout: authActions.logout
+  toggleAppNav: appActions.toggleAppNav
 };
 
 export default connect(

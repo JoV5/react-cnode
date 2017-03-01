@@ -35,8 +35,9 @@ export default function (tab) {
     };
 
     componentWillMount() {
-      const {data, loadTopics} = this.props;
+      const {data, loadTopics, saveSelectedTab} = this.props;
 
+      saveSelectedTab(tab);
       if (!data) {
         loadTopics({
           tab: tab,
@@ -132,7 +133,9 @@ export default function (tab) {
     }
 
     render() {
-      const {props: {data, mountScrollTop, toggleTopicsNav, topicsNavIsShow}, state: {pulledY, needStopPause, status}} = this;
+      const {
+        props: {data, mountScrollTop, toggleTopicsNav, topicsNavIsShow},
+        state: {pulledY, needStopPause, status}} = this;
 
       return (
         <div className="topics_page">
@@ -199,7 +202,7 @@ export default function (tab) {
         page: tabTopic.get('page'),
         data: topics,
         mountScrollTop: tabTopic.get('scrollTop'),
-        topicsNavIsShow: topicsNavIsShow
+        topicsNavIsShow
       }
     }
   );
@@ -207,7 +210,8 @@ export default function (tab) {
   const mapDispatchToProps = {
     loadTopics: topicActions.loadTopics,
     toggleTopicsNav: topicActions.toggleTopicsNav,
-    saveScrollTop: topicActions.saveScrollTop
+    saveScrollTop: topicActions.saveScrollTop,
+    saveSelectedTab: topicActions.saveSelectedTab
   };
 
   return connect(

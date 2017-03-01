@@ -13,5 +13,5 @@ export function toggleAppNav(action$, state) {
 }
 
 export const appEpics = [
-  toggleAppNav
+  //toggleAppNav
 ];

@@ -1,13 +1,18 @@
 .app_bottom_nav {
   display: flex;
   position: fixed;
-  bottom: 0;
+  bottom: -40px;
   height: 40px;
   line-height: 40px;
   width: 100%;
   background-color: white;
   flex-direction: row;
   border-top: 1px solid #d5dbdb;
+  transition: bottom 0.5s ease;
+}
+
+.app_bottom_nav.show {
+  bottom: 0;
 }
 
 .app_bottom_nav_item {
