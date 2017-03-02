@@ -1,5 +1,32 @@
 .topic_page {
-  padding: 0 12px;
+  padding: 40px 12px;
+}
+
+.topic_page_header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-color: #444;
+  padding: 0 10px;
+}
+
+.topic_page_header .iconfont {
+  color: #80bd01;
+  font-size: 24px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.topic_page_header .collection {
+  float: right;
+}
+
+.topic_page_header .reply {
+  float: right;
+  font-size: 20px;
+  margin-left: 30px;
 }
 
 .topic_page_title {
