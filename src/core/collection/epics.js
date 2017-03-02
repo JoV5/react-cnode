@@ -7,12 +7,8 @@ import {topicsSchema} from '../topic';
 
 export function loadCollections(action$) {
   return action$.ofType(collectionActions.LOAD_COLLECTIONS)
-    .switchMap(({payload}) => fetchCollections(payload));
-}
-
-export function fetchCollectionsFulfilled(action$) {
-  return action$.ofType(collectionActions.FETCH_COLLECTION_FULFILLED)
-    .filter(({payload: {type}}) => type === 'collections')
+    .switchMap(({payload}) => fetchCollections(payload))
+    .filter(({type}) => type === collectionActions.FETCH_COLLECTION_FULFILLED)
     .map(({payload: {result: {data: {data}}, param: {loginname}}}) => {
       const collections = data.map((collection) => collection.id);
       const result = normalize(data, topicsSchema).entities;
@@ -22,7 +18,6 @@ export function fetchCollectionsFulfilled(action$) {
         ...result.users[loginname],
         collections
       };
-
       return dbActions.mergeDeep(result);
     });
 }
@@ -50,7 +45,6 @@ export function decollectTopic(action$) {
 
 export const collectionEpics = [
   loadCollections,
-  fetchCollectionsFulfilled,
   collectTopic,
   decollectTopic
 ];

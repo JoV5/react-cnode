@@ -13,7 +13,7 @@ export function login(action$) {
 }
 
 // 登陆成功后进行本地保存
-export function fetchAuthFulFilled(action$, store) {
+export function fetchAuthFulFilled(action$) {
   return action$.ofType(authActions.FETCH_AUTH_FULFILLED)
     .switchMap(({payload: {result: {data}, param: {accesstoken}}}) => {
       const userMe = {
