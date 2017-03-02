@@ -48,6 +48,7 @@ export class App extends Component {
     const {props} = this;
     const {app, auth, selectedTab} = props;
     const hasLogin = !!auth.get('accesstoken');
+    const loginname = auth.get('loginname');
     const appNavIsShow = app.get('appNavIsShow');
 
     return (

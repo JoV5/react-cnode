@@ -4,7 +4,7 @@ import {createSelector} from 'reselect';
 import {List} from 'immutable';
 
 import {messageActions, getStateMessage} from '../../core/message';
-import MessageCard from './MessageCard';
+import MessageList from '../../components/MessageList';
 import {getDBUsers, getDBTopics, getDBReplies, getDBMessages} from '../../core/db';
 import {getAuth} from '../../core/auth';
 
@@ -42,11 +42,7 @@ export class MessagePage extends Component {
     if (messages) {
       return (
         <div className="message_page">
-          {
-            messages.map((message, i) => {
-              return <MessageCard data={message} key={i}/>
-            })
-          }
+          <MessageList data={messages}/>
         </div>
       );
     } else {

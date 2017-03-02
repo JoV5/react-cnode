@@ -7,7 +7,6 @@ import {timeago} from '../../core/utils';
 import './MessageCard.css';
 
 const MessageCard = ({data}) => {
-  //const {author: {loginname, avatar_url}, reply: {content}, topic: {title, id}, create_at, has_read} = data;
   const author = data.get('author');
   const loginname = author.get('loginname');
   const avatar_url = author.get('avatar_url');

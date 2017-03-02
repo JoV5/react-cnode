@@ -8,7 +8,7 @@ import {topicActions} from '../../core/topic';
 import {replyActions} from '../../core/reply';
 import {TAB_MAP} from '../../core/constants';
 import {timeago} from '../../core/utils';
-import ReplyCard from './ReplyCard';
+import ReplyList from '../../components/ReplyList';
 import {getDBReplies, getDBUsers, getDBTopics} from '../../core/db';
 import {getAuth} from '../../core/auth';
 import {getMatchedTopicId} from '../../core/topic';
@@ -99,7 +99,8 @@ export class TopicPage extends Component {
   }
 
   render() {
-    const {matchedTopic, auth, topicReplies, loadTopic, matchedTopicId, isCollect} = this.props;
+    const {props, decollectTopic, collectTopic, replyUp} = this;
+    const {matchedTopic, auth, topicReplies, loadTopic, matchedTopicId, isCollect} = props;
     const userId = auth.get('id');
 
     if (matchedTopic && matchedTopic.get('content')) {
@@ -122,8 +123,8 @@ export class TopicPage extends Component {
             <i className="iconfont reply">&#xe605;</i>
             {
               isCollect ?
-                <i className="iconfont collection" onClick={this.decollectTopic}>&#xe619;</i> :
-                <i className="iconfont collection" onClick={this.collectTopic}>&#xe603;</i>
+                <i className="iconfont collection" onClick={decollectTopic}>&#xe619;</i> :
+                <i className="iconfont collection" onClick={collectTopic}>&#xe603;</i>
             }
           </div>
           <h3 className="topic_page_title">
@@ -150,10 +151,7 @@ export class TopicPage extends Component {
             topicReplies ?
               <div>
                 <div className="topic_page_reply_count">{topicReplies.size} 回复</div>
-                {
-                  topicReplies.map((reply, i) =>
-                    <ReplyCard data={reply} key={i} i={i} replyUp={this.replyUp} userId={userId}/>)
-                }
+                <ReplyList data={topicReplies} replyUp={replyUp} userId={userId}/>
               </div> :
               <div className="topic_page_load_replies" onClick={() => loadTopic({topicid: matchedTopicId})}>
                 加载评论
