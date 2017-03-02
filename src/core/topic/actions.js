@@ -9,6 +9,7 @@ export const topicActions = {
   SAVE_SCROLL_TOP: 'SAVE_SCROLL_TOP',
   TOGGLE_TOPICS_NAV: 'TOGGLE_TOPICS_NAV',
   SAVE_SELECTED_TAB: 'SAVE_SELECTED_TAB',
+  TOGGLE_TOPICS_HEADER: 'TOGGLE_TOPICS_HEADER',
 
   fetchTopicFailed: result => ({
     type: topicActions.FETCH_TOPIC_FAILED,
@@ -50,6 +51,11 @@ export const topicActions = {
   saveSelectedTab: (tab) => ({
     type: topicActions.SAVE_SELECTED_TAB,
     payload: tab
+  }),
+
+  toggleTopicsHeader: (bool) => ({
+    type: topicActions.TOGGLE_TOPICS_HEADER,
+    payload: bool
   })
 };
 

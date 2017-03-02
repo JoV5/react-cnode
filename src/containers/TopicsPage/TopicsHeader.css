@@ -1,0 +1,32 @@
+.topics_header {
+  position: fixed;
+  top: -40px;
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+  background-color: hsla(0, 0%, 100%, .95);
+  box-shadow: 0 0 4px rgba(0, 0, 0, .25);
+  z-index: 7;
+  text-align: center;
+  transition: top 0.5s ease;
+}
+
+.topics_header.show {
+  top: 0;
+}
+
+.topics_header_nav {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 50%;
+  margin: auto;
+}
+
+.topics_header_nav_item {
+  color: white;
+}
+
+.topics_header_nav_item.active_item {
+  color: #80bd01;
+}

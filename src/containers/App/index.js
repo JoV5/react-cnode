@@ -23,11 +23,10 @@ export class App extends Component {
 
   constructor() {
     super(...arguments);
-    this.onHeaderLeftClick = this.onHeaderLeftClick.bind(this);
-    this.onHeaderRightClick = this.onHeaderRightClick.bind(this);
+    this.onScrollWindow = this.onScrollWindow.bind(this);
   }
 
-  onHeaderLeftClick() {
+  onScrollWindow() {
     const {toggleAppNav, app} = this.props;
     const appNavIsShow = app.get('appNavIsShow');
     const scrollTop = document.body.scrollTop;
@@ -41,13 +40,8 @@ export class App extends Component {
     this.lastScrollTop = scrollTop;
   }
 
-  onHeaderRightClick() {
-    const {push} = this.props;
-    push('/newtopic');
-  }
-
   componentDidMount() {
-    window.addEventListener('scroll', this.onHeaderLeftClick)
+    window.addEventListener('scroll', this.onScrollWindow);
   }
 
   render() {

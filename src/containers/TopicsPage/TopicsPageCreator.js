@@ -7,7 +7,7 @@ import {topicActions} from '../../core/topic';
 import TopicCard from '../../components/TopicCard';
 import PullView from '../../components/PullView';
 import {getDBTopics, getDBUsers} from '../../core/db';
-import {getTabTopicCreator, getTopicsNavIsShow} from '../../core/topic';
+import {getTabTopicCreator, getTopicsNavIsShow, getTopicsHeaderIsShow} from '../../core/topic';
 import {shallowEqual} from '../../core/utils';
 import TopicsHeader from './TopicsHeader';
 
@@ -25,6 +25,8 @@ export default function (tab) {
       this.onPullingPause = this.onPullingPause.bind(this);
       this.onPullEnd = this.onPullEnd.bind(this);
       this.onScrollToBottom = this.onScrollToBottom.bind(this);
+      this.onScrollUp = this.onScrollUp.bind(this);
+      this.onScrollDown = this.onScrollDown.bind(this);
       this.onPullViewUnmount = this.onPullViewUnmount.bind(this);
     }
 
@@ -109,6 +111,16 @@ export default function (tab) {
       }
     }
 
+    onScrollUp() {
+      const {topicsHeaderIsShow, toggleTopicsHeader} = this.props;
+      topicsHeaderIsShow && toggleTopicsHeader(false);
+    }
+
+    onScrollDown() {
+      const {topicsHeaderIsShow, toggleTopicsHeader} = this.props;
+      !topicsHeaderIsShow && toggleTopicsHeader(true);
+    }
+
     onPullViewUnmount(scrollTop) {
       const {saveScrollTop} = this.props;
       saveScrollTop(tab, scrollTop);
@@ -134,12 +146,12 @@ export default function (tab) {
 
     render() {
       const {
-        props: {data, mountScrollTop, toggleTopicsNav, topicsNavIsShow},
+        props: {data, mountScrollTop, toggleTopicsNav, topicsNavIsShow, topicsHeaderIsShow},
         state: {pulledY, needStopPause, status}} = this;
 
       return (
         <div className="topics_page">
-          <TopicsHeader tab={tab} toggleTopicsNav={toggleTopicsNav} topicsNavIsShow={topicsNavIsShow}/>
+          <TopicsHeader tab={tab} toggleTopicsNav={toggleTopicsNav} topicsNavIsShow={topicsNavIsShow} topicsHeaderIsShow={topicsHeaderIsShow}/>
           <div
             className="pull_status_div"
             style={{
@@ -151,6 +163,8 @@ export default function (tab) {
             onPullEnd={this.onPullEnd}
             onPullingPause={this.onPullingPause}
             onScrollToBottom={this.onScrollToBottom}
+            onScrollUp={this.onScrollUp}
+            onScrollDown={this.onScrollDown}
             componentWillUnmount={this.onPullViewUnmount}
             mountScrollTop={mountScrollTop}
             pulledPauseY={40}
@@ -174,8 +188,9 @@ export default function (tab) {
     getDBTopics,
     getDBUsers,
     getTopicsNavIsShow,
+    getTopicsHeaderIsShow,
     getTabTopicCreator(tab),
-    (dbTopics, dbUsers, topicsNavIsShow, tabTopic) => {
+    (dbTopics, dbUsers, topicsNavIsShow, topicsHeaderIsShow, tabTopic) => {
       let tabTopicIds = tabTopic.get('data');
       let topics = lastTopics;
 
@@ -202,7 +217,8 @@ export default function (tab) {
         page: tabTopic.get('page'),
         data: topics,
         mountScrollTop: tabTopic.get('scrollTop'),
-        topicsNavIsShow
+        topicsNavIsShow,
+        topicsHeaderIsShow
       }
     }
   );
@@ -211,7 +227,8 @@ export default function (tab) {
     loadTopics: topicActions.loadTopics,
     toggleTopicsNav: topicActions.toggleTopicsNav,
     saveScrollTop: topicActions.saveScrollTop,
-    saveSelectedTab: topicActions.saveSelectedTab
+    saveSelectedTab: topicActions.saveSelectedTab,
+    toggleTopicsHeader: topicActions.toggleTopicsHeader
   };
 
   return connect(

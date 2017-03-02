@@ -1,9 +1,9 @@
 .app_bottom_nav {
   display: flex;
   position: fixed;
-  bottom: -40px;
-  height: 40px;
-  line-height: 40px;
+  bottom: -50px;
+  height: 50px;
+  line-height: 50px;
   width: 100%;
   background-color: white;
   flex-direction: row;
