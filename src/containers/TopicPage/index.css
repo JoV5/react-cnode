@@ -19,6 +19,10 @@
   line-height: 40px;
 }
 
+.topic_page_header .back {
+  float: left;
+}
+
 .topic_page_header .collection {
   float: right;
 }

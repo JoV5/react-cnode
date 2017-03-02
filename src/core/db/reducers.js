@@ -49,7 +49,7 @@ export function dbReducer(state = fromJS(DBState), action) {
         const findedIndex = collections.findIndex((collection) => collection === payload.topicid);
 
         if (findedIndex <= -1 && payload.isCollect) {
-          return collections.push(payload.topicid);
+          return collections.unshift(payload.topicid);
         } else if (findedIndex > -1 && !payload.isCollect) {
           return collections.delete(findedIndex);
         }

@@ -20,6 +20,9 @@
   text-align: center;
   color: white;
 }
+.app_bottom_nav_item.iconfont {
+  font-size: 24px;
+}
 
 .app_bottom_nav_item.active_item {
   color: #80bd01;

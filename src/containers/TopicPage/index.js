@@ -100,7 +100,7 @@ export class TopicPage extends Component {
 
   render() {
     const {props, decollectTopic, collectTopic, replyUp} = this;
-    const {matchedTopic, auth, topicReplies, loadTopic, matchedTopicId, isCollect} = props;
+    const {matchedTopic, auth, topicReplies, loadTopic, matchedTopicId, isCollect, goBack} = props;
     const userId = auth.get('id');
 
     if (matchedTopic && matchedTopic.get('content')) {
@@ -120,6 +120,7 @@ export class TopicPage extends Component {
       return (
         <div className="topic_page">
           <div className="topic_page_header">
+            <i className="iconfont back" onClick={goBack}>&#xe6e6;</i>
             <i className="iconfont reply">&#xe605;</i>
             {
               isCollect ?
