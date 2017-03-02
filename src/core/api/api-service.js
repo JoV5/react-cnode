@@ -12,7 +12,9 @@ import {
   API_MESSAGES_URL,
   API_MESSAGES_DEFAULT,
   API_MESSAGE_MARKALL_URL,
-  API_COLLECTIONS_URL
+  API_COLLECTIONS_URL,
+  API_COLLECT_TOPIC_URL,
+  API_DECOLLECT_TOPIC_URL
 } from '../constants';
 
 export const api = {
@@ -72,11 +74,29 @@ export const api = {
     `${API_COLLECTIONS_URL}/${param.loginname}`,
     param
   ),
+
+  postCollectTopic: (param) => dispatch(
+    API_COLLECT_TOPIC_URL,
+    param,
+    'post'
+  ),
+
+  postDecollectTopic: (param) => dispatch(
+    API_DECOLLECT_TOPIC_URL,
+    param,
+    'post'
+  )
 };
 
 
 export function dispatch(url, options = {}, type = 'get') {
-  return axios[type](requestUrl(url, options));
+  switch (type) {
+    case 'post':
+      return axios[type](url, options);
+    case 'get':
+    default:
+      return axios[type](requestUrl(url, options));
+  }
 }
 
 export function requestUrl(url, param = {}) {

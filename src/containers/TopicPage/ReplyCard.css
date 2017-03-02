@@ -38,11 +38,11 @@
 .reply_card_icon {
   float: right;
   padding-left: 12px;
-  color: #484A45;
+  color: #444;
 }
 
 .reply_card_icon.good {
-  color: #000;
+  color: #80bd01;
 }
 
 .reply_card_good_count {

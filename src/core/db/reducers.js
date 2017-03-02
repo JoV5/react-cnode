@@ -35,12 +35,26 @@ export function dbReducer(state = fromJS(DBState), action) {
         const findedIndex = ups.findIndex((up) => up === payload.userid);
 
         if (findedIndex > -1 && payload.action === 'down') {
-          return ups.splice(findedIndex, 1);
+          return ups.delete(findedIndex);
         } else if (findedIndex <= -1 && payload.action === 'up'){
           return ups.push(payload.userid);
         }
 
         return ups;
+      });
+
+    case dbActions.DB_UPDATE_USER_COLLECT:
+
+      return state.updateIn(['users', payload.loginname, 'collections'], collections => {
+        const findedIndex = collections.findIndex((collection) => collection === payload.topicid);
+
+        if (findedIndex <= -1  && payload.isCollect) {
+          return collections.push(payload.topicid);
+        } else if (findedIndex > -1 && !payload.isCollect) {
+          return collections.delete(findedIndex)
+        }
+
+        return collections;
       });
 
     default:

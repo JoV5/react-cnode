@@ -21,6 +21,8 @@ export class TopicPage extends Component {
   constructor() {
     super(...arguments);
     this.replyUp = this.replyUp.bind(this);
+    this.collectTopic = this.collectTopic.bind(this);
+    this.decollectTopic = this.decollectTopic.bind(this);
   }
 
   componentWillMount() {
@@ -71,6 +73,31 @@ export class TopicPage extends Component {
     }
   }
 
+  collectTopic() {
+    const {collectTopic, auth, matchedTopicId} = this.props;
+    const accesstoken = auth.get('accesstoken');
+    const loginname = auth.get('loginname');
+
+    collectTopic({
+      accesstoken,
+      loginname,
+      topic_id: matchedTopicId
+    })
+  }
+
+  decollectTopic() {
+    const {decollectTopic, auth, matchedTopicId} = this.props;
+    const accesstoken = auth.get('accesstoken');
+    const loginname = auth.get('loginname');
+
+    decollectTopic({
+      accesstoken,
+      loginname,
+      topic_id: matchedTopicId
+    })
+
+  }
+
   render() {
     const {matchedTopic, auth, topicReplies, loadTopic, matchedTopicId, isCollect} = this.props;
     const userId = auth.get('id');
@@ -95,8 +122,8 @@ export class TopicPage extends Component {
             <i className="iconfont reply">&#xe605;</i>
             {
               isCollect ?
-                <i className="iconfont collection">&#xe619;</i> :
-                <i className="iconfont collection">&#xe603;</i>
+                <i className="iconfont collection" onClick={this.decollectTopic}>&#xe619;</i> :
+                <i className="iconfont collection" onClick={this.collectTopic}>&#xe603;</i>
             }
           </div>
           <h3 className="topic_page_title">
@@ -196,7 +223,9 @@ const mapStateToProps = createSelector(
 const mapDispatchToProps = {
   loadTopic: topicActions.loadTopic,
   replyUp: replyActions.replyUp,
-  loadCollections: collectionActions.loadCollections
+  loadCollections: collectionActions.loadCollections,
+  collectTopic: collectionActions.collectTopic,
+  decollectTopic: collectionActions.decollectTopic
 };
 
 export default connect(

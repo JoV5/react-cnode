@@ -7,7 +7,6 @@ import {timeago} from '../../core/utils';
 import './ReplyCard.css';
 
 const ReplyCard = ({data, i, replyUp, userId}) => {
-  //const {author: {avatar_url, loginname}, content, ups, create_at, id} = data;
   const author = data.get('author');
   const avatar_url = author.get('avatar_url');
   const loginname = author.get('loginname');
@@ -38,7 +37,10 @@ const ReplyCard = ({data, i, replyUp, userId}) => {
 };
 
 ReplyCard.propTypes = {
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  i: PropTypes.number.isRequired,
+  replyUp: PropTypes.func.isRequired,
+  userId: PropTypes.string.isRequired
 };
 
 export default ReplyCard;

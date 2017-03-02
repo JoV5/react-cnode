@@ -44,3 +44,5 @@ export const fetchMessageCount = fetchEntities.bind(null, api.fetchMessageCount,
 export const fetchMessages = fetchEntities.bind(null, api.fetchMessages, messageRequestActions, 'messages');
 export const postMessageMarkAll = fetchEntities.bind(null, api.postMessageMarkAll, messageRequestActions, 'messagemarkall');
 export const fetchCollections = fetchEntities.bind(null, api.fetchCollections, collectionRequestActions, 'collections');
+export const postCollectTopic = fetchEntities.bind(null, api.postCollectTopic, collectionRequestActions, 'collecttopic');
+export const postDecollectTopic = fetchEntities.bind(null, api.postDecollectTopic, collectionRequestActions, 'decollecttopic');

@@ -34,6 +34,10 @@ export const API_MESSAGE_MARKALL_URL = `${API_URL}/message/mark_all`;
 
 export const API_COLLECTIONS_URL = `${API_URL}/topic_collect`;
 
+export const API_COLLECT_TOPIC_URL = `${API_URL}/topic_collect/collect`;
+
+export const API_DECOLLECT_TOPIC_URL = `${API_URL}/topic_collect/de_collect`;
+
 export const TAB_MAP = {
   share: '分享',
   good: '精华',
