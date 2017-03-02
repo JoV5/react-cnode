@@ -44,6 +44,16 @@ export default class PullView extends PureComponent {
     this.onScroll = this.onScroll.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.needStopPause) {
+      this.pulling = false;
+      this.ifPause = false;
+      this.setState({
+        pulledY: 0
+      })
+    }
+  }
+
   componentDidMount() {
     const {props: {mountScrollTop}, container} = this;
     container.scrollTop = mountScrollTop;
@@ -56,16 +66,6 @@ export default class PullView extends PureComponent {
     container.addEventListener('mousemove', this.onTouchMove, {passive: false});
     container.addEventListener('mouseup', this.onTouchEnd);
     window.addEventListener('scroll', this.onScroll);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.needStopPause) {
-      this.pulling = false;
-      this.ifPause = false;
-      this.setState({
-        pulledY: 0
-      })
-    }
   }
 
   componentWillUnmount() {

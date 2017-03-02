@@ -4,7 +4,7 @@ import {createSelector} from 'reselect';
 import {List, is} from 'immutable';
 
 import {topicActions} from '../../core/topic';
-import TopicCard from '../../components/TopicCard';
+import TopicList from '../../components/TopicList';
 import PullView from '../../components/PullView';
 import {getDBTopics, getDBUsers} from '../../core/db';
 import {getTabTopicCreator} from '../../core/topic';
@@ -50,6 +50,24 @@ export default function (tab) {
           page: 1
         });
       }
+    }
+
+    componentWillReceiveProps(nextProps) {
+      if (!nextProps.isReloading && this.props.isReloading && this.state.status === 2) {
+        this.setState({
+          status: 0,
+          needStopPause: true,
+          pulledY: 0
+        })
+      } else {
+        this.setState({
+          needStopPause: false
+        })
+      }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+      return !shallowEqual(nextState, this.state) || !shallowEqual(nextProps, this.props) || !is(nextProps.data, this.props.data);
     }
 
     onPulling(pulledY) {
@@ -147,24 +165,6 @@ export default function (tab) {
       });
     }
 
-    componentWillReceiveProps(nextProps) {
-      if (!nextProps.isReloading && this.props.isReloading && this.state.status === 2) {
-        this.setState({
-          status: 0,
-          needStopPause: true,
-          pulledY: 0
-        })
-      } else {
-        this.setState({
-          needStopPause: false
-        })
-      }
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-      return !shallowEqual(nextState, this.state) || !shallowEqual(nextProps, this.props) || !is(nextProps.data, this.props.data);
-    }
-
     render() {
       const {
         props: {data, mountScrollTop},
@@ -174,13 +174,19 @@ export default function (tab) {
 
       return (
         <div className="topics_page">
-          <TopicsHeader tab={tab} toggleTopicsNav={toggleTopicsNav} topicsNavIsShow={topicsNavIsShow} topicsHeaderIsShow={topicsHeaderIsShow}/>
+          <TopicsHeader
+            tab={tab}
+            toggleTopicsNav={toggleTopicsNav}
+            topicsNavIsShow={topicsNavIsShow}
+            topicsHeaderIsShow={topicsHeaderIsShow}/>
           <div
             className="pull_status_div"
             style={{
               transform: `translate3d(0px, ${pulledY}px, 0px)`
             }}
-          >{StatusText[status]}</div>
+          >
+            {StatusText[status]}
+          </div>
           <PullView
             onPulling={this.onPulling}
             onPullEnd={this.onPullEnd}
@@ -193,11 +199,7 @@ export default function (tab) {
             pulledPauseY={40}
             needStopPause={needStopPause}
           >
-            {
-              data && data.map((topic, i) => (
-                <TopicCard data={topic} key={i}/>
-              ))
-            }
+            {data && <TopicList data={data}/>}
             <div className="load_more_info">加载中...</div>
           </PullView>
         </div>
