@@ -7,7 +7,7 @@ import {topicActions} from '../../core/topic';
 import TopicCard from '../../components/TopicCard';
 import PullView from '../../components/PullView';
 import {getDBTopics, getDBUsers} from '../../core/db';
-import {getTabTopicCreator, getTopicsNavIsShow, getTopicsHeaderIsShow} from '../../core/topic';
+import {getTabTopicCreator} from '../../core/topic';
 import {shallowEqual} from '../../core/utils';
 import TopicsHeader from './TopicsHeader';
 
@@ -28,18 +28,22 @@ export default function (tab) {
       this.onScrollUp = this.onScrollUp.bind(this);
       this.onScrollDown = this.onScrollDown.bind(this);
       this.onPullViewUnmount = this.onPullViewUnmount.bind(this);
+      this.toggleTopicsNav = this.toggleTopicsNav.bind(this);
     }
 
     state = {
       pulledY: 0,
       status: 0, // 0：下拉刷新，1：释放刷新，2：加载中
-      needStopPause: false
+      needStopPause: false,
+      topicsNavIsShow: false,
+      topicsHeaderIsShow: true
     };
 
     componentWillMount() {
       const {data, loadTopics, saveSelectedTab} = this.props;
 
       saveSelectedTab(tab);
+
       if (!data) {
         loadTopics({
           tab: tab,
@@ -72,9 +76,9 @@ export default function (tab) {
       });
     }
 
-
     onPullEnd(pulledY) {
       const {isReloading, loadTopics} = this.props;
+
       if (pulledY > 40) {
         this.setState({
           pulledY: 40,
@@ -112,18 +116,35 @@ export default function (tab) {
     }
 
     onScrollUp() {
-      const {topicsHeaderIsShow, toggleTopicsHeader} = this.props;
-      topicsHeaderIsShow && toggleTopicsHeader(false);
+      const {topicsHeaderIsShow} = this.state;
+
+      topicsHeaderIsShow && this.toggleTopicsHeader(false);
     }
 
     onScrollDown() {
-      const {topicsHeaderIsShow, toggleTopicsHeader} = this.props;
-      !topicsHeaderIsShow && toggleTopicsHeader(true);
+      const {topicsHeaderIsShow} = this.state;
+
+      !topicsHeaderIsShow && this.toggleTopicsHeader(true);
     }
 
     onPullViewUnmount(scrollTop) {
       const {saveScrollTop} = this.props;
+
       saveScrollTop(tab, scrollTop);
+    }
+
+    toggleTopicsHeader(bool) {
+      this.setState({
+        topicsHeaderIsShow: bool
+      });
+    }
+
+    toggleTopicsNav() {
+      const {topicsNavIsShow} = this.state;
+
+      this.setState({
+        topicsNavIsShow: !topicsNavIsShow
+      });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -146,8 +167,10 @@ export default function (tab) {
 
     render() {
       const {
-        props: {data, mountScrollTop, toggleTopicsNav, topicsNavIsShow, topicsHeaderIsShow},
-        state: {pulledY, needStopPause, status}} = this;
+        props: {data, mountScrollTop},
+        state: {pulledY, needStopPause, status, topicsNavIsShow, topicsHeaderIsShow},
+        toggleTopicsNav
+      } = this;
 
       return (
         <div className="topics_page">
@@ -187,10 +210,8 @@ export default function (tab) {
   const mapStateToProps = createSelector(
     getDBTopics,
     getDBUsers,
-    getTopicsNavIsShow,
-    getTopicsHeaderIsShow,
     getTabTopicCreator(tab),
-    (dbTopics, dbUsers, topicsNavIsShow, topicsHeaderIsShow, tabTopic) => {
+    (dbTopics, dbUsers, tabTopic) => {
       let tabTopicIds = tabTopic.get('data');
       let topics = lastTopics;
 
@@ -216,19 +237,15 @@ export default function (tab) {
         isReloading: tabTopic.get('isReloading'),
         page: tabTopic.get('page'),
         data: topics,
-        mountScrollTop: tabTopic.get('scrollTop'),
-        topicsNavIsShow,
-        topicsHeaderIsShow
+        mountScrollTop: tabTopic.get('scrollTop')
       }
     }
   );
 
   const mapDispatchToProps = {
     loadTopics: topicActions.loadTopics,
-    toggleTopicsNav: topicActions.toggleTopicsNav,
     saveScrollTop: topicActions.saveScrollTop,
-    saveSelectedTab: topicActions.saveSelectedTab,
-    toggleTopicsHeader: topicActions.toggleTopicsHeader
+    saveSelectedTab: topicActions.saveSelectedTab
   };
 
   return connect(
