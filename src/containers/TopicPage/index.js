@@ -1,18 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
 import {createSelector} from 'reselect';
-import marked from 'marked';
 
 import {topicActions} from '../../core/topic';
 import {replyActions} from '../../core/reply';
-import {TAB_MAP} from '../../core/constants';
-import {timeago} from '../../core/utils';
 import ReplyList from '../../components/ReplyList';
 import {getDBReplies, getDBUsers, getDBTopics} from '../../core/db';
 import {getAuth} from '../../core/auth';
 import {getMatchedTopicId} from '../../core/topic';
 import {collectionActions} from '../../core/collection';
+import {appActions} from '../../core/app';
+import TopicContent from './TopicContent';
 
 import './index.css';
 
@@ -26,7 +24,7 @@ export class TopicPage extends Component {
   }
 
   componentWillMount() {
-    const {matchedTopic, auth, loadTopic, matchedTopicId, needLoadCollections, loadCollections} = this.props;
+    const {matchedTopic, auth, loadTopic, matchedTopicId, needLoadCollections, loadCollections, toggleAppNav} = this.props;
     const accesstoken = auth.get('accesstoken');
     const loginname = auth.get('loginname');
 
@@ -42,6 +40,8 @@ export class TopicPage extends Component {
         loginname
       })
     }
+
+    toggleAppNav(false);
 
     // https://github.com/ReactTraining/react-router/issues/3950
     window.scrollTo(0, 0);
@@ -103,70 +103,30 @@ export class TopicPage extends Component {
     const {matchedTopic, auth, topicReplies, loadTopic, matchedTopicId, isCollect, goBack} = props;
     const userId = auth.get('id');
 
-    if (matchedTopic && matchedTopic.get('content')) {
-      const good = matchedTopic.get('good');
-      const tab = matchedTopic.get('tab');
-      const top = matchedTopic.get('top');
-      const title = matchedTopic.get('title');
-      const author = matchedTopic.get('author');
-      const loginname = author.get('loginname');
-      const avatar_url = author.get('avatar_url');
-      const create_at = matchedTopic.get('create_at');
-      const visit_count = matchedTopic.get('visit_count');
-      const last_reply_at = matchedTopic.get('last_reply_at');
-      const content = matchedTopic.get('content');
-      const realTab = top ? 'top' : (good ? 'good' : tab);
-
-      return (
-        <div className="topic_page">
-          <div className="topic_page_header">
-            <i className="iconfont back" onClick={goBack}>&#xe6e6;</i>
-            <i className="iconfont reply">&#xe605;</i>
-            {
-              isCollect ?
-                <i className="iconfont collection" onClick={decollectTopic}>&#xe619;</i> :
-                <i className="iconfont collection" onClick={collectTopic}>&#xe603;</i>
-            }
-          </div>
-          <h3 className="topic_page_title">
-            <span className={`topic_page_title_tab ${realTab}`}>{TAB_MAP[realTab]}</span>
-            <span className="topic_page_title_content">{title}</span>
-          </h3>
-          <div className="topic_page_info">
-            <Link to={`/user/${loginname}`}>
-              <img src={avatar_url} className="topic_page_info_avatar" alt={loginname}/>
-            </Link>
-            <div className="topic_page_info_other">
-              <div>
-                <span>{loginname}</span>
-                <span className="float_right">{visit_count} 次浏览</span>
-              </div>
-              <div>
-                <span>发布于 {timeago(create_at)}</span>
-                <span className="float_right">最后回复于 {timeago(last_reply_at)}</span>
-              </div>
-            </div>
-          </div>
-          <div className="markdown-body topic_page_content" dangerouslySetInnerHTML={{__html: marked(content)}}/>
+    return (
+      <div className="topic_page">
+        <div className="topic_page_header">
+          <i className="iconfont back" onClick={goBack}>&#xe6e6;</i>
+          <i className="iconfont reply">&#xe605;</i>
           {
-            topicReplies ?
-              <div>
-                <div className="topic_page_reply_count">{topicReplies.size} 回复</div>
-                <ReplyList data={topicReplies} replyUp={replyUp} userId={userId}/>
-              </div> :
-              <div className="topic_page_load_replies" onClick={() => loadTopic({topicid: matchedTopicId})}>
-                加载评论
-              </div>
+            isCollect ?
+              <i className="iconfont collection" onClick={decollectTopic}>&#xe619;</i> :
+              <i className="iconfont collection" onClick={collectTopic}>&#xe603;</i>
           }
         </div>
-      )
-    } else {
-      return (
-        <div>
-          加载中..
-        </div>
-      );
-    }
+        <TopicContent topic={matchedTopic}/>
+        {
+          topicReplies ?
+            <div>
+              <div className="topic_page_reply_count">{topicReplies.size} 回复</div>
+              <ReplyList data={topicReplies} replyUp={replyUp} userId={userId}/>
+            </div> :
+            <div className="topic_page_load_replies" onClick={() => loadTopic({topicid: matchedTopicId})}>
+              加载评论
+            </div>
+        }
+      </div>
+    )
   }
 }
 
@@ -224,7 +184,8 @@ const mapDispatchToProps = {
   replyUp: replyActions.replyUp,
   loadCollections: collectionActions.loadCollections,
   collectTopic: collectionActions.collectTopic,
-  decollectTopic: collectionActions.decollectTopic
+  decollectTopic: collectionActions.decollectTopic,
+  toggleAppNav: appActions.toggleAppNav
 };
 
 export default connect(

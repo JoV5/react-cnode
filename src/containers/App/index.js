@@ -27,17 +27,19 @@ export class App extends Component {
   }
 
   onScrollWindow() {
-    const {toggleAppNav, app} = this.props;
+    const {toggleAppNav, app, location} = this.props;
     const appNavIsShow = app.get('appNavIsShow');
     const scrollTop = document.body.scrollTop;
 
-    if (scrollTop > this.lastScrollTop) {
-      appNavIsShow && toggleAppNav(false);
-    } else {
-      !appNavIsShow && toggleAppNav(true);
-    }
+    if (!location.pathname.match(/^\/topic\//)) {
+      if (scrollTop > this.lastScrollTop) {
+        appNavIsShow && toggleAppNav(false);
+      } else {
+        !appNavIsShow && toggleAppNav(true);
+      }
 
-    this.lastScrollTop = scrollTop;
+      this.lastScrollTop = scrollTop;
+    }
   }
 
   componentDidMount() {
@@ -48,7 +50,6 @@ export class App extends Component {
     const {props} = this;
     const {app, auth, selectedTab} = props;
     const hasLogin = !!auth.get('accesstoken');
-    const loginname = auth.get('loginname');
     const appNavIsShow = app.get('appNavIsShow');
 
     return (
