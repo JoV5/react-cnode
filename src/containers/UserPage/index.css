@@ -1,3 +1,32 @@
+.user_page {
+  padding-top: 40px;
+}
+
+.user_page_header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-color: #444;
+  padding: 0 10px;
+}
+
+.user_page_header .iconfont {
+  color: #80bd01;
+  font-size: 24px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.user_page_header .user_back {
+  float: left;
+}
+
+.user_page_header .user_setting {
+  float: right;
+}
+
 .user_page_userinfo {
   padding: 20px 0;
   background-color: #e7e7e7;

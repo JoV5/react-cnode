@@ -9,6 +9,7 @@ import PullViewWrap from '../../components/PullViewWrap';
 import {getDBTopics, getDBUsers} from '../../core/db';
 import {getTabTopicCreator} from '../../core/topic';
 import TopicsHeader from './TopicsHeader';
+import {appActions} from '../../core/app';
 
 import './index.css';
 
@@ -33,7 +34,7 @@ export default function (tab) {
     };
 
     componentWillMount() {
-      const {data, loadTopics, saveSelectedTab} = this.props;
+      const {data, loadTopics, saveSelectedTab, toggleAppNav} = this.props;
 
       saveSelectedTab(tab);
 
@@ -43,6 +44,8 @@ export default function (tab) {
           page: 1
         });
       }
+
+      toggleAppNav(true);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -185,7 +188,8 @@ export default function (tab) {
   const mapDispatchToProps = {
     loadTopics: topicActions.loadTopics,
     saveScrollTop: topicActions.saveScrollTop,
-    saveSelectedTab: topicActions.saveSelectedTab
+    saveSelectedTab: topicActions.saveSelectedTab,
+    toggleAppNav: appActions.toggleAppNav
   };
 
   return connect(

@@ -6,17 +6,20 @@ import {collectionActions} from '../../core/collection';
 import {getDBUsers, getDBTopics} from '../../core/db';
 import {getMatchedUserName} from '../../core/user';
 import TopicCard from '../../components/TopicCard';
+import {appActions} from '../../core/app';
 
 export class CollectionPage extends Component {
 
   componentWillMount() {
-    const {loadCollections, matchedName, collections} = this.props;
+    const {loadCollections, matchedName, collections, toggleAppNav} = this.props;
 
     if (!collections) {
       loadCollections({
         loginname: matchedName
       });
     }
+
+    toggleAppNav(true);
   }
 
   render() {
@@ -70,7 +73,8 @@ const mapStateToProps = createSelector(
 );
 
 const mapDispatchToProps = {
-  loadCollections: collectionActions.loadCollections
+  loadCollections: collectionActions.loadCollections,
+  toggleAppNav: appActions.toggleAppNav
 };
 
 export default connect(

@@ -5,7 +5,9 @@ import {createSelector} from 'reselect';
 import {userActions} from '../../core/user';
 import {timeago} from '../../core/utils';
 import RecentList from './RecentList';
+import {getAuth} from '../../core/auth';
 import {getDBUsers, getDBTopics} from '../../core/db';
+import {appActions} from '../../core/app';
 import {getMatchedUserName} from '../../core/user';
 
 import './index.css';
@@ -26,7 +28,8 @@ export class UserPage extends Component {
    */
   componentWillMount() {
     const {props} = this;
-    const {loadUser, recentTopics, matchedName} = props;
+    const {loadUser, recentTopics, matchedName, auth, toggleAppNav} = props;
+    const loginname = auth.get('loginname');
 
     // 根据是否有recentTopics判断是否需要加载数据
     if (!recentTopics) {
@@ -34,6 +37,8 @@ export class UserPage extends Component {
         loginname: matchedName
       });
     }
+
+    toggleAppNav(loginname === matchedName);
   }
 
   /**
@@ -41,7 +46,8 @@ export class UserPage extends Component {
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
-    const {loadUser, matchedName, recentTopics} = nextProps;
+    const {loadUser, matchedName, recentTopics, toggleAppNav, auth} = nextProps;
+    const loginname = auth.get('loginname');
 
     // 根据是否有recentTopics判断是否需要加载数据
     if (!recentTopics) {
@@ -49,6 +55,8 @@ export class UserPage extends Component {
         loginname: matchedName
       });
     }
+
+    toggleAppNav(loginname === matchedName);
   }
 
   /**
@@ -63,17 +71,24 @@ export class UserPage extends Component {
 
   render() {
     const {props, state: {tabSelected}} = this;
-    const {matchedUser, recentTopics, recentReplies} = props;
-
+    const {matchedUser, recentTopics, recentReplies, goBack, auth} = props;
     if (matchedUser && recentTopics && recentReplies) {
       //const {loginname, avatar_url, create_at, score} = matchedUser;
       const loginname = matchedUser.get('loginname');
       const avatar_url = matchedUser.get('avatar_url');
       const create_at = matchedUser.get('create_at');
       const score = matchedUser.get('score');
+      const authname = auth.get('loginname');
+      const isMe = loginname === authname;
 
       return (
-        <div>
+        <div className="user_page">
+          <div className="user_page_header">
+            {isMe ?
+              <i className="iconfont user_setting">&#xe779;</i> :
+              <i className="iconfont user_back" onClick={goBack}>&#xe6e6;</i>
+            }
+          </div>
           <section className="user_page_userinfo">
             <img src={avatar_url} className="user_page_avatar" alt={loginname}/>
             <div className="user_page_userinfo_detail">
@@ -117,7 +132,8 @@ const mapStateToProps = createSelector(
   getDBTopics,
   getDBUsers,
   getMatchedUserName,
-  (dbTopics, dbUsers, matchedName) => {
+  getAuth,
+  (dbTopics, dbUsers, matchedName, auth) => {
     let matchedUser = dbUsers.get(matchedName);
     let recentTopics = false;
     let recentReplies = false;
@@ -141,13 +157,15 @@ const mapStateToProps = createSelector(
       matchedUser,
       matchedName,
       recentTopics,
-      recentReplies
+      recentReplies,
+      auth
     }
   }
 );
 
 const mapDispatchToProps = {
-  loadUser: userActions.loadUser
+  loadUser: userActions.loadUser,
+  toggleAppNav: appActions.toggleAppNav
 };
 
 export default connect(

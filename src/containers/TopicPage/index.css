@@ -19,15 +19,15 @@
   line-height: 40px;
 }
 
-.topic_page_header .back {
+.topic_page_header .topic_back {
   float: left;
 }
 
-.topic_page_header .collection {
+.topic_page_header .topic_collection {
   float: right;
 }
 
-.topic_page_header .reply {
+.topic_page_header .topic_reply {
   float: right;
   font-size: 20px;
   margin-left: 30px;

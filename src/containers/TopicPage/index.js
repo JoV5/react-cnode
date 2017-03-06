@@ -58,12 +58,6 @@ export class TopicPage extends Component {
     }
   }
 
-  componentWillUnmount() {
-    const {toggleAppNav} = this.props;
-
-    toggleAppNav(true);
-  }
-
   replyUp(replyid) {
     const {match: {params: {topicid}}, replyUp, auth} = this.props;
     const accesstoken = auth.get('accesstoken');
@@ -112,12 +106,12 @@ export class TopicPage extends Component {
     return (
       <div className="topic_page">
         <div className="topic_page_header">
-          <i className="iconfont back" onClick={goBack}>&#xe6e6;</i>
-          <i className="iconfont reply">&#xe605;</i>
+          <i className="iconfont topic_back" onClick={goBack}>&#xe6e6;</i>
+          <i className="iconfont topic_reply">&#xe605;</i>
           {
             isCollect ?
-              <i className="iconfont collection" onClick={decollectTopic}>&#xe619;</i> :
-              <i className="iconfont collection" onClick={collectTopic}>&#xe603;</i>
+              <i className="iconfont topic_collection" onClick={decollectTopic}>&#xe619;</i> :
+              <i className="iconfont topic_collection" onClick={collectTopic}>&#xe603;</i>
           }
         </div>
         <TopicContent topic={matchedTopic}/>

@@ -8,6 +8,7 @@ import MessageList from '../../components/MessageList';
 import {getDBUsers, getDBTopics, getDBReplies, getDBMessages} from '../../core/db';
 import {getAuth} from '../../core/auth';
 import PullViewWrap from '../../components/PullViewWrap';
+import {appActions} from '../../core/app';
 
 import './index.css';
 
@@ -24,7 +25,7 @@ export class MessagePage extends Component {
   };
 
   componentWillMount() {
-    const {auth, loadMessages, messages, messageCount} = this.props;
+    const {auth, loadMessages, messages, messageCount, toggleAppNav} = this.props;
     const accesstoken = auth.get('accesstoken');
 
     // 首次加载message或者有未读消息
@@ -33,6 +34,8 @@ export class MessagePage extends Component {
         accesstoken
       });
     }
+
+    toggleAppNav(true);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -160,6 +163,7 @@ const mapDispatchToProps = {
   loadMessages: messageActions.loadMessages,
   markAllMessage: messageActions.markAllMessage,
   saveScrollTop: messageActions.saveScrollTop,
+  toggleAppNav: appActions.toggleAppNav
 };
 
 export default connect(
