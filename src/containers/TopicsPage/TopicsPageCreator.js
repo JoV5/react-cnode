@@ -10,6 +10,7 @@ import {getDBTopics, getDBUsers} from '../../core/db';
 import {getTabTopicCreator} from '../../core/topic';
 import TopicsHeader from './TopicsHeader';
 import {appActions} from '../../core/app';
+import Loading from '../../components/Loading';
 
 import './index.css';
 
@@ -141,7 +142,7 @@ export default function (tab) {
             statusDivStyleClass="topics_page_pull_status_div"
           >
             {data && <TopicList data={data}/>}
-            <div className="load_more_info">加载中...</div>
+            <Loading/>
           </PullViewWrap>
         </div>
       )

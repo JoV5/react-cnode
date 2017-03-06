@@ -9,6 +9,7 @@ import {getStateAuth} from '../../core/auth';
 import {getDBUsers, getDBTopics} from '../../core/db';
 import {appActions} from '../../core/app';
 import {getMatchedUserName} from '../../core/user';
+import Loading from '../../components/Loading';
 
 import './index.css';
 
@@ -120,9 +121,7 @@ export class UserPage extends Component {
       );
     } else {
       return (
-        <div>
-          加载中...
-        </div>
+        <Loading/>
       );
     }
   }

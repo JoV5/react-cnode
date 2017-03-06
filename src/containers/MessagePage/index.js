@@ -9,6 +9,7 @@ import {getDBUsers, getDBTopics, getDBReplies, getDBMessages} from '../../core/d
 import {getStateAuth} from '../../core/auth';
 import PullViewWrap from '../../components/PullViewWrap';
 import {appActions} from '../../core/app';
+import Loading from '../../components/Loading';
 
 import './index.css';
 
@@ -103,9 +104,7 @@ export class MessagePage extends Component {
       );
     } else {
       return (
-        <div>
-          加载中...
-        </div>
+        <Loading/>
       )
     }
   }

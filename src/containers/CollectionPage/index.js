@@ -5,8 +5,9 @@ import {createSelector} from 'reselect';
 import {collectionActions} from '../../core/collection';
 import {getDBUsers, getDBTopics} from '../../core/db';
 import {getMatchedUserName} from '../../core/user';
-import TopicCard from '../../components/TopicCard';
 import {appActions} from '../../core/app';
+import TopicList from '../../components/TopicList';
+import Loading from '../../components/Loading';
 
 export class CollectionPage extends Component {
 
@@ -27,19 +28,11 @@ export class CollectionPage extends Component {
 
     if (collections) {
       return (
-        <div>
-          {
-            collections.map((topic, i) => (
-              <TopicCard data={topic} key={i}/>
-            ))
-          }
-        </div>
+        <TopicList data={collections}/>
       );
     } else {
       return (
-        <div>
-          加载中...
-        </div>
+        <Loading/>
       )
     }
   }
