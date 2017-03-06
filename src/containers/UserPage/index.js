@@ -5,7 +5,7 @@ import {createSelector} from 'reselect';
 import {userActions} from '../../core/user';
 import {timeago} from '../../core/utils';
 import RecentList from '../../components/RecentList';
-import {getAuth} from '../../core/auth';
+import {getStateAuth} from '../../core/auth';
 import {getDBUsers, getDBTopics} from '../../core/db';
 import {appActions} from '../../core/app';
 import {getMatchedUserName} from '../../core/user';
@@ -132,7 +132,7 @@ const mapStateToProps = createSelector(
   getDBTopics,
   getDBUsers,
   getMatchedUserName,
-  getAuth,
+  getStateAuth,
   (dbTopics, dbUsers, matchedName, auth) => {
     let matchedUser = dbUsers.get(matchedName);
     let recentTopics = false;

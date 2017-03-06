@@ -6,7 +6,7 @@ import {topicActions} from '../../core/topic';
 import {replyActions} from '../../core/reply';
 import ReplyList from '../../components/ReplyList';
 import {getDBReplies, getDBUsers, getDBTopics} from '../../core/db';
-import {getAuth} from '../../core/auth';
+import {getStateAuth} from '../../core/auth';
 import {getMatchedTopicId} from '../../core/topic';
 import {collectionActions} from '../../core/collection';
 import {appActions} from '../../core/app';
@@ -135,7 +135,7 @@ const mapStateToProps = createSelector(
   getDBUsers,
   getDBReplies,
   getMatchedTopicId,
-  getAuth,
+  getStateAuth,
   (dbTopics, dbUsers, dbReplies, matchedTopicId, auth) => {
     let matchedTopic = dbTopics.get(matchedTopicId);
     let topicReplies = false;

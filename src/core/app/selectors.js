@@ -1,0 +1,1 @@
+export const getStateApp = (state) => state.app;

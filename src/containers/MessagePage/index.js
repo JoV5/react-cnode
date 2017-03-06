@@ -6,7 +6,7 @@ import {List} from 'immutable';
 import {messageActions, getStateMessage} from '../../core/message';
 import MessageList from '../../components/MessageList';
 import {getDBUsers, getDBTopics, getDBReplies, getDBMessages} from '../../core/db';
-import {getAuth} from '../../core/auth';
+import {getStateAuth} from '../../core/auth';
 import PullViewWrap from '../../components/PullViewWrap';
 import {appActions} from '../../core/app';
 
@@ -117,7 +117,7 @@ const mapStateToProps = createSelector(
   getDBUsers,
   getDBReplies,
   getDBMessages,
-  getAuth,
+  getStateAuth,
   (stateMessage, dbTopics, dbUsers, dbReplies, dbMessages, auth) => {
     const messageCount = stateMessage.get('messageCount');
     let messagesIds = stateMessage.get('messages');

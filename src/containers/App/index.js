@@ -2,11 +2,15 @@ import React, {Component} from "react";
 import {Route, Redirect, Switch, withRouter} from "react-router-dom";
 import {connect} from 'react-redux';
 import lazyme from 'lazy-load-react';
+import {createSelector} from 'reselect';
 
 import {appActions} from '../../core/app';
 import {TopicsAllPage, TopicsAskPage, TopicsGoodPage, TopicsJobPage, TopicsSharePage} from '../TopicsPage';
 import AppBottomNav from '../../components/AppBottomNav';
 import PrivateRoute from '../../components/PrivateRoute';
+import {getStateApp} from '../../core/app';
+import {getStateAuth} from '../../core/auth';
+import {getSelectedTab} from '../../core/topic';
 
 const TopicPage = lazyme(() => System.import('../TopicPage'));
 const NewTopicPage = lazyme(() => System.import('../NewTopicPage'));
@@ -86,14 +90,16 @@ export class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    app: state.app,
-    auth: state.auth,
-    selectedTab: state.topic.get('selectedTab'),
-    messageCount: state.message.get('messageCount')
-  };
-};
+const mapStateToProps = createSelector(
+  getStateApp,
+  getStateAuth,
+  getSelectedTab,
+  (app, auth, selectedTab) => ({
+    app,
+    auth,
+    selectedTab
+  })
+);
 
 const mapDispatchToProps = {
   toggleAppNav: appActions.toggleAppNav
