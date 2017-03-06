@@ -49,11 +49,11 @@ export default function (tab) {
       if (!nextProps.isReloading && this.props.isReloading) {
         this.setState({
           toStopPause: true
-        })
+        });
       } else {
         this.setState({
           toStopPause: false
-        })
+        });
       }
     }
 
@@ -135,6 +135,7 @@ export default function (tab) {
             onScrollToBottom={this.onScrollToBottom}
             onPullViewUnmount={this.onPullViewUnmount}
             mountScrollTop={mountScrollTop}
+            statusDivStyleClass="topics_page_pull_status_div"
           >
             {data && <TopicList data={data}/>}
             <div className="load_more_info">加载中...</div>

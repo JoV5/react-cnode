@@ -7,10 +7,20 @@ import {messageActions, getStateMessage} from '../../core/message';
 import MessageList from '../../components/MessageList';
 import {getDBUsers, getDBTopics, getDBReplies, getDBMessages} from '../../core/db';
 import {getAuth} from '../../core/auth';
+import PullViewWrap from '../../components/PullViewWrap';
 
 import './index.css';
 
 export class MessagePage extends Component {
+
+  constructor() {
+    super(...arguments);
+    this.onPullEnd = this.onPullEnd.bind(this);
+  }
+
+  state = {
+    toStopPause: false
+  };
 
   componentWillMount() {
     const {auth, loadMessages, messages, messageCount} = this.props;
@@ -18,6 +28,29 @@ export class MessagePage extends Component {
 
     // 首次加载message或者有未读消息
     if (!messages || messageCount) {
+      loadMessages({
+        accesstoken
+      });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.isPendingMessages && this.props.isPendingMessages) {
+      this.setState({
+        toStopPause: true
+      });
+    } else {
+      this.setState({
+        toStopPause: false
+      });
+    }
+  }
+
+  onPullEnd() {
+    const {isPendingMessages, loadMessages, auth} = this.props;
+    const accesstoken = auth.get('accesstoken');
+
+    if (!isPendingMessages) {
       loadMessages({
         accesstoken
       });
@@ -37,12 +70,22 @@ export class MessagePage extends Component {
   }
 
   render() {
-    const {messages} = this.props;
+    const {
+      props: {messages},
+      state: {toStopPause},
+      onPullEnd
+    } = this;
 
     if (messages) {
       return (
         <div className="message_page">
-          <MessageList data={messages}/>
+          <PullViewWrap
+            onPullEnd={onPullEnd}
+            toStopPause={toStopPause}
+            statusDivStyleClass="message_page_pull_status_div"
+          >
+            <MessageList data={messages}/>
+          </PullViewWrap>
         </div>
       );
     } else {
@@ -96,7 +139,8 @@ const mapStateToProps = createSelector(
     return {
       auth,
       messageCount,
-      messages
+      messages,
+      isPendingMessages: stateMessage.get('isPendingMessages')
     }
   }
 );

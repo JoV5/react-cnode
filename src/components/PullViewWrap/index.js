@@ -2,8 +2,6 @@ import React, {PureComponent, PropTypes} from 'react';
 
 import PullView from '../PullView';
 
-import './index.css';
-
 const StatusText = ['↓ 下拉刷新', '↑ 释放更新', '加载中...'];
 
 export default class PullViewWrap extends PureComponent {
@@ -20,7 +18,8 @@ export default class PullViewWrap extends PureComponent {
     mountScrollTop: PropTypes.number,
     toBottom: PropTypes.number,
     pulledPauseY: PropTypes.number,
-    scaleY: PropTypes.number
+    scaleY: PropTypes.number,
+    statusDivStyleClass: PropTypes.string
   };
 
   constructor() {
@@ -100,7 +99,7 @@ export default class PullViewWrap extends PureComponent {
 
   render() {
     const {
-      props: {children, mountScrollTop, onScrollUp, onScrollDown, onScrollToBottom, onPullViewUnmount, pulledPauseY, toBottom, scaleY},
+      props: {children, mountScrollTop, onScrollUp, onScrollDown, onScrollToBottom, onPullViewUnmount, pulledPauseY, toBottom, scaleY, statusDivStyleClass},
       state: {pulledY, needStopPause, status},
       onPulling,
       onPullEnd,
@@ -110,7 +109,7 @@ export default class PullViewWrap extends PureComponent {
     return (
       <div>
         <div
-          className="pull_status_div"
+          className={statusDivStyleClass}
           style={{
             transform: `translate3d(0px, ${pulledY}px, 0px)`
           }}
