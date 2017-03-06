@@ -16,6 +16,7 @@ export class MessagePage extends Component {
   constructor() {
     super(...arguments);
     this.onPullEnd = this.onPullEnd.bind(this);
+    this.onPullViewUnmount = this.onPullViewUnmount.bind(this);
   }
 
   state = {
@@ -57,6 +58,12 @@ export class MessagePage extends Component {
     }
   }
 
+  onPullViewUnmount(scrollTop) {
+    const {saveScrollTop} = this.props;
+
+    saveScrollTop(scrollTop);
+  }
+
   componentWillUnmount() {
     const {auth, markAllMessage, messageCount} = this.props;
     const accesstoken = auth.get('accesstoken');
@@ -71,9 +78,10 @@ export class MessagePage extends Component {
 
   render() {
     const {
-      props: {messages},
+      props: {messages, mountScrollTop},
       state: {toStopPause},
-      onPullEnd
+      onPullEnd,
+      onPullViewUnmount
     } = this;
 
     if (messages) {
@@ -82,6 +90,8 @@ export class MessagePage extends Component {
           <PullViewWrap
             onPullEnd={onPullEnd}
             toStopPause={toStopPause}
+            onPullViewUnmount={onPullViewUnmount}
+            mountScrollTop={mountScrollTop}
             statusDivStyleClass="message_page_pull_status_div"
           >
             <MessageList data={messages}/>
@@ -140,14 +150,16 @@ const mapStateToProps = createSelector(
       auth,
       messageCount,
       messages,
-      isPendingMessages: stateMessage.get('isPendingMessages')
+      isPendingMessages: stateMessage.get('isPendingMessages'),
+      mountScrollTop: stateMessage.get('scrollTop')
     }
   }
 );
 
 const mapDispatchToProps = {
   loadMessages: messageActions.loadMessages,
-  markAllMessage: messageActions.markAllMessage
+  markAllMessage: messageActions.markAllMessage,
+  saveScrollTop: messageActions.saveScrollTop,
 };
 
 export default connect(

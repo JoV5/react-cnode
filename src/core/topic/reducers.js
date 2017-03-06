@@ -86,9 +86,6 @@ export function topicReducer(state = fromJS(TopicState), action) {
     case topicActions.SAVE_SCROLL_TOP:
       return state.setIn([payload.tab, 'scrollTop'], payload.scrollTop);
 
-    case topicActions.TOGGLE_TOPICS_NAV:
-      return state.set('topicsNavIsShow', !state.get('topicsNavIsShow'));
-
     case topicActions.SAVE_SELECTED_TAB:
       return state.set('selectedTab', payload);
 

@@ -14,7 +14,8 @@ export function messageReducer(state = fromJS(MessageState), action) {
     return state;
   }
 
-  const {payload: {type: payloadType, result}} = action;
+  const {payload} = action;
+  const {type: payloadType, result} = payload;
 
   switch (type) {
 
@@ -52,6 +53,9 @@ export function messageReducer(state = fromJS(MessageState), action) {
       }
 
       return state;
+
+    case messageActions.SAVE_SCROLL_TOP:
+      return state.set('scrollTop', payload);
 
     default:
       return state;
