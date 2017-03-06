@@ -1,8 +1,27 @@
 import React, {PureComponent, PropTypes} from 'react';
 
+import PullView from '../PullView';
+
+import './index.css';
+
 const StatusText = ['↓ 下拉刷新', '↑ 释放更新', '加载中...'];
 
-export default class PullView extends PureComponent {
+export default class PullViewWrap extends PureComponent {
+
+  static defaultProps = {
+    pulledPauseY: 40
+  };
+
+  static propTypes = {
+    onScrollToBottom: PropTypes.func,
+    onScrollUp: PropTypes.func,
+    onScrollDown: PropTypes.func,
+    onPullViewUnmount: PropTypes.func,
+    mountScrollTop: PropTypes.number,
+    toBottom: PropTypes.number,
+    pulledPauseY: PropTypes.number,
+    scaleY: PropTypes.number
+  };
 
   constructor() {
     super(...arguments);
@@ -25,11 +44,11 @@ export default class PullView extends PureComponent {
         needStopPause: true,
         pulledY: 0,
         toStopPause: false
-      })
+      });
     } else {
       this.setState({
         needStopPause: false
-      })
+      });
     }
   }
 
@@ -81,8 +100,11 @@ export default class PullView extends PureComponent {
 
   render() {
     const {
-      props: {data, mountScrollTop},
-      state: {pulledY, needStopPause, status}
+      props: {children, mountScrollTop, onScrollUp, onScrollDown, onScrollToBottom, onPullViewUnmount, pulledPauseY, toBottom, scaleY},
+      state: {pulledY, needStopPause, status},
+      onPulling,
+      onPullEnd,
+      onPullingPause
     } = this;
 
     return (
@@ -96,15 +118,20 @@ export default class PullView extends PureComponent {
           {StatusText[status]}
         </div>
         <PullView
-          onPulling={this.onPulling}
-          onPullEnd={this.onPullEnd}
-          onPullingPause={this.onPullingPause}
+          onPulling={onPulling}
+          onPullEnd={onPullEnd}
+          onPullingPause={onPullingPause}
+          onScrollToBottom={onScrollToBottom}
+          onScrollUp={onScrollUp}
+          onScrollDown={onScrollDown}
+          componentWillUnmount={onPullViewUnmount}
           mountScrollTop={mountScrollTop}
-          pulledPauseY={40}
+          pulledPauseY={pulledPauseY}
           needStopPause={needStopPause}
+          toBottom={toBottom}
+          scaleY={scaleY}
         >
-          {data && <TopicList data={data}/>}
-          <div className="load_more_info">加载中...</div>
+          {children}
         </PullView>
       </div>
     )

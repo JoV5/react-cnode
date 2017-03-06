@@ -2,15 +2,6 @@
   padding-top: 40px;
 }
 
-.pull_status_div {
-  position: absolute;
-  top: 0;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  width: 100%;
-}
-
 .load_more_info {
   text-align: center;
   height: 40px;

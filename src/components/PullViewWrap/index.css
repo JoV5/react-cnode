@@ -1,0 +1,8 @@
+.pull_status_div {
+  position: absolute;
+  top: 0;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  width: 100%;
+}
