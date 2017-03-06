@@ -1,14 +1,14 @@
-.recent_item {
+.recent_card {
   width: 100%;
   padding: 10px 10px;
   border-bottom: 1px solid #d5dbdb;
 }
 
-.recent_item a {
+.recent_card a {
   color: #2c3e50;
 }
 
-.recent_item_avatar {
+.recent_card_avatar {
   width: 46px;
   height: 46px;
   margin-right: 10px;
@@ -16,7 +16,7 @@
   float: left;
 }
 
-.recent_item_title {
+.recent_card_title {
   line-height: 1.5;
   margin: 0 0 10px;
   font-size: 15px;
@@ -25,11 +25,11 @@
   overflow: hidden;
 }
 
-.recent_item_other {
+.recent_card_other {
   font-size: 13px;
 }
 
-.recent_item_other b{
+.recent_card_other b{
   color: #80bd01;
   font-weight: 400;
 }

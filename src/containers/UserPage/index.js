@@ -4,7 +4,7 @@ import {createSelector} from 'reselect';
 
 import {userActions} from '../../core/user';
 import {timeago} from '../../core/utils';
-import RecentList from './RecentList';
+import RecentList from '../../components/RecentList';
 import {getAuth} from '../../core/auth';
 import {getDBUsers, getDBTopics} from '../../core/db';
 import {appActions} from '../../core/app';
