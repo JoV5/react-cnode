@@ -6,7 +6,7 @@ export const topicActions = {
   LOAD_TOPICS: 'LOAD_TOPICS',
   LOAD_TOPIC: 'LOAD_TOPIC',
 
-  SAVE_SCROLL_TOP: 'SAVE_SCROLL_TOP',
+  TOPICS_SAVE_SCROLL_TOP: 'TOPICS_SAVE_SCROLL_TOP',
   SAVE_SELECTED_TAB: 'SAVE_SELECTED_TAB',
 
   fetchTopicFailed: result => ({
@@ -35,7 +35,7 @@ export const topicActions = {
   }),
 
   saveScrollTop: (tab, scrollTop) => ({
-    type: topicActions.SAVE_SCROLL_TOP,
+    type: topicActions.TOPICS_SAVE_SCROLL_TOP,
     payload: {
       tab,
       scrollTop

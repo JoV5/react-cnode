@@ -43,7 +43,7 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.onScrollWindow);
+    //window.addEventListener('scroll', this.onScrollWindow);
   }
 
   render() {

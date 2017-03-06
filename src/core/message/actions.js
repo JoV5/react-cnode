@@ -6,7 +6,7 @@ export const messageActions = {
   LOAD_MESSAGE_COUNT: 'LOAD_MESSAGE_COUNT',
   LOAD_MESSAGES: 'LOAD_MESSAGES',
   MARK_ALL_MESSAGE: 'MARK_ALL_MESSAGE',
-  SAVE_SCROLL_TOP: 'SAVE_SCROLL_TOP',
+  MESSAGES_SAVE_SCROLL_TOP: 'MESSAGES_SAVE_SCROLL_TOP',
 
   fetchMessageFailed: result => ({
     type: messageActions.FETCH_MESSAGE_FAILED,
@@ -39,7 +39,7 @@ export const messageActions = {
   }),
 
   saveScrollTop: (scrollTop) => ({
-    type: messageActions.SAVE_SCROLL_TOP,
+    type: messageActions.MESSAGES_SAVE_SCROLL_TOP,
     payload: scrollTop
   }),
 };

@@ -86,7 +86,7 @@ export class MessagePage extends Component {
 
     if (messages) {
       return (
-        <div className="message_page">
+        <div>
           <PullViewWrap
             onPullEnd={onPullEnd}
             toStopPause={toStopPause}

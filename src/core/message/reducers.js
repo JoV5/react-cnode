@@ -4,7 +4,8 @@ import {messageActions} from './actions';
 export const MessageState = {
   messageCount: undefined,
   messages: undefined,
-  isPendingMessages: false
+  isPendingMessages: false,
+  scrollTop: 0
 };
 
 export function messageReducer(state = fromJS(MessageState), action) {
@@ -54,7 +55,7 @@ export function messageReducer(state = fromJS(MessageState), action) {
 
       return state;
 
-    case messageActions.SAVE_SCROLL_TOP:
+    case messageActions.MESSAGES_SAVE_SCROLL_TOP:
       return state.set('scrollTop', payload);
 
     default:

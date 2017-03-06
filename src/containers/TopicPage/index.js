@@ -58,6 +58,12 @@ export class TopicPage extends Component {
     }
   }
 
+  componentWillUnmount() {
+    const {toggleAppNav} = this.props;
+
+    toggleAppNav(true);
+  }
+
   replyUp(replyid) {
     const {match: {params: {topicid}}, replyUp, auth} = this.props;
     const accesstoken = auth.get('accesstoken');
