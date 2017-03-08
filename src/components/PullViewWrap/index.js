@@ -1,4 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react';
+import Loading from '../Loading';
 
 import PullView from '../PullView';
 
@@ -114,7 +115,7 @@ export default class PullViewWrap extends PureComponent {
             transform: `translate3d(0px, ${pulledY}px, 0px)`
           }}
         >
-          {StatusText[status]}
+          {status === 2 ? <Loading/> : StatusText[status]}
         </div>
         <PullView
           onPulling={onPulling}

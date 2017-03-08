@@ -1,14 +1,15 @@
-/**
- * Created by jiawei6 on 2017/1/23.
- */
-const path = require('path');
-const fs = require('fs');
-const url = require('url');
+'use strict';
+
+var path = require('path');
+var fs = require('fs');
+var url = require('url');
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
-const appDirectory = fs.realpathSync(process.cwd());
-const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
+var appDirectory = fs.realpathSync(process.cwd());
+function resolveApp(relativePath) {
+  return path.resolve(appDirectory, relativePath);
+}
 
 // We support resolving modules according to `NODE_PATH`.
 // This lets you use absolute paths in imports inside large monorepos:
@@ -25,7 +26,7 @@ const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 // Otherwise, we risk importing Node.js core modules into an app instead of Webpack shims.
 // https://github.com/facebookincubator/create-react-app/issues/1023#issuecomment-265344421
 
-const nodePaths = (process.env.NODE_PATH || '')
+var nodePaths = (process.env.NODE_PATH || '')
   .split(process.platform === 'win32' ? ';' : ':')
   .filter(Boolean)
   .filter(folder => !path.isAbsolute(folder))
@@ -34,10 +35,10 @@ const nodePaths = (process.env.NODE_PATH || '')
 let appname = process.argv.find(arg => arg.indexOf('app=') > -1);
 appname = appname ? appname.split('=')[1] : '';
 
-const envPublicUrl = process.env.PUBLIC_URL;
+var envPublicUrl = process.env.PUBLIC_URL;
 
 function ensureSlash(path, needsSlash) {
-  const hasSlash = path.endsWith('/');
+  var hasSlash = path.endsWith('/');
   if (hasSlash && !needsSlash) {
     return path.substr(path, path.length - 1);
   } else if (!hasSlash && needsSlash) {
@@ -58,8 +59,8 @@ function getPublicUrl(appPackageJson) {
 // We can't use a relative path in HTML because we don't want to load something
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
 function getServedPath(appPackageJson) {
-  const publicUrl = getPublicUrl(appPackageJson);
-  const servedUrl = envPublicUrl || (
+  var publicUrl = getPublicUrl(appPackageJson);
+  var servedUrl = envPublicUrl || (
       publicUrl ? url.parse(publicUrl).pathname : '/'
     );
   return ensureSlash(servedUrl, true);
