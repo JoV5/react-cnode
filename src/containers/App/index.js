@@ -105,7 +105,7 @@ const mapDispatchToProps = {
   toggleAppNav: appActions.toggleAppNav
 };
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(App));
+)(App));
