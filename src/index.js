@@ -9,7 +9,7 @@ import {AppContainer} from 'react-hot-loader';
 import {fromJS} from 'immutable';
 import {normalize} from 'normalizr';
 
-import App from "./containers/App/";
+import App from "./containers/App";
 import configureStore from './core/store';
 import {userSchema} from './core/user';
 import {dbActions} from './core/db';
@@ -32,12 +32,12 @@ export const dispatch = store.dispatch;
 // 保存登录用户至db
 localMe && dispatch(dbActions.mergeDeep(normalize(localMe, userSchema).entities));
 
-const render = () => {
+const render = (Component) => {
   ReactDOM.render(
     <AppContainer>
       <Provider store={store}>
         <BrowserRouter>
-          <App />
+          <Component />
         </BrowserRouter>
       </Provider>
     </AppContainer>,
@@ -49,7 +49,7 @@ render(App);
 
 // Hot Module Replacement API
 if (module.hot) {
-  module.hot.accept('./containers/App/', () => {
+  module.hot.accept('./containers/App', () => {
     render(App)
   });
 }
