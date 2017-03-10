@@ -12,6 +12,7 @@ import {collectionActions} from '../../core/collection';
 import {appActions} from '../../core/app';
 import TopicContent from './TopicContent';
 import Loading from '../../components/Loading'
+import PullViewWrap from '../../components/PullViewWrap';
 
 import './index.css';
 
@@ -22,8 +23,12 @@ export class TopicPage extends Component {
     this.replyUp = this.replyUp.bind(this);
     this.collectTopic = this.collectTopic.bind(this);
     this.decollectTopic = this.decollectTopic.bind(this);
-    this.loadReply = this.loadReply.bind(this);
+    this.loadTopic = this.loadTopic.bind(this);
   }
+
+  state = {
+    toStopPause: false
+  };
 
   componentWillMount() {
     const {matchedTopic, auth, loadTopic, matchedTopicId, needLoadCollections, loadCollections, toggleAppNav} = this.props;
@@ -57,6 +62,16 @@ export class TopicPage extends Component {
       loadCollections({
         loginname
       })
+    }
+    
+    if (!nextProps.isPendingTopic && this.props.isPendingTopic) {
+      this.setState({
+        toStopPause: true
+      });
+    } else {
+      this.setState({
+        toStopPause: false
+      });
     }
   }
 
@@ -106,7 +121,7 @@ export class TopicPage extends Component {
 
   }
 
-  loadReply() {
+  loadTopic() {
     const {isPendingTopic, loadTopic, matchedTopicId} = this.props;
 
     if (!isPendingTopic) {
@@ -115,8 +130,9 @@ export class TopicPage extends Component {
   }
 
   render() {
-    const {props, decollectTopic, collectTopic, replyUp, loadReply} = this;
+    const {props, decollectTopic, collectTopic, replyUp, loadTopic, state} = this;
     const {matchedTopic, auth, topicReplies, isCollect, history: {goBack}, isPendingTopic} = props;
+    const {toStopPause} = state;
     const userId = auth.get('id');
 
     return (
@@ -130,19 +146,25 @@ export class TopicPage extends Component {
               <i className="iconfont topic_collection" onClick={collectTopic}>&#xe603;</i>
           }
         </div>
-        <TopicContent topic={matchedTopic}/>
-        {
-          topicReplies ?
-            <div>
-              <div className="topic_page_reply_count">{topicReplies.size} 回复</div>
-              <ReplyList data={topicReplies} replyUp={replyUp} userId={userId}/>
-            </div> :
-            isPendingTopic ?
-              <Loading/> :
-              <div className="topic_page_load_replies" onClick={loadReply}>
-                加载评论
-              </div>
-        }
+        <PullViewWrap
+          onPullEnd={loadTopic}
+          toStopPause={toStopPause}
+          statusDivStyleClass="topic_page_pull_status_div"
+        >
+          <TopicContent topic={matchedTopic}/>
+          {
+            topicReplies ?
+              <div>
+                <div className="topic_page_reply_count">{topicReplies.size} 回复</div>
+                <ReplyList data={topicReplies} replyUp={replyUp} userId={userId}/>
+              </div> :
+              isPendingTopic ?
+                <Loading/> :
+                <div className="topic_page_load_replies" onClick={loadTopic}>
+                  加载评论
+                </div>
+          }
+        </PullViewWrap>
       </div>
     )
   }

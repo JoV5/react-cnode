@@ -10,6 +10,7 @@
   height: 40px;
   background-color: #444;
   padding: 0 10px;
+  z-index: 9;
 }
 
 .topic_page_header .iconfont {
@@ -90,6 +91,16 @@
   height: 40px;
   line-height: 20px;
   color: #34495e;
+}
+
+.topic_page_pull_status_div {
+  position: absolute;
+  top: 0;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  width: 100%;
+  z-index: 1;
 }
 
 .topic_page_reply_count {
