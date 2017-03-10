@@ -1,4 +1,5 @@
 import {normalize} from 'normalizr';
+import {Observable} from 'rxjs/Observable';
 
 import {userActions} from './actions';
 import {fetchUser} from '../../core/api';
@@ -12,10 +13,13 @@ export function loadUser(action$) {
 
 export function fetchUserFulfilled(action$) {
   return action$.ofType(userActions.FETCH_USER_FULFILLED)
-    .map(({payload: {result}}) => {
+    .switchMap(({payload: {result}}) => {
       const data = result.data.data;
 
-      return dbActions.mergeDeep(normalize(data, userSchema).entities);
+      return Observable.merge(
+        Observable.of(dbActions.mergeDeep(normalize(data, userSchema).entities)),
+        Observable.of(userActions.userFetchToDB())
+      );
     });
 }
 

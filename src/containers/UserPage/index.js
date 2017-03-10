@@ -10,6 +10,8 @@ import {getDBUsers, getDBTopics} from '../../core/db';
 import {appActions} from '../../core/app';
 import {getMatchedUserName} from '../../core/user';
 import Loading from '../../components/Loading';
+import {getIsPendingUser} from '../../core/user';
+import {getAppNavIsShow} from '../../core/app';
 
 import './index.css';
 
@@ -47,17 +49,21 @@ export class UserPage extends Component {
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
-    const {loadUser, matchedName, recentTopics, toggleAppNav, auth} = nextProps;
+    const {loadUser, matchedName, recentTopics, toggleAppNav, auth, isPendingUser, appNavIsShow} = nextProps;
     const loginname = auth.get('loginname');
 
     // 根据是否有recentTopics判断是否需要加载数据
-    if (!recentTopics) {
+    if (!recentTopics && !isPendingUser) {
       loadUser({
         loginname: matchedName
       });
     }
 
-    toggleAppNav(loginname === matchedName);
+    if (loginname === matchedName) {
+      !appNavIsShow && toggleAppNav(true);
+    } else {
+      appNavIsShow && toggleAppNav(false);
+    }
   }
 
   /**
@@ -132,7 +138,9 @@ const mapStateToProps = createSelector(
   getDBUsers,
   getMatchedUserName,
   getStateAuth,
-  (dbTopics, dbUsers, matchedName, auth) => {
+  getIsPendingUser,
+  getAppNavIsShow,
+  (dbTopics, dbUsers, matchedName, auth, isPendingUser, appNavIsShow) => {
     let matchedUser = dbUsers.get(matchedName);
     let recentTopics = false;
     let recentReplies = false;
@@ -157,7 +165,9 @@ const mapStateToProps = createSelector(
       matchedName,
       recentTopics,
       recentReplies,
-      auth
+      auth,
+      isPendingUser,
+      appNavIsShow
     }
   }
 );
