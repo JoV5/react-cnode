@@ -72,7 +72,7 @@ export class UserPage extends Component {
 
   render() {
     const {props, state: {tabSelected}} = this;
-    const {matchedUser, recentTopics, recentReplies, goBack, auth} = props;
+    const {matchedUser, recentTopics, recentReplies, history: {goBack}, auth} = props;
     if (matchedUser && recentTopics && recentReplies) {
       //const {loginname, avatar_url, create_at, score} = matchedUser;
       const loginname = matchedUser.get('loginname');

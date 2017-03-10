@@ -5,6 +5,7 @@ import {is} from 'immutable';
 
 import {TAB_MAP} from '../../core/constants';
 import {timeago} from '../../core/utils';
+import Loading from '../../components/Loading';
 
 import './index.css';
 
@@ -58,9 +59,7 @@ export default class TopicContent extends Component {
       )
     } else {
       return (
-        <div>
-          加载中..
-        </div>
+        <Loading/>
       );
     }
   }

@@ -34,7 +34,8 @@ export const TopicState = {
   },
   topicsNavIsShow: false,
   selectedTab: 'all',
-  topicsHeaderIsShow: true
+  topicsHeaderIsShow: true,
+  isPendingTopic: false
 };
 
 export function topicReducer(state = fromJS(TopicState), action) {
@@ -50,6 +51,8 @@ export function topicReducer(state = fromJS(TopicState), action) {
 
       if (payload.type === 'topics') {
         return state.setIn([payload.param.tab, payload.param.reload ? 'isReloading' : 'isPending'], true);
+      } else if (payload.type === 'topic') {
+        return state.set('isPendingTopic', true);
       }
 
       return state;
@@ -58,6 +61,8 @@ export function topicReducer(state = fromJS(TopicState), action) {
 
       if (payload.type === 'topics') {
         return state.setIn([payload.param.tab, payload.param.reload ? 'isReloading' : 'isPending'], false);
+      } else if (payload.type === 'topic') {
+        return state.set('isPendingTopic', false);
       }
 
       return state;
@@ -79,9 +84,14 @@ export function topicReducer(state = fromJS(TopicState), action) {
             page: payload.param.page
           }
         });
+      } else if (payload.type === 'topic') {
+        return state.set('isPendingTopic', false);
       }
 
       return state;
+
+    case topicActions.CANCEL_LOAD_TOPIC:
+      return state.set('isPendingTopic', false);
 
     case topicActions.TOPICS_SAVE_SCROLL_TOP:
       return state.setIn([payload.tab, 'scrollTop'], payload.scrollTop);

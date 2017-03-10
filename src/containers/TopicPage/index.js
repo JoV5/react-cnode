@@ -7,10 +7,11 @@ import {replyActions} from '../../core/reply';
 import ReplyList from '../../components/ReplyList';
 import {getDBReplies, getDBUsers, getDBTopics} from '../../core/db';
 import {getStateAuth} from '../../core/auth';
-import {getMatchedTopicId} from '../../core/topic';
+import {getMatchedTopicId, getIsPendingTopic} from '../../core/topic';
 import {collectionActions} from '../../core/collection';
 import {appActions} from '../../core/app';
 import TopicContent from './TopicContent';
+import Loading from '../../components/Loading'
 
 import './index.css';
 
@@ -21,6 +22,7 @@ export class TopicPage extends Component {
     this.replyUp = this.replyUp.bind(this);
     this.collectTopic = this.collectTopic.bind(this);
     this.decollectTopic = this.decollectTopic.bind(this);
+    this.loadReply = this.loadReply.bind(this);
   }
 
   componentWillMount() {
@@ -58,6 +60,12 @@ export class TopicPage extends Component {
     }
   }
 
+  componentWillUnmount() {
+    const {cancelLoadTopic, isPendingTopic} = this.props;
+
+    isPendingTopic && cancelLoadTopic();
+  }
+
   replyUp(replyid) {
     const {match: {params: {topicid}}, replyUp, auth} = this.props;
     const accesstoken = auth.get('accesstoken');
@@ -82,7 +90,7 @@ export class TopicPage extends Component {
       accesstoken,
       loginname,
       topic_id: matchedTopicId
-    })
+    });
   }
 
   decollectTopic() {
@@ -94,13 +102,21 @@ export class TopicPage extends Component {
       accesstoken,
       loginname,
       topic_id: matchedTopicId
-    })
+    });
 
   }
 
+  loadReply() {
+    const {isPendingTopic, loadTopic, matchedTopicId} = this.props;
+
+    if (!isPendingTopic) {
+      loadTopic({topicid: matchedTopicId})
+    }
+  }
+
   render() {
-    const {props, decollectTopic, collectTopic, replyUp} = this;
-    const {matchedTopic, auth, topicReplies, loadTopic, matchedTopicId, isCollect, goBack} = props;
+    const {props, decollectTopic, collectTopic, replyUp, loadReply} = this;
+    const {matchedTopic, auth, topicReplies, isCollect, history: {goBack}, isPendingTopic} = props;
     const userId = auth.get('id');
 
     return (
@@ -121,9 +137,11 @@ export class TopicPage extends Component {
               <div className="topic_page_reply_count">{topicReplies.size} 回复</div>
               <ReplyList data={topicReplies} replyUp={replyUp} userId={userId}/>
             </div> :
-            <div className="topic_page_load_replies" onClick={() => loadTopic({topicid: matchedTopicId})}>
-              加载评论
-            </div>
+            isPendingTopic ?
+              <Loading/> :
+              <div className="topic_page_load_replies" onClick={loadReply}>
+                加载评论
+              </div>
         }
       </div>
     )
@@ -136,7 +154,8 @@ const mapStateToProps = createSelector(
   getDBReplies,
   getMatchedTopicId,
   getStateAuth,
-  (dbTopics, dbUsers, dbReplies, matchedTopicId, auth) => {
+  getIsPendingTopic,
+  (dbTopics, dbUsers, dbReplies, matchedTopicId, auth, isPendingTopic) => {
     let matchedTopic = dbTopics.get(matchedTopicId);
     let topicReplies = false;
     let userMe = auth.get('loginname');
@@ -174,13 +193,15 @@ const mapStateToProps = createSelector(
       matchedTopicId,
       topicReplies,
       needLoadCollections,
-      isCollect
+      isCollect,
+      isPendingTopic
     }
   }
 );
 
 const mapDispatchToProps = {
   loadTopic: topicActions.loadTopic,
+  cancelLoadTopic: topicActions.cancelLoadTopic,
   replyUp: replyActions.replyUp,
   loadCollections: collectionActions.loadCollections,
   collectTopic: collectionActions.collectTopic,

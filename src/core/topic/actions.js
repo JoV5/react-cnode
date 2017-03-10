@@ -2,6 +2,7 @@ export const topicActions = {
   FETCH_TOPIC_FAILED: 'FETCH_TOPIC_FAILED',
   FETCH_TOPIC_PENDING: 'FETCH_TOPIC_PENDING',
   FETCH_TOPIC_FULFILLED: 'FETCH_TOPIC_FULFILLED',
+  CANCEL_LOAD_TOPIC: 'CANCEL_LOAD_TOPIC',
 
   LOAD_TOPICS: 'LOAD_TOPICS',
   LOAD_TOPIC: 'LOAD_TOPIC',
@@ -32,6 +33,10 @@ export const topicActions = {
   loadTopic: param => ({
     type: topicActions.LOAD_TOPIC,
     payload: param
+  }),
+
+  cancelLoadTopic: () => ({
+    type: topicActions.CANCEL_LOAD_TOPIC
   }),
 
   saveScrollTop: (tab, scrollTop) => ({
