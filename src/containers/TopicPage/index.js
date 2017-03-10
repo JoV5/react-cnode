@@ -150,6 +150,7 @@ export class TopicPage extends Component {
           onPullEnd={loadTopic}
           toStopPause={toStopPause}
           statusDivStyleClass="topic_page_pull_status_div"
+          LoadingComponent={Loading}
         >
           <TopicContent topic={matchedTopic}/>
           {

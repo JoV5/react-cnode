@@ -124,6 +124,7 @@ export class UserPage extends Component {
             onPullEnd={loadUser}
             toStopPause={toStopPause}
             statusDivStyleClass="user_page_pull_status_div"
+            LoadingComponent={Loading}
           >
             <section className="user_page_userinfo">
               <img src={avatar_url} className="user_page_avatar" alt={loginname}/>

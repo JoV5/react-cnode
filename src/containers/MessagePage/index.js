@@ -97,6 +97,7 @@ export class MessagePage extends Component {
             onPullViewUnmount={onPullViewUnmount}
             mountScrollTop={mountScrollTop}
             statusDivStyleClass="message_page_pull_status_div"
+            LoadingComponent={Loading}
           >
             <MessageList data={messages}/>
           </PullViewWrap>

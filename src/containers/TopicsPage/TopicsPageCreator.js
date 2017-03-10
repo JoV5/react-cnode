@@ -140,6 +140,7 @@ export default function (tab) {
             onPullViewUnmount={this.onPullViewUnmount}
             mountScrollTop={mountScrollTop}
             statusDivStyleClass="topics_page_pull_status_div"
+            LoadingComponent={Loading}
           >
             {data && <TopicList data={data}/>}
             <Loading/>
