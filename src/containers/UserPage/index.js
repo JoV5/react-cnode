@@ -12,18 +12,22 @@ import {getMatchedUserName} from '../../core/user';
 import Loading from '../../components/Loading';
 import {getIsPendingUser} from '../../core/user';
 import {getAppNavIsShow} from '../../core/app';
+import PullViewWrap from '../../components/PullViewWrap';
+
 
 import './index.css';
 
 export class UserPage extends Component {
 
   state = {
-    tabSelected: 'replies' // topics
+    tabSelected: 'replies', // topics
+    toStopPause: false
   };
 
   constructor() {
     super(...arguments);
     this.switchTab = this.switchTab.bind(this);
+    this.loadUser = this.loadUser.bind(this);
   }
 
   /**
@@ -64,6 +68,26 @@ export class UserPage extends Component {
     } else {
       appNavIsShow && toggleAppNav(false);
     }
+
+    if (!nextProps.isPendingUser && this.props.isPendingUser) {
+      this.setState({
+        toStopPause: true
+      });
+    } else {
+      this.setState({
+        toStopPause: false
+      });
+    }
+  }
+
+  loadUser() {
+    const {loadUser, isPendingUser, matchedName} = this.props;
+
+    if (!isPendingUser) {
+      loadUser({
+        loginname: matchedName
+      });
+    }
   }
 
   /**
@@ -77,7 +101,7 @@ export class UserPage extends Component {
   }
 
   render() {
-    const {props, state: {tabSelected}} = this;
+    const {props, state: {tabSelected, toStopPause}, loadUser} = this;
     const {matchedUser, recentTopics, recentReplies, history: {goBack}, auth} = props;
     if (matchedUser && recentTopics && recentReplies) {
       //const {loginname, avatar_url, create_at, score} = matchedUser;
@@ -96,33 +120,39 @@ export class UserPage extends Component {
               <i className="iconfont user_back" onClick={goBack}>&#xe6e6;</i>
             }
           </div>
-          <section className="user_page_userinfo">
-            <img src={avatar_url} className="user_page_avatar" alt={loginname}/>
-            <div className="user_page_userinfo_detail">
-              <span>{loginname}</span>
-              <span>注册时间：{timeago(create_at)}</span>
-              <span>积分：{score}</span>
-            </div>
-          </section>
-          <section>
-            <div className="user_page_tabs">
-              <div className={`user_page_tab ${tabSelected === 'replies' ? 'selected' : ''}`}
-                   onClick={() => this.switchTab('replies')}>
-                最近回复
+          <PullViewWrap
+            onPullEnd={loadUser}
+            toStopPause={toStopPause}
+            statusDivStyleClass="user_page_pull_status_div"
+          >
+            <section className="user_page_userinfo">
+              <img src={avatar_url} className="user_page_avatar" alt={loginname}/>
+              <div className="user_page_userinfo_detail">
+                <span>{loginname}</span>
+                <span>注册时间：{timeago(create_at)}</span>
+                <span>积分：{score}</span>
               </div>
-              <div className={`user_page_tab ${tabSelected === 'topics' ? 'selected' : ''}`}
-                   onClick={() => this.switchTab('topics')}>
-                最近发布
+            </section>
+            <section>
+              <div className="user_page_tabs">
+                <div className={`user_page_tab ${tabSelected === 'replies' ? 'selected' : ''}`}
+                     onClick={() => this.switchTab('replies')}>
+                  最近回复
+                </div>
+                <div className={`user_page_tab ${tabSelected === 'topics' ? 'selected' : ''}`}
+                     onClick={() => this.switchTab('topics')}>
+                  最近发布
+                </div>
               </div>
-            </div>
-            <div>
-              {
-                tabSelected === 'replies' ?
-                  <RecentList data={recentReplies}/> :
-                  <RecentList data={recentTopics}/>
-              }
-            </div>
-          </section>
+              <div>
+                {
+                  tabSelected === 'replies' ?
+                    <RecentList data={recentReplies}/> :
+                    <RecentList data={recentTopics}/>
+                }
+              </div>
+            </section>
+          </PullViewWrap>
         </div>
       );
     } else {

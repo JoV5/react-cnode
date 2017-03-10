@@ -125,7 +125,7 @@ export class TopicPage extends Component {
     const {isPendingTopic, loadTopic, matchedTopicId} = this.props;
 
     if (!isPendingTopic) {
-      loadTopic({topicid: matchedTopicId})
+      loadTopic({topicid: matchedTopicId});
     }
   }
 

@@ -10,6 +10,7 @@
   height: 40px;
   background-color: #444;
   padding: 0 10px;
+  z-index: 9;
 }
 
 .user_page_header .iconfont {
@@ -25,6 +26,16 @@
 
 .user_page_header .user_setting {
   float: right;
+}
+
+.user_page_pull_status_div {
+  position: absolute;
+  top: 0;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  width: 100%;
+  z-index: 1;
 }
 
 .user_page_userinfo {

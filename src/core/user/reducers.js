@@ -20,8 +20,9 @@ export function userReducer(state = fromJS(UserState), action) {
     case userActions.FETCH_USER_FAILED:
     case userActions.USER_FETCHED_TO_DB:
       return state.set('isPendingUser', false);
-  }
 
-  return state;
+    default:
+      return state;
+  }
 
 }
