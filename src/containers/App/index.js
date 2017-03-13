@@ -4,11 +4,10 @@ import {connect} from 'react-redux';
 import lazyme from 'lazy-load-react';
 import {createSelector} from 'reselect';
 
-import {appActions} from '../../core/app';
+import {appActions, getStateApp} from '../../core/app';
 import {TopicsAllPage, TopicsAskPage, TopicsGoodPage, TopicsJobPage, TopicsSharePage} from '../TopicsPage';
 import AppBottomNav from '../../components/AppBottomNav';
 import PrivateRoute from '../../components/PrivateRoute';
-import {getStateApp} from '../../core/app';
 import {getStateAuth} from '../../core/auth';
 import {getSelectedTab} from '../../core/topic';
 

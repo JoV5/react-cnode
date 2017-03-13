@@ -2,16 +2,13 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 
-import {userActions} from '../../core/user';
 import {timeago} from '../../core/utils';
 import RecentList from '../../components/RecentList';
 import {getStateAuth} from '../../core/auth';
 import {getDBUsers, getDBTopics} from '../../core/db';
-import {appActions} from '../../core/app';
-import {getMatchedUserName} from '../../core/user';
+import {appActions, getAppNavIsShow} from '../../core/app';
+import {userActions, getMatchedUserName, getIsPendingUser} from '../../core/user';
 import Loading from '../../components/Loading';
-import {getIsPendingUser} from '../../core/user';
-import {getAppNavIsShow} from '../../core/app';
 import PullViewWrap from '../../components/PullViewWrap';
 
 

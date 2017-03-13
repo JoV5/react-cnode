@@ -8,7 +8,7 @@ import MessageList from '../../components/MessageList';
 import {getDBUsers, getDBTopics, getDBReplies, getDBMessages} from '../../core/db';
 import {getStateAuth} from '../../core/auth';
 import PullViewWrap from '../../components/PullViewWrap';
-import {appActions} from '../../core/app';
+import {appActions, getAppNavIsShow} from '../../core/app';
 import Loading from '../../components/Loading';
 
 import './index.css';
@@ -26,7 +26,7 @@ export class MessagePage extends Component {
   };
 
   componentWillMount() {
-    const {auth, loadMessages, messages, messageCount, toggleAppNav} = this.props;
+    const {auth, loadMessages, messages, messageCount, toggleAppNav, appNavIsShow} = this.props;
     const accesstoken = auth.get('accesstoken');
 
     // 首次加载message或者有未读消息
@@ -36,7 +36,7 @@ export class MessagePage extends Component {
       });
     }
 
-    toggleAppNav(true);
+    !appNavIsShow && toggleAppNav(true);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -118,7 +118,8 @@ const mapStateToProps = createSelector(
   getDBReplies,
   getDBMessages,
   getStateAuth,
-  (stateMessage, dbTopics, dbUsers, dbReplies, dbMessages, auth) => {
+  getAppNavIsShow,
+  (stateMessage, dbTopics, dbUsers, dbReplies, dbMessages, auth, appNavIsShow) => {
     const messageCount = stateMessage.get('messageCount');
     let messagesIds = stateMessage.get('messages');
     let messages = false;
@@ -154,7 +155,8 @@ const mapStateToProps = createSelector(
       messageCount,
       messages,
       isPendingMessages: stateMessage.get('isPendingMessages'),
-      mountScrollTop: stateMessage.get('scrollTop')
+      mountScrollTop: stateMessage.get('scrollTop'),
+      appNavIsShow
     }
   }
 );

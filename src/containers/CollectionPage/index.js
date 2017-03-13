@@ -5,14 +5,14 @@ import {createSelector} from 'reselect';
 import {collectionActions} from '../../core/collection';
 import {getDBUsers, getDBTopics} from '../../core/db';
 import {getMatchedUserName} from '../../core/user';
-import {appActions} from '../../core/app';
+import {appActions, getAppNavIsShow} from '../../core/app';
 import TopicList from '../../components/TopicList';
 import Loading from '../../components/Loading';
 
 export class CollectionPage extends Component {
 
   componentWillMount() {
-    const {loadCollections, matchedName, collections, toggleAppNav} = this.props;
+    const {loadCollections, matchedName, collections, toggleAppNav, appNavIsShow} = this.props;
 
     if (!collections) {
       loadCollections({
@@ -20,7 +20,7 @@ export class CollectionPage extends Component {
       });
     }
 
-    toggleAppNav(true);
+    !appNavIsShow && toggleAppNav(true);
   }
 
   render() {
@@ -42,7 +42,8 @@ const mapStateToProps = createSelector(
   getDBTopics,
   getDBUsers,
   getMatchedUserName,
-  (dbTopics, dbUsers, matchedName) => {
+  getAppNavIsShow,
+  (dbTopics, dbUsers, matchedName, appNavIsShow) => {
     const matchedUser = dbUsers.get(matchedName);
     let collections = false;
 
@@ -60,7 +61,8 @@ const mapStateToProps = createSelector(
 
     return {
       matchedName,
-      collections
+      collections,
+      appNavIsShow
     }
   }
 );
