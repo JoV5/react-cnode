@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {List} from 'immutable';
 
-import {messageActions, getStateMessage} from '../../core/message';
+import {messageActions, getStateMessage, getMessages, getMessageCount} from '../../core/message';
 import MessageList from '../../components/MessageList';
 import {getDBUsers, getDBTopics, getDBReplies, getDBMessages} from '../../core/db';
 import {getStateAuth} from '../../core/auth';
@@ -111,22 +111,17 @@ export class MessagePage extends Component {
   }
 }
 
-const mapStateToProps = createSelector(
-  getStateMessage,
+const messagesSelector = createSelector(
+  getMessages,
   getDBTopics,
   getDBUsers,
   getDBReplies,
   getDBMessages,
-  getStateAuth,
-  getAppNavIsShow,
-  (stateMessage, dbTopics, dbUsers, dbReplies, dbMessages, auth, appNavIsShow) => {
-    const messageCount = stateMessage.get('messageCount');
-    let messagesIds = stateMessage.get('messages');
+  (messagesIds, dbTopics, dbUsers, dbReplies, dbMessages) => {
     let messages = false;
 
     if (messagesIds) {
       messages = new List();
-      //messagesIds = messagesIds.map((message) => message.id);
 
       messagesIds.forEach((messagesId, index) => {
         const message = dbMessages.get(messagesId);
@@ -145,20 +140,28 @@ const mapStateToProps = createSelector(
             author: dbUsers.get(message.get('author')),
             reply: dbReplies.get(message.get('reply')),
             topic: dbTopics.get(message.get('topic'))
-          })
+          });
         })
       }
     }
 
-    return {
-      auth,
-      messageCount,
-      messages,
-      isPendingMessages: stateMessage.get('isPendingMessages'),
-      mountScrollTop: stateMessage.get('scrollTop'),
-      appNavIsShow
-    }
+    return messages;
   }
+);
+
+const mapStateToProps = createSelector(
+  getStateMessage,
+  messagesSelector,
+  getStateAuth,
+  getAppNavIsShow,
+  (stateMessage, messages, auth, appNavIsShow) => ({
+    auth,
+    messageCount: stateMessage.get('messageCount'),
+    messages,
+    isPendingMessages: stateMessage.get('isPendingMessages'),
+    mountScrollTop: stateMessage.get('scrollTop'),
+    appNavIsShow
+  })
 );
 
 const mapDispatchToProps = {
