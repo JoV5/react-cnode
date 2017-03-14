@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, Link} from 'react-router-dom';
 
 import {TAB_MAP} from '../../core/constants';
 
@@ -7,7 +7,8 @@ import './TopicsHeader.css';
 
 const TopicsHeader = ({tab, toggleTopicsNav, topicsNavIsShow, topicsHeaderIsShow}) => (
   <header className={`topics_header ${topicsHeaderIsShow ? 'show' : ''}`}>
-    <div onClick={toggleTopicsNav}>{TAB_MAP[tab] + (topicsNavIsShow ? ' ∧' : ' ∨')}</div>
+    <Link to="/newtopic"><i className="iconfont new_topic">&#xe623;</i></Link>
+    <div className="topics_header_nav_btn" onClick={toggleTopicsNav}>{TAB_MAP[tab] + (topicsNavIsShow ? ' ∧' : ' ∨')}</div>
     {
       topicsNavIsShow &&
       <nav className="topics_header_nav" onClick={toggleTopicsNav}>

@@ -25,6 +25,14 @@ export const api = {
       ...param
     }
   ),
+  
+  postTopic: (param) => dispatch(
+    API_TOPICS_URL,
+    {
+      ...param
+    },
+    'post'
+  ),
 
   fetchTopic: (param) => dispatch(
     `${API_TOPIC_URL}/${param.topicid}`,

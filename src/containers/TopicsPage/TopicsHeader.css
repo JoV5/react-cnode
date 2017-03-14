@@ -10,10 +10,16 @@
   z-index: 7;
   text-align: center;
   transition: top 0.5s ease;
+  padding: 0 10px;
 }
 
 .topics_header.show {
   top: 0;
+}
+
+.topics_header_nav_btn {
+  width: 50%;
+  margin: auto;
 }
 
 .topics_header_nav {
@@ -22,6 +28,17 @@
   background-color: rgba(0, 0, 0, 0.5);
   width: 50%;
   margin: auto;
+}
+
+.topics_header .iconfont {
+  color: #80bd01;
+  font-size: 24px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.iconfont.new_topic {
+  float: right;
 }
 
 .topics_header_nav_item {

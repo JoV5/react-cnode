@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {List} from 'immutable';
 
-import {messageActions, getStateMessage, getMessages, getMessageCount} from '../../core/message';
+import {messageActions, getStateMessage, getMessages} from '../../core/message';
 import MessageList from '../../components/MessageList';
 import {getDBUsers, getDBTopics, getDBReplies, getDBMessages} from '../../core/db';
 import {getStateAuth} from '../../core/auth';

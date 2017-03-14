@@ -36,6 +36,7 @@ const fetchEntities = function (apiFunction, actions, type, param) {
 };
 
 export const fetchTopics = fetchEntities.bind(null, api.fetchTopics, topicRequestActions, 'topics');
+export const postTopic = fetchEntities.bind(null, api.postTopic, topicRequestActions, 'posttopic');
 export const fetchTopic = fetchEntities.bind(null, api.fetchTopic, topicRequestActions, 'topic');
 export const postLogin = fetchEntities.bind(null, api.postLogin, authRequestActions, 'login');
 export const fetchUser = fetchEntities.bind(null, api.fetchUser, userRequestActions, 'user');

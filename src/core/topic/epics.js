@@ -2,7 +2,7 @@ import {normalize} from 'normalizr';
 
 import {topicsSchema, topicSchema} from './schemas';
 import {topicActions} from './actions';
-import {fetchTopics, fetchTopic} from '../api';
+import {fetchTopics, fetchTopic, postTopic} from '../api';
 import {dbActions} from '../db';
 
 export function loadTopics(action$) {
@@ -13,6 +13,11 @@ export function loadTopics(action$) {
 export function loadTopic(action$) {
   return action$.ofType(topicActions.LOAD_TOPIC)
     .switchMap(({payload}) => fetchTopic(payload));
+}
+
+export function postNewTopic(action$) {
+  return action$.ofType(topicActions.POST_TOPIC)
+    .switchMap(({payload}) => postTopic(payload));
 }
 
 export function fetchTopicFulfilled(action$) {
@@ -35,5 +40,6 @@ export function fetchTopicFulfilled(action$) {
 export const topicEpics = [
   loadTopics,
   loadTopic,
+  postNewTopic,
   fetchTopicFulfilled
 ];

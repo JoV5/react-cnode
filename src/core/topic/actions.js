@@ -5,6 +5,7 @@ export const topicActions = {
   CANCEL_LOAD_TOPIC: 'CANCEL_LOAD_TOPIC',
 
   LOAD_TOPICS: 'LOAD_TOPICS',
+  POST_TOPIC: 'POST_TOPIC',
   LOAD_TOPIC: 'LOAD_TOPIC',
 
   TOPICS_SAVE_SCROLL_TOP: 'TOPICS_SAVE_SCROLL_TOP',
@@ -32,6 +33,11 @@ export const topicActions = {
 
   loadTopic: param => ({
     type: topicActions.LOAD_TOPIC,
+    payload: param
+  }),
+  
+  postTopic: param => ({
+    type: topicActions.POST_TOPIC,
     payload: param
   }),
 
