@@ -1,0 +1,1 @@
+export const getStateCollection = (state) => state.collection;

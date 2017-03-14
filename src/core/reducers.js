@@ -6,6 +6,7 @@ import {userReducer} from './user';
 import {messageReducer} from './message';
 import {authReducer} from './auth';
 import {dbReducer} from './db';
+import {collectionReducer} from './collection';
 
 export default combineReducers({
   app: appReducer,
@@ -13,5 +14,6 @@ export default combineReducers({
   user: userReducer,
   message: messageReducer,
   auth: authReducer,
-  db: dbReducer
+  db: dbReducer,
+  collection: collectionReducer
 });

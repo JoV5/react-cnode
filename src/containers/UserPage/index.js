@@ -32,7 +32,7 @@ export class UserPage extends Component {
    */
   componentWillMount() {
     const {props} = this;
-    const {loadUser, recentTopics, matchedName, auth, toggleAppNav} = props;
+    const {loadUser, recentTopics, matchedName, auth, toggleAppNav, appNavIsShow} = props;
     const loginname = auth.get('loginname');
 
     // 根据是否有recentTopics判断是否需要加载数据
@@ -41,8 +41,12 @@ export class UserPage extends Component {
         loginname: matchedName
       });
     }
-
-    toggleAppNav(loginname === matchedName);
+    
+    if (loginname === matchedName) {
+      !appNavIsShow && toggleAppNav(true);
+    } else {
+      appNavIsShow && toggleAppNav(false);
+    }
   }
 
   /**

@@ -6,6 +6,7 @@ export const collectionActions = {
   LOAD_COLLECTIONS: 'LOAD_COLLECTIONS',
   COLLECT_TOPIC: 'COLLECT_TOPIC',
   DECOLLECT_TOPIC: 'DECOLLECT_TOPIC',
+  COLLECTION_SAVE_SCROLL_TOP: 'COLLECTION_SAVE_SCROLL_TOP',
 
   fetchMessageFailed: result => ({
     type: collectionActions.FETCH_COLLECTION_FAILED,
@@ -35,6 +36,11 @@ export const collectionActions = {
   decollectTopic: param => ({
     type: collectionActions.DECOLLECT_TOPIC,
     payload: param
+  }),
+
+  saveScrollTop: (scrollTop) => ({
+    type: collectionActions.COLLECTION_SAVE_SCROLL_TOP,
+    payload: scrollTop
   })
 };
 

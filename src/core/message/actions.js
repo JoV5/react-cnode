@@ -41,7 +41,7 @@ export const messageActions = {
   saveScrollTop: (scrollTop) => ({
     type: messageActions.MESSAGES_SAVE_SCROLL_TOP,
     payload: scrollTop
-  }),
+  })
 };
 
 export const messageRequestActions = {
