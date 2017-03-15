@@ -130,12 +130,13 @@ export class TopicPage extends Component {
     }
   }
   
-  replyTopic() {
+  replyTopic(reply_id) {
     const {toggleReplyBox, matchedTopicId} = this.props;
 
     toggleReplyBox({
       show: true,
-      topic_id: matchedTopicId
+      topic_id: matchedTopicId,
+      reply_id
     });
   }
 
@@ -149,7 +150,7 @@ export class TopicPage extends Component {
       <div className="topic_page">
         <div className="topic_page_header">
           <i className="iconfont float_left" onClick={goBack}>&#xe6e6;</i>
-          <i className="iconfont topic_reply" onClick={replyTopic}>&#xe605;</i>
+          <i className="iconfont topic_reply" onClick={() => replyTopic()}>&#xe605;</i>
           {
             isCollect ?
               <i className="iconfont float_right" onClick={decollectTopic}>&#xe619;</i> :
@@ -167,7 +168,7 @@ export class TopicPage extends Component {
             topicReplies ?
               <div>
                 <div className="topic_page_reply_count">{topicReplies.size} 回复</div>
-                <ReplyList data={topicReplies} replyUp={replyUp} userId={userId}/>
+                <ReplyList data={topicReplies} replyUp={replyUp} userId={userId} replyTopic={replyTopic}/>
               </div> :
               isPendingTopic ?
                 <Loading/> :

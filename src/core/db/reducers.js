@@ -1,4 +1,4 @@
-import {fromJS} from 'immutable';
+import {fromJS, List} from 'immutable';
 import {dbActions} from './actions';
 
 export const DBState = {
@@ -41,6 +41,17 @@ export function dbReducer(state = fromJS(DBState), action) {
         }
 
         return ups;
+      });
+
+    case dbActions.DB_UPDATE_REPLY:
+      let newState = state.updateIn(['topics', payload.topic_id, 'replies'], replies => {
+        return replies ? replies.unshift(payload.reply.id) : new List([payload.reply.id]);
+      });
+      
+      return newState.mergeDeep({
+        replies: {
+          [payload.reply.id]: payload.reply
+        }
       });
 
     case dbActions.DB_UPDATE_USER_COLLECT:

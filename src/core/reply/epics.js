@@ -20,25 +20,19 @@ export function sendReplyFulfilled(action$) {
   return action$.ofType(replyActions.FETCH_REPLY_FULFILLED)
     .filter(({payload: {result: {data: success}}}) => success)
     .map(({payload: {param: {content, author, reply_id: replyTo, topic_id}, result: {data: {reply_id}}}}) => {
-      return dbActions.mergeDeep({
-        topics: {
-          [topic_id]: {
-            replies: [reply_id]
-          }
-        },
-        replies: {
-          [reply_id]: {
-            id: reply_id,
-            author,
-            content,
-            reply_id: replyTo,
-            create_at: new Date(),
-            ups: []
-          }
+      return dbActions.updateReply(
+        topic_id,
+        {
+          id: reply_id,
+          author,
+          content,
+          reply_id: replyTo,
+          create_at: new Date(),
+          ups: []
         }
-      });
+      );
     })
-  
+
 }
 
 export const replyEpics = [

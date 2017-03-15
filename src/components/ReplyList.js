@@ -10,13 +10,13 @@ export default class TopicList extends Component {
   }
 
   render() {
-    const {data, replyUp, userId} = this.props;
+    const {data, replyUp, userId, replyTopic} = this.props;
 
     return (
       <div>
         {
           data.map((reply, i) =>
-            <ReplyCard data={reply} key={i} i={i} replyUp={replyUp} userId={userId}/>)
+            <ReplyCard data={reply} key={i} i={i} replyUp={replyUp} userId={userId} replyTopic={replyTopic}/>)
         }
       </div>
     );

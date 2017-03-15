@@ -2,6 +2,7 @@ export const dbActions = {
   DB_MERGE_DEEP: 'DB_MERGE_DEEP',
   DB_MARK_MESSAGE: 'DB_MARK_MESSAGE',
   DB_UPDATE_REPLY_UP: 'DB_UPDATE_REPLY_UP',
+  DB_UPDATE_REPLY: 'DB_UPDATE_REPLY',
   DB_UPDATE_USER_COLLECT: 'DB_UPDATE_USER_COLLECT',
 
   mergeDeep: data => ({
@@ -29,6 +30,14 @@ export const dbActions = {
       loginname,
       topicid,
       isCollect
+    }
+  }),
+  
+  updateReply: (topic_id, reply) => ({
+    type: dbActions.DB_UPDATE_REPLY,
+    payload: {
+      topic_id,
+      reply
     }
   })
 };
