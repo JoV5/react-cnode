@@ -23,7 +23,8 @@ export function replyReducer(state = new Map(ReplyState), action) {
         return state.merge({
           show: false,
           reply_id: undefined,
-          topic_id: undefined
+          topic_id: undefined,
+          replyTo: undefined
         })
       }
 

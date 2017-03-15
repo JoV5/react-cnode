@@ -35,6 +35,14 @@
   font-size: 14px;
 }
 
+.reply_by_author {
+  margin-left: 5px;
+  color: #fff;
+  background-color: #6ba44e;
+  padding: 2px;
+  font-size: 12px
+}
+
 .reply_card_icon {
   float: right;
   padding-left: 12px;

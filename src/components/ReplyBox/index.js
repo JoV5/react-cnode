@@ -9,6 +9,14 @@ export default class ReplyBox extends Component {
     this.sendReply = this.sendReply.bind(this);
     this.hideReplyBox = this.hideReplyBox.bind(this);
   }
+
+  static propTypes = {
+    postReply: PropTypes.func.isRequired,
+    reply: PropTypes.object.isRequired,
+    toggleReplyBox: PropTypes.func.isRequired,
+    accesstoken: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+  };
   
   sendReply() {
     const {postReply, reply, accesstoken, author} = this.props;
@@ -31,12 +39,19 @@ export default class ReplyBox extends Component {
     toggleReplyBox({
       show: false
     });
+    
+    this.content.value = '';
   }
 
   render() {
     const {reply} = this.props;
     const show = reply.get('show');
-
+    const replyTo = reply.get('replyTo');
+    
+    if (replyTo) {
+      this.content.value = `@${replyTo} `;
+    }
+    
     return (
       <div className={`reply_box ${show ? 'show' : ''}`}>
         <div className="reply_box_back" onClick={this.hideReplyBox}></div>

@@ -6,7 +6,7 @@ import {timeago} from '../../core/utils';
 
 import './ReplyCard.css';
 
-const ReplyCard = ({data, i, replyUp, userId, replyTopic}) => {
+const ReplyCard = ({data, i, replyUp, userId, replyTopic, topicAuthor}) => {
   const author = data.get('author');
   const avatar_url = author.get('avatar_url');
   const loginname = author.get('loginname');
@@ -27,7 +27,8 @@ const ReplyCard = ({data, i, replyUp, userId, replyTopic}) => {
           <span>{loginname}</span>
         </Link>
         <span className="reply_card_time">{i + 1}楼 · {timeago(create_at)}</span>
-        <i className="iconfont reply_card_icon" onClick={() => replyTopic(id)}>&#xe605;</i>
+        {topicAuthor === loginname && <span className="reply_by_author">作者</span>}
+        <i className="iconfont reply_card_icon" onClick={() => replyTopic(id, loginname)}>&#xe605;</i>
         {!!up && <i className="reply_card_good_count">{up}</i>}
         <i className={`iconfont reply_card_icon ${gooded ? 'good' : ''}`} onClick={() => replyUp(id)}>&#xe65d;</i>
       </div>
@@ -40,7 +41,9 @@ ReplyCard.propTypes = {
   data: PropTypes.object.isRequired,
   i: PropTypes.number.isRequired,
   replyUp: PropTypes.func.isRequired,
-  userId: PropTypes.string.isRequired
+  userId: PropTypes.string.isRequired,
+  replyTopic: PropTypes.func.isRequired,
+  topicAuthor: PropTypes.string.isRequired
 };
 
 export default ReplyCard;

@@ -10,13 +10,13 @@ export default class TopicList extends Component {
   }
 
   render() {
-    const {data, replyUp, userId, replyTopic} = this.props;
+    const {data, replyUp, userId, replyTopic, topicAuthor} = this.props;
 
     return (
       <div>
         {
           data.map((reply, i) =>
-            <ReplyCard data={reply} key={i} i={i} replyUp={replyUp} userId={userId} replyTopic={replyTopic}/>)
+            <ReplyCard data={reply} key={i} i={i} replyUp={replyUp} userId={userId} replyTopic={replyTopic} topicAuthor={topicAuthor}/>)
         }
       </div>
     );
@@ -26,5 +26,7 @@ export default class TopicList extends Component {
 TopicList.propTypes = {
   data: PropTypes.object.isRequired,
   replyUp: PropTypes.func.isRequired,
-  userId: PropTypes.string.isRequired
+  userId: PropTypes.string.isRequired,
+  replyTopic: PropTypes.func.isRequired,
+  topicAuthor: PropTypes.string.isRequired
 };

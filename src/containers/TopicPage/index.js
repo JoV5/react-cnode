@@ -130,13 +130,14 @@ export class TopicPage extends Component {
     }
   }
   
-  replyTopic(reply_id) {
+  replyTopic(reply_id, username) {
     const {toggleReplyBox, matchedTopicId} = this.props;
 
     toggleReplyBox({
       show: true,
       topic_id: matchedTopicId,
-      reply_id
+      reply_id,
+      replyTo: username
     });
   }
 
@@ -145,7 +146,7 @@ export class TopicPage extends Component {
     const {matchedTopic, auth, topicReplies, isCollect, history: {goBack}, isPendingTopic} = props;
     const {toStopPause} = state;
     const userId = auth.get('id');
-
+    
     return (
       <div className="topic_page">
         <div className="topic_page_header">
@@ -168,7 +169,13 @@ export class TopicPage extends Component {
             topicReplies ?
               <div>
                 <div className="topic_page_reply_count">{topicReplies.size} 回复</div>
-                <ReplyList data={topicReplies} replyUp={replyUp} userId={userId} replyTopic={replyTopic}/>
+                <ReplyList 
+                  data={topicReplies} 
+                  replyUp={replyUp} 
+                  userId={userId} 
+                  replyTopic={replyTopic} 
+                  topicAuthor={matchedTopic && matchedTopic.getIn(['author', 'loginname'])}
+                />
               </div> :
               isPendingTopic ?
                 <Loading/> :
