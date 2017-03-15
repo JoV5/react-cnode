@@ -1,0 +1,46 @@
+.reply_box {
+  position: fixed;
+  top: 100%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  overflow: hidden;
+  transition: top 0.5s ease;
+}
+
+.reply_box.show {
+  top: 0;
+}
+
+.reply_box_back {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.reply_box_send {
+  position: absolute;
+  bottom: 50%;
+  width: 100%;
+  background-color: #333;
+  padding-right: 15px;
+}
+
+.reply_box_input {
+  resize: none;
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.reply_box .iconfont {
+  color: #80bd01;
+  font-size: 24px;
+  height: 40px;
+  line-height: 40px;
+}

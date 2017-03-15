@@ -4,6 +4,8 @@ export const replyActions = {
   FETCH_REPLY_FULFILLED: 'FETCH_REPLY_FULFILLED',
 
   REPLY_UP: 'REPLY_UP',
+  TOGGLE_REPLY_BOX: 'TOGGLE_REPLY_BOX',
+  POST_REPLY: 'POST_REPLY',
 
   fetchReplyFailed: result => ({
     type: replyActions.FETCH_REPLY_FAILED,
@@ -22,6 +24,16 @@ export const replyActions = {
 
   replyUp: param => ({
     type: replyActions.REPLY_UP,
+    payload: param
+  }),
+
+  toggleReplyBox: param => ({
+    type: replyActions.TOGGLE_REPLY_BOX,
+    payload: param
+  }),
+  
+  postReply: param => ({
+    type: replyActions.POST_REPLY,
     payload: param
   })
 };

@@ -58,6 +58,12 @@ export const api = {
     param,
     'post'
   ),
+  
+  postReply: param => dispatch(
+    `${API_TOPIC_URL}/${param.topic_id}/replies `,
+    param,
+    'post'
+  ),
 
   fetchMessageCount: (param) => dispatch(
     API_MESSAGE_COUNT_URL,

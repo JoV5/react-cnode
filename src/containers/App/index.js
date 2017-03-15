@@ -10,6 +10,8 @@ import AppBottomNav from '../../components/AppBottomNav';
 import PrivateRoute from '../../components/PrivateRoute';
 import {getStateAuth} from '../../core/auth';
 import {getSelectedTab} from '../../core/topic';
+import {replyActions, getStateReply} from '../../core/reply';
+import ReplyBox from '../../components/ReplyBox';
 
 const TopicPage = lazyme(() => System.import('../TopicPage'));
 const NewTopicPage = lazyme(() => System.import('../NewTopicPage'));
@@ -51,8 +53,10 @@ export class App extends Component {
 
   render() {
     const {props} = this;
-    const {app, auth, selectedTab} = props;
-    const hasLogin = !!auth.get('accesstoken');
+    const {app, auth, selectedTab, reply, postReply, toggleReplyBox} = props;
+    const accesstoken = auth.get('accesstoken');
+    const author = auth.get('loginname');
+    const hasLogin = !!accesstoken;
     const appNavIsShow = app.get('appNavIsShow');
 
     return (
@@ -83,6 +87,7 @@ export class App extends Component {
             <PrivateRoute path="/collection/:loginname" component={CollectionPage} hasLogin={hasLogin}/>
           </Switch>
         </main>
+        <ReplyBox reply={reply} toggleReplyBox={toggleReplyBox} postReply={postReply} accesstoken={accesstoken} author={author}/>
         <AppBottomNav auth={auth} show={appNavIsShow} selectedTab={selectedTab}/>
       </div>
     )
@@ -93,15 +98,19 @@ const mapStateToProps = createSelector(
   getStateApp,
   getStateAuth,
   getSelectedTab,
-  (app, auth, selectedTab) => ({
+  getStateReply,
+  (app, auth, selectedTab, reply) => ({
     app,
     auth,
-    selectedTab
+    selectedTab,
+    reply
   })
 );
 
 const mapDispatchToProps = {
-  toggleAppNav: appActions.toggleAppNav
+  toggleAppNav: appActions.toggleAppNav,
+  toggleReplyBox: replyActions.toggleReplyBox,
+  postReply: replyActions.postReply
 };
 
 export default withRouter(connect(

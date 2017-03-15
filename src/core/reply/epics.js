@@ -1,5 +1,5 @@
 import {replyActions} from './actions';
-import {postReplyUp} from '../../core/api';
+import {postReplyUp, postReply} from '../../core/api';
 import {dbActions} from '../db';
 
 export function replyUp(action$) {
@@ -11,6 +11,38 @@ export function replyUp(action$) {
     )
 }
 
+export function sendReply(action$) {
+  return action$.ofType(replyActions.POST_REPLY)
+    .switchMap(({payload}) => postReply(payload));
+}
+
+export function sendReplyFulfilled(action$) {
+  return action$.ofType(replyActions.FETCH_REPLY_FULFILLED)
+    .filter(({payload: {result: {data: success}}}) => success)
+    .map(({payload: {param: {content, author, reply_id: replyTo, topic_id}, result: {data: {reply_id}}}}) => {
+      return dbActions.mergeDeep({
+        topics: {
+          [topic_id]: {
+            replies: [reply_id]
+          }
+        },
+        replies: {
+          [reply_id]: {
+            id: reply_id,
+            author,
+            content,
+            reply_id: replyTo,
+            create_at: new Date(),
+            ups: []
+          }
+        }
+      });
+    })
+  
+}
+
 export const replyEpics = [
-  replyUp
+  replyUp,
+  sendReply,
+  sendReplyFulfilled
 ];

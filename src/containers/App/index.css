@@ -24,11 +24,11 @@ a {
 
 @font-face {
   font-family: 'iconfont';  /* project id 234627 */
-  src: url('//at.alicdn.com/t/font_rd5e8mx3zacnb3xr.eot');
-  src: url('//at.alicdn.com/t/font_rd5e8mx3zacnb3xr.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_rd5e8mx3zacnb3xr.woff') format('woff'),
-  url('//at.alicdn.com/t/font_rd5e8mx3zacnb3xr.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_rd5e8mx3zacnb3xr.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_h9759yio21kbj4i.eot');
+  src: url('//at.alicdn.com/t/font_h9759yio21kbj4i.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_h9759yio21kbj4i.woff') format('woff'),
+  url('//at.alicdn.com/t/font_h9759yio21kbj4i.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_h9759yio21kbj4i.svg#iconfont') format('svg');
 }
 
 .iconfont {

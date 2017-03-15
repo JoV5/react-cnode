@@ -24,6 +24,7 @@ export class TopicPage extends Component {
     this.collectTopic = this.collectTopic.bind(this);
     this.decollectTopic = this.decollectTopic.bind(this);
     this.loadTopic = this.loadTopic.bind(this);
+    this.replyTopic = this.replyTopic.bind(this);
   }
 
   state = {
@@ -128,9 +129,18 @@ export class TopicPage extends Component {
       loadTopic({topicid: matchedTopicId});
     }
   }
+  
+  replyTopic() {
+    const {toggleReplyBox, matchedTopicId} = this.props;
+
+    toggleReplyBox({
+      show: true,
+      topic_id: matchedTopicId
+    });
+  }
 
   render() {
-    const {props, decollectTopic, collectTopic, replyUp, loadTopic, state} = this;
+    const {props, decollectTopic, collectTopic, replyUp, loadTopic, state, replyTopic} = this;
     const {matchedTopic, auth, topicReplies, isCollect, history: {goBack}, isPendingTopic} = props;
     const {toStopPause} = state;
     const userId = auth.get('id');
@@ -138,12 +148,12 @@ export class TopicPage extends Component {
     return (
       <div className="topic_page">
         <div className="topic_page_header">
-          <i className="iconfont topic_back" onClick={goBack}>&#xe6e6;</i>
-          <i className="iconfont topic_reply">&#xe605;</i>
+          <i className="iconfont float_left" onClick={goBack}>&#xe6e6;</i>
+          <i className="iconfont topic_reply" onClick={replyTopic}>&#xe605;</i>
           {
             isCollect ?
-              <i className="iconfont topic_collection" onClick={decollectTopic}>&#xe619;</i> :
-              <i className="iconfont topic_collection" onClick={collectTopic}>&#xe603;</i>
+              <i className="iconfont float_right" onClick={decollectTopic}>&#xe619;</i> :
+              <i className="iconfont float_right" onClick={collectTopic}>&#xe603;</i>
           }
         </div>
         <PullViewWrap
@@ -229,7 +239,8 @@ const mapDispatchToProps = {
   loadCollections: collectionActions.loadCollections,
   collectTopic: collectionActions.collectTopic,
   decollectTopic: collectionActions.decollectTopic,
-  toggleAppNav: appActions.toggleAppNav
+  toggleAppNav: appActions.toggleAppNav,
+  toggleReplyBox: replyActions.toggleReplyBox
 };
 
 export default connect(

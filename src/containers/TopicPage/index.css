@@ -20,14 +20,6 @@
   line-height: 40px;
 }
 
-.topic_page_header .topic_back {
-  float: left;
-}
-
-.topic_page_header .topic_collection {
-  float: right;
-}
-
 .topic_page_header .topic_reply {
   float: right;
   font-size: 20px;
