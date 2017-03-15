@@ -35,7 +35,8 @@ export const TopicState = {
   topicsNavIsShow: false,
   selectedTab: 'all',
   topicsHeaderIsShow: true,
-  isPendingTopic: false
+  isPendingTopic: false,
+  isPostingTopic: false
 };
 
 export function topicReducer(state = fromJS(TopicState), action) {
@@ -53,6 +54,8 @@ export function topicReducer(state = fromJS(TopicState), action) {
         return state.setIn([payload.param.tab, payload.param.reload ? 'isReloading' : 'isPending'], true);
       } else if (payload.type === 'topic') {
         return state.set('isPendingTopic', true);
+      } else if (payload.type === 'posttopic') {
+        return state.set('isPostingTopic', true);
       }
 
       return state;
@@ -63,6 +66,8 @@ export function topicReducer(state = fromJS(TopicState), action) {
         return state.setIn([payload.param.tab, payload.param.reload ? 'isReloading' : 'isPending'], false);
       } else if (payload.type === 'topic') {
         return state.set('isPendingTopic', false);
+      } else if (payload.type === 'posttopic') {
+        return state.set('isPostingTopic', false);
       }
 
       return state;
@@ -86,6 +91,8 @@ export function topicReducer(state = fromJS(TopicState), action) {
         });
       } else if (payload.type === 'topic') {
         return state.set('isPendingTopic', false);
+      } else if (payload.type === 'posttopic') {
+        return state.set('isPostingTopic', false);
       }
 
       return state;

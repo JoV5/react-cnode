@@ -5,6 +5,7 @@ import {createSelector} from 'reselect';
 import {appActions} from '../../core/app';
 import {topicActions} from '../../core/topic';
 import {getStateAuth} from '../../core/auth';
+import {getIsPostingTopic} from '../../core/topic';
 
 import './index.css';
 
@@ -34,9 +35,13 @@ export class NewTopicPage extends Component {
   }
 
   render() {
+    const {isPostingTopic, history: {goBack}} = this.props;
     
     return (
       <div className="new_topic_page">
+        <div className="new_topic_page_header">
+          <i className="iconfont float_left" onClick={goBack}>&#xe6e6;</i>
+        </div>
         <div className="new_topic_page_head">
           选择版块：
           <select className="new_topic_page_type" ref={(tab) => this.tab = tab}>
@@ -44,12 +49,16 @@ export class NewTopicPage extends Component {
             <option value="ask">问答</option>
             <option value="job">招聘</option>
           </select>
-          <span className="new_topic_page_submit" onClick={this.handlePost}>提交</span>
+          {
+            isPostingTopic ?
+              <span className="new_topic_page_submit">提交中</span> : 
+              <span className="new_topic_page_submit" onClick={this.handlePost}>提交</span>
+          }
         </div>
         <div className="new_topic_page_title_wrap">
-          <input placeholder="标题" className="new_topic_page_title" ref={(title) => this.title = title}/>
+          <input placeholder="标题字数10字以上" className="new_topic_page_title" ref={(title) => this.title = title}/>
         </div>
-        <textarea placeholder="内容" className="new_topic_page_content" rows="30" ref={(content) => this.content = content}/>
+        <textarea placeholder="正文内容" className="new_topic_page_content" rows="30" ref={(content) => this.content = content}/>
       </div>
     )
   }
@@ -57,8 +66,10 @@ export class NewTopicPage extends Component {
 
 const mapStateToProps = createSelector(
   getStateAuth,
-  (auth) => ({
-    auth
+  getIsPostingTopic,
+  (auth, isPostingTopic) => ({
+    auth,
+    isPostingTopic
   })
 );
 

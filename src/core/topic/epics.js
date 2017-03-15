@@ -22,7 +22,7 @@ export function postNewTopic(action$) {
 
 export function fetchTopicFulfilled(action$) {
   return action$.ofType(topicActions.FETCH_TOPIC_FULFILLED)
-    .map(({payload: {result, type}}) => {
+    .map(({payload: {result, type, param}}) => {
       const data = result.data.data;
 
       if (type === 'topic') {
@@ -30,6 +30,9 @@ export function fetchTopicFulfilled(action$) {
         return dbActions.mergeDeep(normalize(data, topicSchema).entities);
       } else if (type === 'topics') {
         return dbActions.mergeDeep(normalize(data, topicsSchema).entities);
+      } else if (type === 'posttopic') {
+        // TODO
+        console.log(result, type, param)
       }
 
       return false;

@@ -1,4 +1,23 @@
+.new_topic_page_header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-color: #444;
+  padding: 0 10px;
+  z-index: 9;
+}
+
+.new_topic_page_header .iconfont {
+  color: #80bd01;
+  font-size: 24px;
+  height: 40px;
+  line-height: 40px;
+}
+
 .new_topic_page_head {
+  margin-top: 40px;
   padding: 5px 2%;
   height: 30px;
   line-height: 30px;
