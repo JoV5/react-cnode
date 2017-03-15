@@ -131,7 +131,7 @@ export class TopicPage extends Component {
   }
   
   replyTopic(reply_id, username) {
-    const {toggleReplyBox, matchedTopicId} = this.props;
+    const {toggleReplyBox, matchedTopicId, history} = this.props;
 
     toggleReplyBox({
       show: true,
@@ -139,6 +139,8 @@ export class TopicPage extends Component {
       reply_id,
       replyTo: username
     });
+    
+    history.push();
   }
 
   render() {

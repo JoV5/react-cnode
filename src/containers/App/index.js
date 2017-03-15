@@ -29,6 +29,7 @@ export class App extends Component {
   constructor() {
     super(...arguments);
     this.onScrollWindow = this.onScrollWindow.bind(this);
+    this.hideReplyBoxIfShow = this.hideReplyBoxIfShow.bind(this);
   }
 
   onScrollWindow() {
@@ -48,12 +49,26 @@ export class App extends Component {
   }
 
   componentDidMount() {
+    const {history} = this.props;
+
+    history.listen(this.hideReplyBoxIfShow);
     //window.addEventListener('scroll', this.onScrollWindow);
+  }
+
+  hideReplyBoxIfShow(location, action) {
+    const {reply, toggleReplyBox} = this.props;
+    const isShow = reply.get('show');
+
+    if (action === 'POP' && isShow) {
+      toggleReplyBox({
+        show: false
+      });
+    }
   }
 
   render() {
     const {props} = this;
-    const {app, auth, selectedTab, reply, postReply, toggleReplyBox} = props;
+    const {app, auth, selectedTab, reply, postReply, toggleReplyBox, history} = props;
     const accesstoken = auth.get('accesstoken');
     const author = auth.get('loginname');
     const hasLogin = !!accesstoken;
@@ -87,7 +102,8 @@ export class App extends Component {
             <PrivateRoute path="/collection/:loginname" component={CollectionPage} hasLogin={hasLogin}/>
           </Switch>
         </main>
-        <ReplyBox reply={reply} toggleReplyBox={toggleReplyBox} postReply={postReply} accesstoken={accesstoken} author={author}/>
+        <ReplyBox reply={reply} toggleReplyBox={toggleReplyBox} postReply={postReply} accesstoken={accesstoken}
+                  author={author} history={history}/>
         <AppBottomNav auth={auth} show={appNavIsShow} selectedTab={selectedTab}/>
       </div>
     )
