@@ -1,7 +1,7 @@
 .reply_card {
   width: 100%;
-  padding: 10px 10px;
-  border-top: 1px solid #d5dbdb;
+  padding: 0.1rem 0.1rem;
+  border-top: 0.01rem solid #d5dbdb;
   display: flex;
   flex-direction: column;
 }
@@ -11,41 +11,41 @@
 }
 
 .reply_card_avatar {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
+  width: 0.3rem;
+  height: 0.3rem;
+  margin-right: 0.1rem;
   border-radius: 50%;
   float: left;
 }
 
 .reply_card_info {
-  height: 30px;
-  line-height: 30px;
-  font-size: 15px;
+  height: 0.3rem;
+  line-height: 0.3rem;
+  font-size: 0.15rem;
 }
 
 .reply_card_time {
-  font-size: 13px;
-  margin-left: 10px;
+  font-size: 0.13rem;
+  margin-left: 0.1rem;
   color: #08c;;
 }
 
 .reply_card_content {
-  padding-left: 40px;
-  font-size: 14px;
+  padding-left: 0.4rem;
+  font-size: 0.14rem;
 }
 
 .reply_by_author {
-  margin-left: 5px;
+  margin-left: 0.05rem;
   color: #fff;
   background-color: #6ba44e;
-  padding: 2px;
-  font-size: 12px
+  padding: 0.02rem;
+  font-size: 0.12rem;
 }
 
 .reply_card_icon {
   float: right;
-  padding-left: 12px;
+  padding-left: 0.12rem;
   color: #444;
 }
 
@@ -55,6 +55,6 @@
 
 .reply_card_good_count {
   float: right;
-  padding-left: 5px;
+  padding-left: 0.05rem;
   font-family: "Arial";
 }

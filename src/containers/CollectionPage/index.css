@@ -1,8 +1,11 @@
 .collection_page_pull_status_div {
   position: absolute;
-  top: -40px;
-  height: 40px;
-  line-height: 40px;
+  top: -0.4rem;
+  left: 0;
+  right: 0;
+  height: 0.4rem;
+  line-height: 0.4rem;
   text-align: center;
   width: 100%;
+  font-size: 0.16rem;
 }

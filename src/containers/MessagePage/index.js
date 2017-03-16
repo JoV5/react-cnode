@@ -10,6 +10,7 @@ import {getStateAuth} from '../../core/auth';
 import PullViewWrap from '../../components/PullViewWrap';
 import {appActions, getAppNavIsShow} from '../../core/app';
 import Loading from '../../components/Loading';
+import {default_pulledPauseY, default_scaleY} from '../../core/constants';
 
 import './index.css';
 
@@ -98,6 +99,8 @@ export class MessagePage extends Component {
             mountScrollTop={mountScrollTop}
             statusDivStyleClass="message_page_pull_status_div"
             LoadingComponent={Loading}
+            scaleY={default_scaleY}
+            pulledPauseY={default_pulledPauseY}
           >
             <MessageList data={messages}/>
           </PullViewWrap>

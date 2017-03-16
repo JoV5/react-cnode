@@ -1,16 +1,17 @@
 .topics_header {
   position: fixed;
-  top: -40px;
-  height: 40px;
-  line-height: 40px;
+  top: -0.4rem;
+  height: 0.4rem;
+  line-height: 0.4rem;
   width: 100%;
   background-color: #444;
   color: white;
-  box-shadow: 0 0 4px rgba(0, 0, 0, .25);
+  box-shadow: 0 0 0.04rem rgba(0, 0, 0, .25);
   z-index: 7;
   text-align: center;
   transition: top 0.5s ease;
-  padding: 0 10px;
+  padding: 0 0.1rem;
+  font-size: 0.16rem;
 }
 
 .topics_header.show {
@@ -32,9 +33,9 @@
 
 .topics_header .iconfont {
   color: #80bd01;
-  font-size: 24px;
-  height: 40px;
-  line-height: 40px;
+  font-size: 0.24rem;
+  height: 0.4rem;
+  line-height: 0.4rem;
 }
 
 .iconfont.new_topic {

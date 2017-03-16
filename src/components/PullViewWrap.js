@@ -52,7 +52,8 @@ export default class PullViewWrap extends PureComponent {
   }
 
   onPulling(pulledY) {
-    if (pulledY > 40) {
+    const {pulledPauseY} = this.props;
+    if (pulledY > pulledPauseY) {
       this.setState({
         pulledY,
         status: 1,
@@ -76,11 +77,11 @@ export default class PullViewWrap extends PureComponent {
   }
 
   onPullEnd(pulledY) {
-    const {onPullEnd} = this.props;
+    const {onPullEnd, pulledPauseY} = this.props;
 
-    if (pulledY > 40) {
+    if (pulledY > pulledPauseY) {
       this.setState({
-        pulledY: 40,
+        pulledY: pulledPauseY,
         status: 2,
         needStopPause: false
       });

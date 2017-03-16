@@ -1,19 +1,22 @@
 .topics_page {
-  padding-top: 40px;
+  padding-top: 0.4rem;
+  font-size: 0.16rem;
 }
 
 .topics_page_pull_status_div {
   position: absolute;
   top: 0;
-  height: 40px;
-  line-height: 40px;
+  left: 0;
+  right: 0;
+  height: 0.4rem;
+  line-height: 0.4rem;
   text-align: center;
   width: 100%;
 }
 
 .load_more_info {
   text-align: center;
-  height: 40px;
-  line-height: 40px;
+  height: 0.4rem;
+  line-height: 0.4rem;
   width: 100%;
 }

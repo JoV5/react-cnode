@@ -9,6 +9,7 @@ import {appActions, getAppNavIsShow} from '../../core/app';
 import TopicList from '../../components/TopicList';
 import PullViewWrap from '../../components/PullViewWrap';
 import Loading from '../../components/Loading';
+import {default_pulledPauseY, default_scaleY} from '../../core/constants';
 
 import './index.css';
 
@@ -74,16 +75,18 @@ export class CollectionPage extends Component {
 
     if (collections) {
       return (
-      <PullViewWrap
-        onPullEnd={onPullEnd}
-        toStopPause={toStopPause}
-        onPullViewUnmount={onPullViewUnmount}
-        mountScrollTop={mountScrollTop}
-        statusDivStyleClass="collection_page_pull_status_div"
-        LoadingComponent={Loading}
-      >
-        <TopicList data={collections}/>
-      </PullViewWrap>
+        <PullViewWrap
+          onPullEnd={onPullEnd}
+          toStopPause={toStopPause}
+          onPullViewUnmount={onPullViewUnmount}
+          mountScrollTop={mountScrollTop}
+          statusDivStyleClass="collection_page_pull_status_div"
+          LoadingComponent={Loading}
+          pulledPauseY={default_pulledPauseY}
+          scaleY={default_scaleY}
+        >
+          <TopicList data={collections}/>
+        </PullViewWrap>
       );
     } else {
       return (
@@ -112,7 +115,7 @@ const collectionsSelector = createSelector(
         });
       }
     }
-    
+
     return {
       matchedName,
       collections

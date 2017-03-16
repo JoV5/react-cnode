@@ -3,62 +3,65 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 40px;
+  height: 0.4rem;
   background-color: #444;
-  padding: 0 10px;
+  padding: 0 0.1rem;
   z-index: 9;
+  font-size: 0.16rem;
 }
 
 .new_topic_page_header .iconfont {
   color: #80bd01;
-  font-size: 24px;
-  height: 40px;
-  line-height: 40px;
+  font-size: 0.24rem;
+  height: 0.4rem;
+  line-height: 0.4rem;
 }
 
 .new_topic_page_head {
-  margin-top: 40px;
-  padding: 5px 2%;
-  height: 30px;
-  line-height: 30px;
+  margin-top: 0.4rem;
+  padding: 0.05rem 2%;
+  height: 0.3rem;
+  line-height: 0.3rem;
   display: flex;
+  font-size: 0.16rem;
 }
 
 .new_topic_page_submit {
-  width: 100px;
-  height: 30px;
-  line-height: 30px;
+  width: 1rem;
+  height: 0.3rem;
+  line-height: 0.3rem;
   background-color: #80bd01;
-  border-radius: 3px;
+  border-radius: 0.03rem;
   text-align: center;
   color: white;
-  margin-left: 10px;
+  margin-left: 0.1rem;
 }
 
 .new_topic_page_type {
-  width: 60px;
-  height: 30px;
-  line-height: 30px;
+  width: 0.6rem;
+  height: 0.3rem;
+  line-height: 0.3rem;
   flex: 1;
 }
 
 .new_topic_page_title_wrap {
-  padding: 10px 2%;
-  border-bottom: 1px solid #d4d4d4;
+  padding: 0.1rem 2%;
+  border-bottom: 0.01rem solid #d4d4d4;
   display: flex;
 }
 
 .new_topic_page_title {
-  margin-top: 10px;
-  height: 30px;
-  line-height: 30px;
-  font-size: 16px;
+  margin-top: 0.1rem;
+  height: 0.3rem;
+  line-height: 0.3rem;
+  font-size: 0.16rem;
   flex: 1;
 }
 
 .new_topic_page_content {
-  margin: 15px 2%;
+  margin: 0.15rem 2%;
   width: 96%;
   resize: none;
   border-color: #d4d4d4;
+  font-size: 0.16rem;
 }

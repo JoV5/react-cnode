@@ -15,7 +15,7 @@ html, body, #root, .root {
 }
 
 .app_main {
-  padding-bottom: 49px;
+  padding-bottom: 0.49rem;
 }
 
 a {
@@ -33,9 +33,9 @@ a {
 
 .iconfont {
   font-family:"iconfont" !important;
-  font-size:15px;
+  font-size:0.15rem;
   font-style:normal;
   -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
+  -webkit-text-stroke-width: 0.002rem;
   -moz-osx-font-smoothing: grayscale;
 }

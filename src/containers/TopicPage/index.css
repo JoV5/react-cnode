@@ -1,5 +1,6 @@
 .topic_page {
-  padding: 40px 12px 0;
+  padding: 0.4rem 0.12rem 0;
+  font-size: 0.16rem;
 }
 
 .topic_page_header {
@@ -7,41 +8,41 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 40px;
+  height: 0.4rem;
   background-color: #444;
-  padding: 0 10px;
+  padding: 0 0.1rem;
   z-index: 9;
 }
 
 .topic_page_header .iconfont {
   color: #80bd01;
-  font-size: 24px;
-  height: 40px;
-  line-height: 40px;
+  font-size: 0.24rem;
+  height: 0.4rem;
+  line-height: 0.4rem;
 }
 
 .topic_page_header .topic_reply {
   float: right;
-  font-size: 20px;
-  margin-left: 30px;
+  font-size: 0.2rem;
+  margin-left: 0.3rem;
 }
 
 .topic_page_title {
   line-height: 1.5;
-  margin: 10px 0;
+  margin: 0.1rem 0;
 }
 
 .topic_page_title_content {
-  font-size: 16px;
+  font-size: 0.16rem;
   color: #2c3e50;
 }
 
 .topic_page_title_tab {
-  padding: 1px 6px;
-  margin-right: 10px;
-  font-size: 14px;
+  padding: 0.01rem 0.06rem;
+  margin-right: 0.1rem;
+  font-size: 0.14rem;
   font-weight: normal;
-  border-radius: 3px;
+  border-radius: 0.03rem;
   color: #fff;
 }
 
@@ -66,30 +67,32 @@
 }
 
 .topic_page_info {
-  margin-bottom: 25px;
+  margin-bottom: 0.25rem;
 }
 
 .topic_page_info_avatar {
-  width: 40px;
-  height: 40px;
-  margin: 0 10px 0 0;
-  border-radius: 40px;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin: 0 0.1rem 0 0;
+  border-radius: 0.4rem;
   float: left;
 }
 
 .topic_page_info_other {
-  font-size: 13px;
+  font-size: 0.13rem;
   width: 100%;
-  height: 40px;
-  line-height: 20px;
+  height: 0.4rem;
+  line-height: 0.2rem;
   color: #34495e;
 }
 
 .topic_page_pull_status_div {
   position: absolute;
+  left: 0;
+  right: 0;
   top: 0;
-  height: 40px;
-  line-height: 40px;
+  height: 0.4rem;
+  line-height: 0.4rem;
   text-align: center;
   width: 100%;
   z-index: 1;
@@ -97,27 +100,28 @@
 
 .topic_page_reply_count {
   color: #444;
-  font-size: 14px;
+  font-size: 0.14rem;
 }
 
 .topic_page_content {
-  margin-bottom: 40px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid #81B29F;
+  margin-bottom: 0.4rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 0.01rem solid #81B29F;
+  font-size: 0.16rem;
 }
 
 .topic_page_load_replies {
   display: block;
   width: 50%;
-  height: 40px;
-  line-height: 40px;
-  border-radius: 3px;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  border-radius: 0.03rem;
   color: #fff;
-  font-size: 16px;
+  font-size: 0.16rem;
   background-color: #4fc08d;
   border: none;
-  border-bottom: 2px solid #3aa373;
+  border-bottom: 0.02rem solid #3aa373;
   text-align: center;
   vertical-align: middle;
-  margin: 20px auto;
+  margin: 0.2rem auto;
 }

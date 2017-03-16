@@ -1,7 +1,7 @@
 .recent_card {
   width: 100%;
-  padding: 10px 10px;
-  border-bottom: 1px solid #d5dbdb;
+  padding: 0.1rem 0.1rem;
+  border-bottom: 0.01rem solid #d5dbdb;
 }
 
 .recent_card a {
@@ -9,24 +9,24 @@
 }
 
 .recent_card_avatar {
-  width: 46px;
-  height: 46px;
-  margin-right: 10px;
+  width: 0.46rem;
+  height: 0.46rem;
+  margin-right: 0.1rem;
   border-radius: 50%;
   float: left;
 }
 
 .recent_card_title {
   line-height: 1.5;
-  margin: 0 0 10px;
-  font-size: 15px;
+  margin: 0 0 0.1rem;
+  font-size: 0.15rem;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
 .recent_card_other {
-  font-size: 13px;
+  font-size: 0.13rem;
 }
 
 .recent_card_other b{

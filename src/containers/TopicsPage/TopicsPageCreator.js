@@ -11,6 +11,7 @@ import {getTabTopicCreator} from '../../core/topic';
 import TopicsHeader from './TopicsHeader';
 import {appActions, getAppNavIsShow} from '../../core/app';
 import Loading from '../../components/Loading';
+import {default_pulledPauseY, default_scaleY} from '../../core/constants';
 
 import './index.css';
 
@@ -141,6 +142,8 @@ export default function (tab) {
             mountScrollTop={mountScrollTop}
             statusDivStyleClass="topics_page_pull_status_div"
             LoadingComponent={Loading}
+            scaleY={default_scaleY}
+            pulledPauseY={default_pulledPauseY}
           >
             {data && <TopicList data={data}/>}
             <Loading/>

@@ -10,7 +10,7 @@ import {appActions, getAppNavIsShow} from '../../core/app';
 import {userActions, getMatchedUserName, getIsPendingUser} from '../../core/user';
 import Loading from '../../components/Loading';
 import PullViewWrap from '../../components/PullViewWrap';
-
+import {default_pulledPauseY, default_scaleY} from '../../core/constants';
 
 import './index.css';
 
@@ -126,6 +126,8 @@ export class UserPage extends Component {
             toStopPause={toStopPause}
             statusDivStyleClass="user_page_pull_status_div"
             LoadingComponent={Loading}
+            scaleY={default_scaleY}
+            pulledPauseY={default_pulledPauseY}
           >
             <section className="user_page_userinfo">
               <img src={avatar_url} className="user_page_avatar" alt={loginname}/>

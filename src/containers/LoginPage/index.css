@@ -2,16 +2,16 @@
   position: absolute;
   top: 50%;
   width: 100%;
-  padding: 0 15px;
+  padding: 0 0.15rem;
   background-color: #fff;
 }
 .access_token_input {
-  padding: 12px 0;
+  padding: 0.12rem 0;
   border: none;
-  border-bottom: 1px solid #4fc08d;
+  border-bottom: 0.01rem solid #4fc08d;
   background-color: transparent;
   width: 100%;
-  font-size: 14px;
+  font-size: 0.14rem;
   color: #313131;
   outline: 0;
   text-align: center;
@@ -20,15 +20,15 @@
 .access_token_ok {
   display: inline-block;
   width: 99%;
-  height: 42px;
-  line-height: 42px;
-  border-radius: 3px;
+  height: 0.42rem;
+  line-height: 0.42rem;
+  border-radius: 0.03rem;
   color: #fff;
-  font-size: 16px;
+  font-size: 0.16rem;
   background-color: #4fc08d;
   border: none;
-  border-bottom: 2px solid #3aa373;
+  border-bottom: 0.02rem solid #3aa373;
   text-align: center;
   vertical-align: middle;
-  margin-top: 40px;
+  margin-top: 0.4rem;
 }

@@ -13,6 +13,7 @@ import {appActions} from '../../core/app';
 import TopicContent from './TopicContent';
 import Loading from '../../components/Loading'
 import PullViewWrap from '../../components/PullViewWrap';
+import {default_pulledPauseY, default_scaleY} from '../../core/constants';
 
 import './index.css';
 
@@ -165,6 +166,8 @@ export class TopicPage extends Component {
           toStopPause={toStopPause}
           statusDivStyleClass="topic_page_pull_status_div"
           LoadingComponent={Loading}
+          scaleY={default_scaleY}
+          pulledPauseY={default_pulledPauseY}
         >
           <TopicContent topic={matchedTopic}/>
           {

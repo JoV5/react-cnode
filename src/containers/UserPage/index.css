@@ -1,5 +1,6 @@
 .user_page {
-  padding-top: 40px;
+  padding-top: 0.4rem;
+  font-size: 0.16rem;
 }
 
 .user_page_header {
@@ -7,17 +8,17 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 40px;
+  height: 0.4rem;
   background-color: #444;
-  padding: 0 10px;
+  padding: 0 0.1rem;
   z-index: 9;
 }
 
 .user_page_header .iconfont {
   color: #80bd01;
-  font-size: 24px;
-  height: 40px;
-  line-height: 40px;
+  font-size: 0.24rem;
+  height: 0.4rem;
+  line-height: 0.4rem;
 }
 
 .user_page_header .user_back {
@@ -31,24 +32,26 @@
 .user_page_pull_status_div {
   position: absolute;
   top: 0;
-  height: 40px;
-  line-height: 40px;
+  left: 0;
+  right: 0;
+  height: 0.4rem;
+  line-height: 0.4rem;
   text-align: center;
   width: 100%;
   z-index: 1;
 }
 
 .user_page_userinfo {
-  padding: 20px 0;
+  padding: 0.2rem 0;
   background-color: #e7e7e7;
   display: flex;
 }
 
 .user_page_avatar {
-  width: 120px;
-  height: 120px;
+  width: 1.2rem;
+  height: 1.2rem;
   border-radius: 50%;
-  margin: 10px 30px 10px 20px;
+  margin: 0.1rem 0.3rem 0.1rem 0.2rem;
 }
 
 .user_page_userinfo_detail {
@@ -66,9 +69,9 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  height: 40px;
-  line-height: 40px;
-  border-bottom: 1px solid #d4d4d4;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  border-bottom: 0.01rem solid #d4d4d4;
 }
 
 .user_page_tab {
@@ -77,6 +80,6 @@
 }
 
 .user_page_tab.selected{
-  border-bottom: 2px solid #80bd01;
+  border-bottom: 0.02rem solid #80bd01;
   color: #80bd01;
 }
