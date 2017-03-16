@@ -34,13 +34,11 @@ export default class ReplyBox extends Component {
   }
 
   hideReplyBox() {
-    const {toggleReplyBox, history} = this.props;
+    const {toggleReplyBox} = this.props;
 
     toggleReplyBox({
       show: false
     });
-    
-    history.goBack();
     
     this.content.value = '';
   }

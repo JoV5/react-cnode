@@ -51,17 +51,20 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    const {history} = this.props;
+    const {history, saveHistory} = this.props;
 
     history.listen(this.hideReplyBoxIfShow);
+    
+    saveHistory(history);
     //window.addEventListener('scroll', this.onScrollWindow);
   }
 
   hideReplyBoxIfShow(location, action) {
-    const {reply, toggleReplyBox} = this.props;
+    const {reply, toggleReplyBox, history} = this.props;
     const isShow = reply.get('show');
 
     if (action === 'POP' && isShow) {
+      history.push(); // 补一次push，避免退出页面
       toggleReplyBox({
         show: false
       });
@@ -131,6 +134,7 @@ const mapStateToProps = createSelector(
 
 const mapDispatchToProps = {
   toggleAppNav: appActions.toggleAppNav,
+  saveHistory: appActions.saveHistory,
   toggleReplyBox: replyActions.toggleReplyBox,
   postReply: replyActions.postReply
 };

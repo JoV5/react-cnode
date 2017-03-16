@@ -143,7 +143,7 @@ export class TopicPage extends Component {
   }
   
   replyTopic(reply_id, username) {
-    const {toggleReplyBox, matchedTopicId, history, auth} = this.props;
+    const {toggleReplyBox, matchedTopicId, auth} = this.props;
     const accesstoken = auth.get('accesstoken');
 
     if (accesstoken) {
@@ -154,7 +154,6 @@ export class TopicPage extends Component {
         replyTo: username
       });
 
-      history.push();
     } else {
       this.redirectToLogin();
     }
