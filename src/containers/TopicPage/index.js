@@ -26,6 +26,7 @@ export class TopicPage extends Component {
     this.decollectTopic = this.decollectTopic.bind(this);
     this.loadTopic = this.loadTopic.bind(this);
     this.replyTopic = this.replyTopic.bind(this);
+    this.redirectToLogin = this.redirectToLogin.bind(this);
   }
 
   state = {
@@ -95,6 +96,8 @@ export class TopicPage extends Component {
         topicid,
         userid
       })
+    } else {
+      this.redirectToLogin();
     }
   }
 
@@ -103,23 +106,31 @@ export class TopicPage extends Component {
     const accesstoken = auth.get('accesstoken');
     const loginname = auth.get('loginname');
 
-    collectTopic({
-      accesstoken,
-      loginname,
-      topic_id: matchedTopicId
-    });
+    if (accesstoken) {
+      collectTopic({
+        accesstoken,
+        loginname,
+        topic_id: matchedTopicId
+      });
+    } else {
+      this.redirectToLogin();
+    }
   }
 
   decollectTopic() {
     const {decollectTopic, auth, matchedTopicId} = this.props;
     const accesstoken = auth.get('accesstoken');
     const loginname = auth.get('loginname');
-
-    decollectTopic({
-      accesstoken,
-      loginname,
-      topic_id: matchedTopicId
-    });
+    
+    if (accesstoken) {
+      decollectTopic({
+        accesstoken,
+        loginname,
+        topic_id: matchedTopicId
+      });
+    } else {
+      this.redirectToLogin();
+    }
 
   }
 
@@ -132,16 +143,29 @@ export class TopicPage extends Component {
   }
   
   replyTopic(reply_id, username) {
-    const {toggleReplyBox, matchedTopicId, history} = this.props;
+    const {toggleReplyBox, matchedTopicId, history, auth} = this.props;
+    const accesstoken = auth.get('accesstoken');
 
-    toggleReplyBox({
-      show: true,
-      topic_id: matchedTopicId,
-      reply_id,
-      replyTo: username
-    });
+    if (accesstoken) {
+      toggleReplyBox({
+        show: true,
+        topic_id: matchedTopicId,
+        reply_id,
+        replyTo: username
+      });
+
+      history.push();
+    } else {
+      this.redirectToLogin();
+    }
+  }
+
+  redirectToLogin() {
+    const {matchedTopicId, history} = this.props;
     
-    history.push();
+    history.replace('/login', {
+      from: `/topic/${matchedTopicId}`
+    });
   }
 
   render() {

@@ -95,15 +95,18 @@ export class App extends Component {
               }
             }}/>
             <Route path="/topic/:topicid" component={TopicPage}/>
-            <Route path="/newtopic" component={NewTopicPage}/>
+            <PrivateRoute path="/newtopic" component={NewTopicPage} hasLogin={hasLogin}/>
             <Route path="/login" component={LoginPage}/>
             <Route path="/user/:loginname" component={UserPage}/>
             <PrivateRoute path="/message" component={MessagePage} hasLogin={hasLogin}/>
             <PrivateRoute path="/collection/:loginname" component={CollectionPage} hasLogin={hasLogin}/>
           </Switch>
         </main>
-        <ReplyBox reply={reply} toggleReplyBox={toggleReplyBox} postReply={postReply} accesstoken={accesstoken}
-                  author={author} history={history}/>
+        {
+          hasLogin && 
+          <ReplyBox reply={reply} toggleReplyBox={toggleReplyBox} postReply={postReply} accesstoken={accesstoken}
+                    author={author} history={history}/>
+        }
         <AppBottomNav auth={auth} show={appNavIsShow} selectedTab={selectedTab}/>
       </div>
     )
