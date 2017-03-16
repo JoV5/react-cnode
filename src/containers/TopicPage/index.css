@@ -96,6 +96,7 @@
   text-align: center;
   width: 100%;
   z-index: 1;
+  background-color: #EAEAEA;
 }
 
 .topic_page_reply_count {

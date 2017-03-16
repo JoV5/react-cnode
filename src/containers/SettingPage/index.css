@@ -1,0 +1,41 @@
+.setting_page {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  padding: 0 0.15rem;
+  background-color: #fff;
+}
+
+.setting_page_header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.4rem;
+  background-color: #444;
+  padding: 0 0.1rem;
+  z-index: 9;
+}
+
+.setting_page_header .iconfont {
+  color: #80bd01;
+  font-size: 0.24rem;
+  height: 0.4rem;
+  line-height: 0.4rem;
+}
+
+.setting_page_logout {
+  display: inline-block;
+  width: 99%;
+  height: 0.42rem;
+  line-height: 0.42rem;
+  border-radius: 0.03rem;
+  color: #fff;
+  font-size: 0.16rem;
+  background-color: #4fc08d;
+  border: none;
+  border-bottom: 0.02rem solid #3aa373;
+  text-align: center;
+  vertical-align: middle;
+  margin-top: 0.4rem;
+}

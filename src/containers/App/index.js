@@ -12,13 +12,15 @@ import {getStateAuth} from '../../core/auth';
 import {getSelectedTab} from '../../core/topic';
 import {replyActions, getStateReply} from '../../core/reply';
 import ReplyBox from '../../components/ReplyBox';
+import TopicPage from '../TopicPage';
 
-const TopicPage = lazyme(() => System.import('../TopicPage'));
+//const TopicPage = lazyme(() => System.import('../TopicPage'));
 const NewTopicPage = lazyme(() => System.import('../NewTopicPage'));
 const LoginPage = lazyme(() => System.import('../LoginPage'));
 const UserPage = lazyme(() => System.import('../UserPage'));
 const MessagePage = lazyme(() => System.import('../MessagePage'));
 const CollectionPage = lazyme(() => System.import('../CollectionPage'));
+const SettingPage = lazyme(() => System.import('../SettingPage'));
 
 import './index.css';
 
@@ -97,6 +99,7 @@ export class App extends Component {
             <Route path="/topic/:topicid" component={TopicPage}/>
             <PrivateRoute path="/newtopic" component={NewTopicPage} hasLogin={hasLogin}/>
             <Route path="/login" component={LoginPage}/>
+            <Route path="/setting" component={SettingPage}/>
             <Route path="/user/:loginname" component={UserPage}/>
             <PrivateRoute path="/message" component={MessagePage} hasLogin={hasLogin}/>
             <PrivateRoute path="/collection/:loginname" component={CollectionPage} hasLogin={hasLogin}/>

@@ -70,15 +70,14 @@ export class MessagePage extends Component {
   }
 
   componentWillUnmount() {
-    const {auth, markAllMessage, messageCount} = this.props;
+    const {auth, markAllMessage} = this.props;
     const accesstoken = auth.get('accesstoken');
 
+    // TODO 开一个定时器刷是否有未读消息
     // 在退出页面时，若有未读消息，标记未读消息为已读
-    if (messageCount) {
-      markAllMessage({
-        accesstoken
-      });
-    }
+    markAllMessage({
+      accesstoken
+    });
   }
 
   render() {

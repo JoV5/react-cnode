@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
+import {Link} from 'react-router-dom';
 
 import {timeago} from '../../core/utils';
 import RecentList from '../../components/RecentList';
@@ -117,8 +118,8 @@ export class UserPage extends Component {
         <div className="user_page">
           <div className="user_page_header">
             {isMe ?
-              <i className="iconfont user_setting">&#xe779;</i> :
-              <i className="iconfont user_back" onClick={goBack}>&#xe6e6;</i>
+              <Link to="/setting"><i className="iconfont float_right">&#xe779;</i></Link> :
+              <i className="iconfont float_left" onClick={goBack}>&#xe6e6;</i>
             }
           </div>
           <PullViewWrap
