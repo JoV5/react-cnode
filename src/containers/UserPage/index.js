@@ -13,6 +13,7 @@ import {userActions, getMatchedUserName, getIsPendingUser} from '../../core/user
 import Loading from '../../components/Loading';
 import PullViewWrap from '../../components/PullViewWrap';
 import {default_pulledPauseY, default_scaleY} from '../../core/constants';
+import {shallowEqual} from '../../core/utils';
 
 import './index.css';
 
@@ -83,10 +84,10 @@ export class UserPage extends Component {
     }
   }
   
-  shouldComponentUpdate(nextProps) {
-    const {props: {matchedUser, recentTopics}} = this;
+  shouldComponentUpdate(nextProps, nextState) {
+    const {props: {matchedUser, recentTopics}, state} = this;
     
-    return !is(matchedUser, nextProps.matchedUser) && !is(recentTopics, nextProps.recentTopics);
+    return !is(matchedUser, nextProps.matchedUser) || !is(recentTopics, nextProps.recentTopics) || !shallowEqual(nextState, state);
   }
 
   loadUser() {

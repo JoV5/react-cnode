@@ -6,8 +6,7 @@ import './index.css';
 export default class AppBottomNav extends Component {
 
   render() {
-    const {auth, show, selectedTab} = this.props;
-    const loginname = auth.get('loginname');
+    const {show, selectedTab} = this.props;
 
     return (
       <nav className={`app_bottom_nav ${show ? 'show' : ''}`}>
@@ -21,5 +20,6 @@ export default class AppBottomNav extends Component {
 }
 
 AppBottomNav.propTypes = {
-  logout: PropTypes.func
+  logout: PropTypes.func,
+  show: PropTypes.bool
 };
