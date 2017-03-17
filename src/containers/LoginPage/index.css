@@ -5,6 +5,25 @@
   padding: 0 0.15rem;
   background-color: #fff;
 }
+
+.login_page_header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.4rem;
+  background-color: #444;
+  padding: 0 0.1rem;
+  z-index: 9;
+}
+
+.login_page_header .iconfont {
+  color: #80bd01;
+  font-size: 0.24rem;
+  height: 0.4rem;
+  line-height: 0.4rem;
+}
+
 .access_token_input {
   padding: 0.12rem 0;
   border: none;

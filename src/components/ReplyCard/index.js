@@ -41,7 +41,7 @@ ReplyCard.propTypes = {
   data: PropTypes.object.isRequired,
   i: PropTypes.number.isRequired,
   replyUp: PropTypes.func.isRequired,
-  userId: PropTypes.string.isRequired,
+  userId: PropTypes.string,
   replyTopic: PropTypes.func.isRequired,
   topicAuthor: PropTypes.string.isRequired
 };

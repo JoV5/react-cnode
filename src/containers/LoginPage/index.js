@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
 import {authActions} from '../../core/auth';
+import {appActions} from '../../core/app';
 
 import './index.css';
 
@@ -11,6 +12,12 @@ export class LoginPage extends Component {
   constructor() {
     super(...arguments);
     this.login = this.login.bind(this);
+  }
+
+  componentWillMount() {
+    const {toggleAppNav} = this.props;
+    
+    toggleAppNav(false);
   }
 
   login() {
@@ -23,7 +30,7 @@ export class LoginPage extends Component {
 
   render() {
     const {props, login} = this;
-    const {auth, location: {state}} = props;
+    const {auth, location: {state}, history: {goBack}} = props;
 
     const {from} = state || {from: {pathname: '/'}};
     const accesstoken = auth.get('accesstoken');
@@ -35,6 +42,9 @@ export class LoginPage extends Component {
     } else {
       return (
         <div className="login_page">
+          <div className="login_page_header">
+            <i className="iconfont float_left" onClick={goBack}>&#xe6e6;</i>
+          </div>
           <input className="access_token_input" ref={(input) => this.input = input}/>
           <button className="access_token_ok" onClick={login}>登录</button>
         </div>
@@ -50,7 +60,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  login: authActions.login
+  login: authActions.login,
+  toggleAppNav: appActions.toggleAppNav
 };
 
 export default connect(

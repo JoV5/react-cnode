@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {Link} from 'react-router-dom';
+import {is} from 'immutable';
 
 import {timeago} from '../../core/utils';
 import RecentList from '../../components/RecentList';
@@ -81,6 +82,12 @@ export class UserPage extends Component {
       });
     }
   }
+  
+  shouldComponentUpdate(nextProps) {
+    const {props: {matchedUser, recentTopics}} = this;
+    
+    return !is(matchedUser, nextProps.matchedUser) && !is(recentTopics, nextProps.recentTopics);
+  }
 
   loadUser() {
     const {loadUser, isPendingUser, matchedName} = this.props;
@@ -105,8 +112,8 @@ export class UserPage extends Component {
   render() {
     const {props, state: {tabSelected, toStopPause}, loadUser} = this;
     const {matchedUser, recentTopics, recentReplies, history: {goBack}, auth} = props;
+    
     if (matchedUser && recentTopics && recentReplies) {
-      //const {loginname, avatar_url, create_at, score} = matchedUser;
       const loginname = matchedUser.get('loginname');
       const avatar_url = matchedUser.get('avatar_url');
       const create_at = matchedUser.get('create_at');
@@ -176,6 +183,7 @@ const mapStateToProps = createSelector(
   getIsPendingUser,
   getAppNavIsShow,
   (dbTopics, dbUsers, matchedName, auth, isPendingUser, appNavIsShow) => {
+    matchedName = matchedName || auth.get('loginname');
     let matchedUser = dbUsers.get(matchedName);
     let recentTopics = false;
     let recentReplies = false;

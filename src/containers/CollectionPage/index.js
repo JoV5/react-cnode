@@ -5,6 +5,7 @@ import {createSelector} from 'reselect';
 import {collectionActions, getStateCollection} from '../../core/collection';
 import {getDBUsers, getDBTopics} from '../../core/db';
 import {getMatchedUserName} from '../../core/user';
+import {getStateAuth} from '../../core/auth';
 import {appActions, getAppNavIsShow} from '../../core/app';
 import TopicList from '../../components/TopicList';
 import PullViewWrap from '../../components/PullViewWrap';
@@ -99,20 +100,24 @@ export class CollectionPage extends Component {
 const collectionsSelector = createSelector(
   getDBTopics,
   getDBUsers,
+  getStateAuth,
   getMatchedUserName,
-  (dbTopics, dbUsers, matchedName) => {
-    const matchedUser = dbUsers.get(matchedName);
+  (dbTopics, dbUsers, auth, matchedName) => {
+    matchedName = matchedName || auth.get('loginname');
     let collections = false;
 
-    if (matchedUser) {
-      collections = matchedUser.get('collections');
+    if (matchedName) {
+      const matchedUser = dbUsers.get(matchedName);
+      if (matchedUser) {
+        collections = matchedUser.get('collections');
 
-      if (collections) {
-        collections = collections.map((collectionId) => {
-          const collection = dbTopics.get(collectionId);
+        if (collections) {
+          collections = collections.map((collectionId) => {
+            const collection = dbTopics.get(collectionId);
 
-          return collection.set('author', dbUsers.get(collection.get('author')));
-        });
+            return collection.set('author', dbUsers.get(collection.get('author')));
+          });
+        }
       }
     }
 

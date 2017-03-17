@@ -167,11 +167,15 @@ export default function (tab) {
       if (tabTopicIds.size) {
         topics = new List();
 
-        tabTopicIds.forEach((topicId, index) => {
+        tabTopicIds.forEach((topicId) => {
           const topic = dbTopics.get(topicId);
 
           if (topic) {
-            topics = topics.set(index, topic.set('author', dbUsers.get(topic.get('author'))));
+            if (topic.get('top')) {
+              topics = topics.unshift(topic.set('author', dbUsers.get(topic.get('author'))));
+            } else {
+              topics = topics.push(topic.set('author', dbUsers.get(topic.get('author'))));
+            }
           } else {
             topics = lastTopics;
             return false;

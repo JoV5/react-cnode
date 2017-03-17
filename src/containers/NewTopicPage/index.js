@@ -25,12 +25,14 @@ export class NewTopicPage extends Component {
   handlePost() {
     const {tab, content, title, props: {postTopic, auth}} = this;
     const accesstoken = auth.get('accesstoken');
+    const author = auth.get('loginname');
     
     postTopic({
       accesstoken,
       tab: tab.value,
       title: title.value,
-      content: content.value
+      content: content.value,
+      author
     });
   }
 

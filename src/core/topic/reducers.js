@@ -92,7 +92,24 @@ export function topicReducer(state = fromJS(TopicState), action) {
       } else if (payload.type === 'topic') {
         return state.set('isPendingTopic', false);
       } else if (payload.type === 'posttopic') {
-        return state.set('isPostingTopic', false);
+        let newState = state.set('isPostingTopic', false);
+        
+        newState = newState.updateIn(['all', 'data'], (data) => {
+          if (data.size) {
+            return data.unshift(payload.result.data.topic_id);
+          } else {
+            return data;
+          }
+        });
+        newState = newState.updateIn([payload.param.tab, 'data'], (data) => {
+          if (data.size) {
+            return data.unshift(payload.result.data.topic_id);
+          } else {
+            return data;
+          }
+        });
+        
+        return newState;
       }
 
       return state;

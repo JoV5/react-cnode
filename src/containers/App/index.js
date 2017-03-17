@@ -12,9 +12,17 @@ import {getStateAuth} from '../../core/auth';
 import {getSelectedTab} from '../../core/topic';
 import {replyActions, getStateReply} from '../../core/reply';
 import ReplyBox from '../../components/ReplyBox';
-import TopicPage from '../TopicPage';
 
-//const TopicPage = lazyme(() => System.import('../TopicPage'));
+// TODO 直接引入反而出现异常，显示空白，可能与react router有关
+// import TopicPage from '../TopicPage';
+// import NewTopicPage from '../NewTopicPage';
+// import LoginPage from '../LoginPage';
+// import UserPage from '../UserPage';
+// import MessagePage from '../MessagePage';
+// import CollectionPage from '../CollectionPage';
+// import SettingPage from '../SettingPage';
+
+const TopicPage = lazyme(() => System.import('../TopicPage'));
 const NewTopicPage = lazyme(() => System.import('../NewTopicPage'));
 const LoginPage = lazyme(() => System.import('../LoginPage'));
 const UserPage = lazyme(() => System.import('../UserPage'));
@@ -104,8 +112,10 @@ export class App extends Component {
             <Route path="/login" component={LoginPage}/>
             <Route path="/setting" component={SettingPage}/>
             <Route path="/user/:loginname" component={UserPage}/>
+            <PrivateRoute exact path="/user" component={UserPage} hasLogin={hasLogin}/>
             <PrivateRoute path="/message" component={MessagePage} hasLogin={hasLogin}/>
-            <PrivateRoute path="/collection/:loginname" component={CollectionPage} hasLogin={hasLogin}/>
+            <PrivateRoute exact path="/collection" component={CollectionPage} hasLogin={hasLogin}/>
+            <Route path="/collection/:loginname" component={CollectionPage}/>
           </Switch>
         </main>
         {

@@ -28,9 +28,16 @@ export function fetchAuthFulFilled(action$) {
     });
 }
 
-export function logout(actions$) {
+export function logout(actions$, {getState}) {
   return actions$.ofType(authActions.LOGOUT)
-    .map(() => localStoreActions.deleteLocal('auth'));
+    .map(() => {
+      const history = getState().app.get('history');
+      const selectedTab = getState().topic.get('selectedTab');
+      
+      history.replace(`/topics/${selectedTab}`);
+      
+      return localStoreActions.deleteLocal('auth');
+    });
 }
 
 export const authEpics = [

@@ -20,7 +20,7 @@ export function postNewTopic(action$) {
     .switchMap(({payload}) => postTopic(payload));
 }
 
-export function fetchTopicFulfilled(action$) {
+export function fetchTopicFulfilled(action$, {getState}) {
   return action$.ofType(topicActions.FETCH_TOPIC_FULFILLED)
     .map(({payload: {result, type, param}}) => {
       const data = result.data.data;
@@ -31,8 +31,24 @@ export function fetchTopicFulfilled(action$) {
       } else if (type === 'topics') {
         return dbActions.mergeDeep(normalize(data, topicsSchema).entities);
       } else if (type === 'posttopic') {
-        // TODO
-        console.log(result, type, param)
+        const history = getState().app.get('history');
+
+        history.goBack();
+        
+        return dbActions.mergeDeep({
+          topics: {
+            [result.data.topic_id]: {
+              ...param,
+              last_reply_at: new Date(),
+              top: false,
+              create_at: new Date(),
+              reply_count: 0,
+              id: result.data.topic_id,
+              visit_count: 0,
+              good: false
+            }
+          }
+        });
       }
 
       return false;

@@ -10,7 +10,6 @@ const TopicCard = ({data}) => {
   const author = data.get('author'),
     loginname = author.get('loginname'),
     avatar_url = author.get('avatar_url'),
-    //author_id = data.get('author_id'),
     last_reply_at = data.get('last_reply_at'),
     top = data.get('top'),
     tab = data.get('tab'),
