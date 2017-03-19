@@ -5,52 +5,54 @@ export default class PullView extends PureComponent {
   static propTypes = {
     onPulling: PropTypes.func,
     onPullEnd: PropTypes.func,
-    onPullingPause: PropTypes.func,
     onScrollToBottom: PropTypes.func,
     onScrollUp: PropTypes.func,
     onScrollDown: PropTypes.func,
-    componentWillUnmount: PropTypes.func,
+    onPullViewUnmount: PropTypes.func,
+    onStatusChange: PropTypes.func,
     mountScrollTop: PropTypes.number,
     toBottom: PropTypes.number,
     pulledPauseY: PropTypes.number,
-    needStopPause: PropTypes.bool,
+    toStopPause: PropTypes.bool,
     scaleY: PropTypes.number
   };
 
   static defaultProps = {
     scaleY: 0.2,
     toBottom: 0,
-    pulledPauseY: 0,
-    mountScrollTop: 0
+    pulledPauseY: 40,
+    mountScrollTop: 0,
+    toStopPause: false
   };
 
   state = {
     pulledY: 0
   };
 
-  touching = false;
+  touching = false; // 是否处于touch状态
   startY = undefined;
   endY = undefined;
-  pulling = false;
-  ifPause = false;
-  lastScrollTop = undefined;
+  status = 0;
+  lastScrollTop = undefined; // 上次scrollTop的位置
   container = document.body;
 
   constructor() {
     super(...arguments);
-    this.onTouchStart = this.onTouchStart.bind(this);
-    this.onTouchMove = this.onTouchMove.bind(this);
-    this.onTouchEnd = this.onTouchEnd.bind(this);
-    this.onScroll = this.onScroll.bind(this);
+    this._onTouchStart = this._onTouchStart.bind(this);
+    this._onTouchMove = this._onTouchMove.bind(this);
+    this._onTouchEnd = this._onTouchEnd.bind(this);
+    this._onScroll = this._onScroll.bind(this);
+    this._onPulling = this._onPulling.bind(this);
+    this._onPullEnd = this._onPullEnd.bind(this);
+    this._changeStatus = this._changeStatus.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.needStopPause) {
-      this.pulling = false;
-      this.ifPause = false;
+  componentWillReceiveProps({toStopPause}) {
+    if (toStopPause && this.status === 3) {
       this.setState({
         pulledY: 0
-      })
+      });
+      this._changeStatus(0);
     }
   }
 
@@ -59,43 +61,43 @@ export default class PullView extends PureComponent {
     container.scrollTop = mountScrollTop;
     this.lastScrollTop = mountScrollTop;
 
-    container.addEventListener('touchstart', this.onTouchStart);
-    container.addEventListener('touchmove', this.onTouchMove, {passive: false});
-    container.addEventListener('touchend', this.onTouchEnd);
-    container.addEventListener('mousedown', this.onTouchStart);
-    container.addEventListener('mousemove', this.onTouchMove, {passive: false});
-    container.addEventListener('mouseup', this.onTouchEnd);
-    window.addEventListener('scroll', this.onScroll);
+    container.addEventListener('touchstart', this._onTouchStart);
+    container.addEventListener('touchmove', this._onTouchMove, {passive: false});
+    container.addEventListener('touchend', this._onTouchEnd);
+    container.addEventListener('mousedown', this._onTouchStart);
+    container.addEventListener('mousemove', this._onTouchMove, {passive: false});
+    container.addEventListener('mouseup', this._onTouchEnd);
+    window.addEventListener('scroll', this._onScroll);
   }
 
   componentWillUnmount() {
-    const {props: {componentWillUnmount}, container} = this;
-    componentWillUnmount && componentWillUnmount(container.scrollTop);
+    const {props: {onPullViewUnmount}, container} = this;
+    onPullViewUnmount && onPullViewUnmount(container.scrollTop);
 
-    container.removeEventListener('touchstart', this.onTouchStart);
-    container.removeEventListener('touchmove', this.onTouchMove);
-    container.removeEventListener('touchend', this.onTouchEnd);
-    container.removeEventListener('mousedown', this.onTouchStart);
-    container.removeEventListener('mousemove', this.onTouchMove);
-    container.removeEventListener('mouseup', this.onTouchEnd);
-    window.removeEventListener('scroll', this.onScroll);
+    container.removeEventListener('touchstart', this._onTouchStart);
+    container.removeEventListener('touchmove', this._onTouchMove);
+    container.removeEventListener('touchend', this._onTouchEnd);
+    container.removeEventListener('mousedown', this._onTouchStart);
+    container.removeEventListener('mousemove', this._onTouchMove);
+    container.removeEventListener('mouseup', this._onTouchEnd);
+    window.removeEventListener('scroll', this._onScroll);
   }
 
-  onTouchStart() {
+  _onTouchStart() {
     this.touching = true;
   }
 
-  onTouchMove(e) {
+  _onTouchMove(e) {
     const {
       container,
-      props: {onPulling, onPullingPause, scaleY},
-      touching, startY, pulling, ifPause
+      props: {onPulling, scaleY},
+      touching, startY, status, _onPulling
     } = this;
     const eTouchScreenY = e.touches ? e.touches[0].screenY : e.screenY;
 
     if (!touching) return;
 
-    if (pulling) {
+    if (status) {
       const pulledY = (eTouchScreenY - startY) * scaleY;
 
       if (pulledY >= 0) {
@@ -104,19 +106,19 @@ export default class PullView extends PureComponent {
           pulledY: pulledY
         });
 
-        if (ifPause) {
-          onPullingPause && onPullingPause(pulledY);
-        } else {
-          onPulling && onPulling(pulledY);
+        if (status !== 3) {
+          _onPulling && _onPulling(pulledY);
         }
+        
+        onPulling && onPulling(pulledY);
 
         e.preventDefault();
       } else {
-        if (ifPause) {
-          this.ifPause = false;
+        if (status === 3) {
           this.setState({
             pulledY: 0
           });
+          this._changeStatus(0);
         } else {
           this.setState({
             pulledY: 0
@@ -126,12 +128,14 @@ export default class PullView extends PureComponent {
     } else {
       if (container.scrollTop === 0) {
         this.startY = eTouchScreenY;
-        this.pulling = true;
+        if (!this.status) {
+          this._changeStatus(1);
+        }
       }
     }
   }
 
-  onScroll() {
+  _onScroll() {
     const {container, props: {toBottom, onScrollToBottom, onScrollUp, onScrollDown}} = this;
     const scrollTop = Math.ceil(container.scrollTop);
     const clientHeight = window.innerHeight;
@@ -150,20 +154,53 @@ export default class PullView extends PureComponent {
     this.lastScrollTop = scrollTop;
   }
 
-  onTouchEnd() {
-    const {props: {onPullEnd, pulledPauseY}, state: {pulledY}, pulling} = this;
+  _onTouchEnd() {
+    const {props: {pulledPauseY}, state: {pulledY}, status, _onPullEnd} = this;
 
-    if (pulling) {
-      const ifPause = onPullEnd ? onPullEnd(pulledY) : false;
+    if (status) {
+      const isPause = _onPullEnd ? _onPullEnd(pulledY) : false;
 
       this.setState({
-        pulledY: ifPause ? pulledPauseY : 0
+        pulledY: isPause ? pulledPauseY : 0
       });
-      this.ifPause = ifPause;
-      this.pulling = ifPause;
+      this._changeStatus(isPause ? 3 : 0);
     }
 
     this.touching = false;
+  }
+
+  _onPulling(pulledY) {
+    const {props: {pulledPauseY}, status} = this;
+    
+    if (pulledY > pulledPauseY) {
+      if (status !== 2) {
+        this._changeStatus(2);
+      }
+    } else {
+      if (status !== 1) {
+        this._changeStatus(1);
+      }
+    }
+  }
+  
+  _onPullEnd(pulledY) {
+    const {pulledPauseY, onPullEnd} = this.props;
+
+    if (pulledY > pulledPauseY) {
+      this._changeStatus(3);
+      onPullEnd && onPullEnd();
+      return true;
+    } else {
+      this._changeStatus(0);
+      return false;
+    }
+  }
+  
+  _changeStatus(status) {
+    const {onStatusChange} = this.props;
+    
+    this.status = status;
+    onStatusChange && onStatusChange(this.status);
   }
 
   render() {

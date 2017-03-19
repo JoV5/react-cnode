@@ -5,8 +5,7 @@ import PullView from './PullView';
 export default class PullViewWrap extends PureComponent {
 
   static defaultProps = {
-    pulledPauseY: 40,
-    StatusText: ['↓ 下拉刷新', '↑ 释放更新', '加载中...']
+    statusText: ['↓ 下拉刷新', '↓ 下拉刷新', '↑ 释放更新', '加载中...']
   };
 
   static propTypes = {
@@ -25,87 +24,40 @@ export default class PullViewWrap extends PureComponent {
   constructor() {
     super(...arguments);
     this.onPulling = this.onPulling.bind(this);
-    this.onPullingPause = this.onPullingPause.bind(this);
-    this.onPullEnd = this.onPullEnd.bind(this);
+    this.onStatusChange = this.onStatusChange.bind(this);
   }
 
   state = {
     pulledY: 0,
-    status: 0, // 0：下拉刷新，1：释放刷新，2：加载中
-    needStopPause: false,
-    toStopPause: false
+    status: 0 // 0：下拉刷新，1：释放刷新，2：加载中
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.toStopPause && this.state.status === 2) {
+  onStatusChange(status) {
+    if (status) {
       this.setState({
-        status: 0,
-        needStopPause: true,
-        pulledY: 0,
-        toStopPause: false
-      });
+        status
+      })
     } else {
       this.setState({
-        needStopPause: false
-      });
+        status,
+        pulledY: 0
+      })
     }
   }
 
   onPulling(pulledY) {
-    const {pulledPauseY} = this.props;
-    if (pulledY > pulledPauseY) {
-      this.setState({
-        pulledY,
-        status: 1,
-        needStopPause: false
-      });
-    } else {
-      this.setState({
-        pulledY,
-        status: 0,
-        needStopPause: false
-      });
-    }
-  }
-
-  onPullingPause(pulledY) {
     this.setState({
-      pulledY: pulledY,
-      status: 2,
-      needStopPause: false
+      pulledY
     });
-  }
-
-  onPullEnd(pulledY) {
-    const {onPullEnd, pulledPauseY} = this.props;
-
-    if (pulledY > pulledPauseY) {
-      this.setState({
-        pulledY: pulledPauseY,
-        status: 2,
-        needStopPause: false
-      });
-
-      onPullEnd && onPullEnd();
-      return true;
-    } else {
-      this.setState({
-        pulledY: 0,
-        status: 0,
-        needStopPause: false
-      });
-      return false;
-    }
   }
 
   render() {
     const {
       props: {children, mountScrollTop, onScrollUp, onScrollDown, onScrollToBottom, onPullViewUnmount, pulledPauseY,
-        toBottom, scaleY, statusDivStyleClass, LoadingComponent, StatusText},
-      state: {pulledY, needStopPause, status},
+        toBottom, scaleY, statusDivStyleClass, LoadingComponent, statusText, toStopPause, onPullEnd},
+      state: {pulledY, status},
       onPulling,
-      onPullEnd,
-      onPullingPause
+      onStatusChange
     } = this;
 
     return (
@@ -116,21 +68,21 @@ export default class PullViewWrap extends PureComponent {
             transform: `translate3d(0px, ${pulledY}px, 0px)`
           }}
         >
-          {status === 2 ? (LoadingComponent ? <LoadingComponent/> : '加载中...') : StatusText[status]}
+          {status === 3 && LoadingComponent ? <LoadingComponent/> : statusText[status]}
         </div>
         <PullView
           onPulling={onPulling}
           onPullEnd={onPullEnd}
-          onPullingPause={onPullingPause}
           onScrollToBottom={onScrollToBottom}
           onScrollUp={onScrollUp}
           onScrollDown={onScrollDown}
-          componentWillUnmount={onPullViewUnmount}
+          onPullViewUnmount={onPullViewUnmount}
           mountScrollTop={mountScrollTop}
           pulledPauseY={pulledPauseY}
-          needStopPause={needStopPause}
+          toStopPause={toStopPause}
           toBottom={toBottom}
           scaleY={scaleY}
+          onStatusChange={onStatusChange}
         >
           {children}
         </PullView>
