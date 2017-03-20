@@ -50,6 +50,14 @@ export class CollectionPage extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.state.toStopPause) {
+      this.setState({
+        toStopPause: false
+      });
+    }
+  }
+
   onPullEnd() {
     const {isPendingCollections, loadCollections, matchedName} = this.props;
 

@@ -62,6 +62,14 @@ export default function (tab) {
       }
     }
 
+    componentDidUpdate() {
+      if (this.state.toStopPause) {
+        this.setState({
+          toStopPause: false
+        });
+      }
+    }
+
     onPullEnd() {
       const {isReloading, loadTopics} = this.props;
 

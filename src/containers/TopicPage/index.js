@@ -64,7 +64,7 @@ export class TopicPage extends Component {
     if (needLoadCollections) {
       loadCollections({
         loginname
-      })
+      });
     }
     
     if (!nextProps.isPendingTopic && this.props.isPendingTopic) {
@@ -72,6 +72,14 @@ export class TopicPage extends Component {
         toStopPause: true
       });
     } else {
+      this.setState({
+        toStopPause: false
+      });
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.state.toStopPause) {
       this.setState({
         toStopPause: false
       });

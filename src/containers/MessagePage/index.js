@@ -52,6 +52,14 @@ export class MessagePage extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.state.toStopPause) {
+      this.setState({
+        toStopPause: false
+      });
+    }
+  }
+
   onPullEnd() {
     const {isPendingMessages, loadMessages, auth} = this.props;
     const accesstoken = auth.get('accesstoken');

@@ -29,10 +29,10 @@ export default class PullView extends PureComponent {
     pulledY: 0
   };
 
-  touching = false; // 是否处于touch状态
+  touching = false; // 是否处于touch状态，其实是用于兼容PC端，在mousedown之后才允许mousemove的逻辑
   startY = undefined;
   endY = undefined;
-  status = 0;
+  status = 0; // 0. 未touchstart 1.pulling但未达到pulledPauseY 2.pulling达到pulledPauseY 3.进入pause状态
   lastScrollTop = undefined; // 上次scrollTop的位置
   container = document.body;
 
@@ -88,17 +88,16 @@ export default class PullView extends PureComponent {
   }
 
   _onTouchMove(e) {
+    if (!this.touching) return;
+    
     const {
-      container,
       props: {onPulling, scaleY},
-      touching, startY, status, _onPulling
+      container, startY, status, _onPulling
     } = this;
     const eTouchScreenY = e.touches ? e.touches[0].screenY : e.screenY;
 
-    if (!touching) return;
-
-    if (status) {
-      const pulledY = (eTouchScreenY - startY) * scaleY;
+    if (status) { // 若状态不是0
+      const pulledY = (eTouchScreenY - startY) * scaleY; // 用scaleY对pull的距离进行缩放
 
       if (pulledY >= 0) {
         this.endY = eTouchScreenY;
@@ -125,12 +124,10 @@ export default class PullView extends PureComponent {
           });
         }
       }
-    } else {
-      if (container.scrollTop === 0) {
+    } else { // 状态是0
+      if (container.scrollTop === 0) { // 当scrollTop为0时才触发pull下拉刷新
         this.startY = eTouchScreenY;
-        if (!this.status) {
-          this._changeStatus(1);
-        }
+        this._changeStatus(1);
       }
     }
   }
@@ -163,7 +160,6 @@ export default class PullView extends PureComponent {
       this.setState({
         pulledY: isPause ? pulledPauseY : 0
       });
-      this._changeStatus(isPause ? 3 : 0);
     }
 
     this.touching = false;

@@ -83,6 +83,14 @@ export class UserPage extends Component {
       });
     }
   }
+
+  componentDidUpdate() {
+    if (this.state.toStopPause) {
+      this.setState({
+        toStopPause: false
+      });
+    }
+  }
   
   shouldComponentUpdate(nextProps, nextState) {
     const {props: {matchedUser, recentTopics}, state} = this;

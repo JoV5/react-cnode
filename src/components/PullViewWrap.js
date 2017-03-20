@@ -29,14 +29,22 @@ export default class PullViewWrap extends PureComponent {
 
   state = {
     pulledY: 0,
-    status: 0 // 0：下拉刷新，1：释放刷新，2：加载中
+    status: 0
   };
 
   onStatusChange(status) {
+    const {pulledPauseY} = this.props;
     if (status) {
-      this.setState({
-        status
-      })
+      if (status === 3) {
+        this.setState({
+          status,
+          pulledY: pulledPauseY
+        })
+      } else {
+        this.setState({
+          status
+        })
+      }
     } else {
       this.setState({
         status,
