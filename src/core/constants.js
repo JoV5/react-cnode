@@ -47,8 +47,6 @@ export const TAB_MAP = {
   all: '全部'
 };
 
-export const data_dpr = document.getElementsByTagName('html')[0].getAttribute('data-dpr');
-
 export const default_pulledPauseY = 40 / 100;
 
 export const default_scaleY = 0.2 / 100;

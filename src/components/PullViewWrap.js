@@ -63,41 +63,24 @@ export default class PullViewWrap extends PureComponent {
   }
 
   render() {
-    const {
-      props: {children, mountScrollTop, onScrollUp, onScrollDown, onScrollToBottom, onPullViewUnmount, pulledPauseY,
-        toBottom, scaleY, statusDivStyleClass, LoadingComponent, statusText, toStopPause, onPullEnd, unit, styleClass},
-      state: {pulledY, status},
-      onPulling,
-      onStatusChange
-    } = this;
+    const {props, state: {pulledY, status}, onPulling, onStatusChange} = this;
+    const {statusDivStyleClass, LoadingComponent, statusText, unit, styleClass} = props;
 
     return (
       <div className={styleClass}>
         <div
           className={statusDivStyleClass}
           style={{
-            transform: `translate3d(0px, ${pulledY}${unit}, 0px)`
+            transform: `translateY(${pulledY}${unit})`
           }}
         >
           {status === 3 && LoadingComponent ? <LoadingComponent/> : statusText[status]}
         </div>
-        <PullView
-          onPulling={onPulling}
-          onPullEnd={onPullEnd}
-          onScrollToBottom={onScrollToBottom}
-          onScrollUp={onScrollUp}
-          onScrollDown={onScrollDown}
-          onPullViewUnmount={onPullViewUnmount}
-          mountScrollTop={mountScrollTop}
-          pulledPauseY={pulledPauseY}
-          toStopPause={toStopPause}
-          toBottom={toBottom}
-          scaleY={scaleY}
+        <PullView 
+          {...props}
           onStatusChange={onStatusChange}
-          unit={unit}
-        >
-          {children}
-        </PullView>
+          onPulling={onPulling}
+        />
       </div>
     )
   }
