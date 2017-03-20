@@ -100,11 +100,12 @@ export class MessagePage extends Component {
       return (
         <div>
           <PullViewWrap
+            styleClass="pull_view_wrap"
+            statusDivStyleClass="pull_status_div"
             onPullEnd={onPullEnd}
             toStopPause={toStopPause}
             onPullViewUnmount={onPullViewUnmount}
             mountScrollTop={mountScrollTop}
-            statusDivStyleClass="message_page_pull_status_div"
             LoadingComponent={Loading}
             scaleY={default_scaleY}
             pulledPauseY={default_pulledPauseY}

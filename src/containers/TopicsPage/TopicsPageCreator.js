@@ -141,6 +141,8 @@ export default function (tab) {
             topicsNavIsShow={topicsNavIsShow}
             topicsHeaderIsShow={topicsHeaderIsShow}/>
           <PullViewWrap
+            styleClass="pull_view_wrap"
+            statusDivStyleClass="pull_status_div"
             onPullEnd={onPullEnd}
             toStopPause={toStopPause}
             onScrollUp={this.onScrollUp}
@@ -148,7 +150,6 @@ export default function (tab) {
             onScrollToBottom={this.onScrollToBottom}
             onPullViewUnmount={this.onPullViewUnmount}
             mountScrollTop={mountScrollTop}
-            statusDivStyleClass="topics_page_pull_status_div"
             LoadingComponent={Loading}
             unit='rem'
             scaleY={default_scaleY}

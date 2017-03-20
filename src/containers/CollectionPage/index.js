@@ -85,11 +85,12 @@ export class CollectionPage extends Component {
     if (collections) {
       return (
         <PullViewWrap
+          styleClass="pull_view_wrap"
+          statusDivStyleClass="pull_status_div"
           onPullEnd={onPullEnd}
           toStopPause={toStopPause}
           onPullViewUnmount={onPullViewUnmount}
           mountScrollTop={mountScrollTop}
-          statusDivStyleClass="collection_page_pull_status_div"
           LoadingComponent={Loading}
           pulledPauseY={default_pulledPauseY}
           scaleY={default_scaleY}

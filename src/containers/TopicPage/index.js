@@ -193,33 +193,36 @@ export class TopicPage extends Component {
           }
         </div>
         <PullViewWrap
+          styleClass="pull_view_wrap"
+          statusDivStyleClass="pull_status_div"
           onPullEnd={loadTopic}
           toStopPause={toStopPause}
-          statusDivStyleClass="topic_page_pull_status_div"
           LoadingComponent={Loading}
           scaleY={default_scaleY}
           pulledPauseY={default_pulledPauseY}
           unit='rem'
         >
-          <TopicContent topic={matchedTopic}/>
-          {
-            topicReplies ?
-              <div>
-                <div className="topic_page_reply_count">{topicReplies.size} 回复</div>
-                <ReplyList 
-                  data={topicReplies} 
-                  replyUp={replyUp} 
-                  userId={userId} 
-                  replyTopic={replyTopic} 
-                  topicAuthor={matchedTopic && matchedTopic.getIn(['author', 'loginname'])}
-                />
-              </div> :
-              isPendingTopic ?
-                <Loading/> :
-                <div className="topic_page_load_replies" onClick={loadTopic}>
-                  加载评论
-                </div>
-          }
+          <div className="topic_page_main">
+            <TopicContent topic={matchedTopic}/>
+            {
+              topicReplies ?
+                <div>
+                  <div className="topic_page_reply_count">{topicReplies.size} 回复</div>
+                  <ReplyList
+                    data={topicReplies}
+                    replyUp={replyUp}
+                    userId={userId}
+                    replyTopic={replyTopic}
+                    topicAuthor={matchedTopic && matchedTopic.getIn(['author', 'loginname'])}
+                  />
+                </div> :
+                isPendingTopic ?
+                  <Loading/> :
+                  <div className="topic_page_load_replies" onClick={loadTopic}>
+                    加载评论
+                  </div>
+            }
+          </div>
         </PullViewWrap>
       </div>
     )

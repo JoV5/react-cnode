@@ -39,3 +39,21 @@ a {
   -webkit-text-stroke-width: 0.002rem;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.pull_view_wrap {
+  position: relative;
+}
+
+.pull_status_div {
+  position: absolute;
+  top: -1rem;
+  left: 0;
+  right: 0;
+  padding-top: 0.6rem;
+  height: 1rem;
+  line-height: 0.4rem;
+  text-align: center;
+  width: 100%;
+  font-size: 0.16rem;
+  background-color: #EAEAEA;
+}

@@ -15,7 +15,7 @@ export default class PullView extends PureComponent {
     pulledPauseY: PropTypes.number, // 处于pause状态即status为3时的Y方向应所在的位置
     toStopPause: PropTypes.bool, // 是否需要终止暂停状态
     scaleY: PropTypes.number, // 下拉距离缩放比例
-    unit: PropTypes.string
+    unit: PropTypes.string // 单位
   };
 
   static defaultProps = {

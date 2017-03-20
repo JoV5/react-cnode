@@ -139,9 +139,10 @@ export class UserPage extends Component {
             }
           </div>
           <PullViewWrap
+            styleClass="pull_view_wrap"
+            statusDivStyleClass="pull_status_div"
             onPullEnd={loadUser}
             toStopPause={toStopPause}
-            statusDivStyleClass="user_page_pull_status_div"
             LoadingComponent={Loading}
             scaleY={default_scaleY}
             pulledPauseY={default_pulledPauseY}

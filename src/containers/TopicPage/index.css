@@ -1,5 +1,5 @@
 .topic_page {
-  padding: 0.4rem 0.12rem 0;
+  padding-top: 0.4rem;
   font-size: 0.16rem;
 }
 
@@ -25,6 +25,11 @@
   float: right;
   font-size: 0.2rem;
   margin-left: 0.3rem;
+}
+
+.topic_page_main {
+  padding: 0 0.12rem;
+  font-size: 0.16rem;
 }
 
 .topic_page_title {

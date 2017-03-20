@@ -20,7 +20,8 @@ export default class PullViewWrap extends PureComponent {
     scaleY: PropTypes.number,
     statusDivStyleClass: PropTypes.string,
     LoadingComponent: PropTypes.func,
-    unit: PropTypes.string
+    unit: PropTypes.string,
+    styleClass: PropTypes.string
   };
 
   constructor() {
@@ -64,14 +65,14 @@ export default class PullViewWrap extends PureComponent {
   render() {
     const {
       props: {children, mountScrollTop, onScrollUp, onScrollDown, onScrollToBottom, onPullViewUnmount, pulledPauseY,
-        toBottom, scaleY, statusDivStyleClass, LoadingComponent, statusText, toStopPause, onPullEnd, unit},
+        toBottom, scaleY, statusDivStyleClass, LoadingComponent, statusText, toStopPause, onPullEnd, unit, styleClass},
       state: {pulledY, status},
       onPulling,
       onStatusChange
     } = this;
 
     return (
-      <div>
+      <div className={styleClass}>
         <div
           className={statusDivStyleClass}
           style={{
