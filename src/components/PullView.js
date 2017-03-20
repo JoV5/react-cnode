@@ -3,18 +3,19 @@ import React, {PureComponent, PropTypes} from 'react';
 export default class PullView extends PureComponent {
 
   static propTypes = {
-    onPulling: PropTypes.func,
-    onPullEnd: PropTypes.func,
-    onScrollToBottom: PropTypes.func,
-    onScrollUp: PropTypes.func,
-    onScrollDown: PropTypes.func,
-    onPullViewUnmount: PropTypes.func,
-    onStatusChange: PropTypes.func,
-    mountScrollTop: PropTypes.number,
-    toBottom: PropTypes.number,
-    pulledPauseY: PropTypes.number,
-    toStopPause: PropTypes.bool,
-    scaleY: PropTypes.number
+    onPulling: PropTypes.func, // 状态非0且正在下拉时的事件
+    onPullEnd: PropTypes.func, // 下拉结束即从状态2切换到状态3时的事件
+    onScrollToBottom: PropTypes.func, // 滚动到底部事件，当滚动到距离底部toBottom位置时触发，可用于下滑加载更多
+    onScrollUp: PropTypes.func, // 向上滚动事件，可用于上滚隐藏AppHeader等
+    onScrollDown: PropTypes.func, // 向下滚动事件，可用于下滚显示AppHeader等
+    onPullViewUnmount: PropTypes.func, // 在PullView将要Unmount时调用，可用于记录当前滚动位置，在下次Mount时作为下面的mountScrollTop参数传入，回到上次滚动位置
+    onStatusChange: PropTypes.func, // 当status变化时的事件
+    mountScrollTop: PropTypes.number,// 初始化时的滚动位置
+    toBottom: PropTypes.number, // 当滚动到距离底部toBottom位置时将触发onScrollToBottom事件
+    pulledPauseY: PropTypes.number, // 处于pause状态即status为3时的Y方向应所在的位置
+    toStopPause: PropTypes.bool, // 是否需要终止暂停状态
+    scaleY: PropTypes.number, // 下拉距离缩放比例
+    unit: PropTypes.string
   };
 
   static defaultProps = {
@@ -22,7 +23,8 @@ export default class PullView extends PureComponent {
     toBottom: 0,
     pulledPauseY: 40,
     mountScrollTop: 0,
-    toStopPause: false
+    toStopPause: false,
+    unit: 'px'
   };
 
   state = {
@@ -33,7 +35,7 @@ export default class PullView extends PureComponent {
   startY = undefined;
   endY = undefined;
   status = 0; // 0. 未touchstart 1.pulling但未达到pulledPauseY 2.pulling达到pulledPauseY 3.进入pause状态
-  lastScrollTop = undefined; // 上次scrollTop的位置
+  lastScrollTop = undefined; // 上次scrollTop的位置，用于和当前滚动位置比较，判断是向上滚还是向下滚
   container = document.body;
 
   constructor() {
@@ -48,6 +50,7 @@ export default class PullView extends PureComponent {
   }
 
   componentWillReceiveProps({toStopPause}) {
+    // 当状态为3且接受参数toStopPause为true时，状态回到0
     if (toStopPause && this.status === 3) {
       this.setState({
         pulledY: 0
@@ -96,36 +99,30 @@ export default class PullView extends PureComponent {
     } = this;
     const eTouchScreenY = e.touches ? e.touches[0].screenY : e.screenY;
 
-    if (status) { // 若状态不是0
+    if (status) { // 状态非0时
       const pulledY = (eTouchScreenY - startY) * scaleY; // 用scaleY对pull的距离进行缩放
 
-      if (pulledY >= 0) {
+      if (pulledY >= 0) { // 进行下拉
         this.endY = eTouchScreenY;
         this.setState({
           pulledY: pulledY
         });
 
-        if (status !== 3) {
+        if (status !== 3) { // 在状态不为3时，即状态为1或2时
           _onPulling && _onPulling(pulledY);
         }
         
-        onPulling && onPulling(pulledY);
+        onPulling && onPulling(pulledY); // 始终触发外部的onPulling事件
 
         e.preventDefault();
-      } else {
-        if (status === 3) {
-          this.setState({
-            pulledY: 0
-          });
-          this._changeStatus(0);
-        } else {
-          this.setState({
-            pulledY: 0
-          });
-        }
+      } else { // 上滑，其实只有状态为3时才会进入该逻辑，回到状态0
+        this._changeStatus(0);
+        this.setState({
+          pulledY: 0
+        });
       }
-    } else { // 状态是0
-      if (container.scrollTop === 0) { // 当scrollTop为0时才触发pull下拉刷新
+    } else { // 状态为0时
+      if (container.scrollTop === 0) { // 当scrollTop为0时进入状态1
         this.startY = eTouchScreenY;
         this._changeStatus(1);
       }
@@ -138,10 +135,12 @@ export default class PullView extends PureComponent {
     const clientHeight = window.innerHeight;
     const scrollHeight = container.scrollHeight;
 
+    // 当距离底部toBottom距离，触发onScrollToBottom
     if (scrollTop + clientHeight + toBottom >= scrollHeight) {
       onScrollToBottom && onScrollToBottom();
     }
 
+    // 与上次滚动位置比较，判断当前是向上滚还是向下滚
     if (scrollTop > this.lastScrollTop) {
       onScrollUp && onScrollUp();
     } else {
@@ -165,6 +164,11 @@ export default class PullView extends PureComponent {
     this.touching = false;
   }
 
+  /**
+   * 在未处于状态3时触发，进行状态切换1、2间的切换
+   * @param pulledY
+   * @private
+   */
   _onPulling(pulledY) {
     const {props: {pulledPauseY}, status} = this;
     
@@ -178,7 +182,13 @@ export default class PullView extends PureComponent {
       }
     }
   }
-  
+
+  /**
+   * 根据pulledY的位置与pulledPauseY比较，判断是否进入状态3还是回到状态0
+   * @param pulledY
+   * @returns {boolean}
+   * @private
+   */
   _onPullEnd(pulledY) {
     const {pulledPauseY, onPullEnd} = this.props;
 
@@ -191,7 +201,12 @@ export default class PullView extends PureComponent {
       return false;
     }
   }
-  
+
+  /**
+   * 进行状态切换
+   * @param status
+   * @private
+   */
   _changeStatus(status) {
     const {onStatusChange} = this.props;
     
@@ -200,12 +215,12 @@ export default class PullView extends PureComponent {
   }
 
   render() {
-    const {props: {children}, state: {pulledY}} = this;
+    const {props: {children, unit}, state: {pulledY}} = this;
 
     return (
       <div
         style={{
-          transform: `translate3d(0px, ${pulledY}px, 0px)`
+          transform: `translate3d(0px, ${pulledY}${unit}, 0px)`
         }}
       >
         {children}

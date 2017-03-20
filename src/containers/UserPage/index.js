@@ -145,6 +145,7 @@ export class UserPage extends Component {
             LoadingComponent={Loading}
             scaleY={default_scaleY}
             pulledPauseY={default_pulledPauseY}
+            unit='rem'
           >
             <section className="user_page_userinfo">
               <img src={avatar_url} className="user_page_avatar" alt={loginname}/>

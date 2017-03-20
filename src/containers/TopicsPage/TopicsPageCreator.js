@@ -150,6 +150,7 @@ export default function (tab) {
             mountScrollTop={mountScrollTop}
             statusDivStyleClass="topics_page_pull_status_div"
             LoadingComponent={Loading}
+            unit='rem'
             scaleY={default_scaleY}
             pulledPauseY={default_pulledPauseY}
           >

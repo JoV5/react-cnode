@@ -5,7 +5,8 @@ import PullView from './PullView';
 export default class PullViewWrap extends PureComponent {
 
   static defaultProps = {
-    statusText: ['↓ 下拉刷新', '↓ 下拉刷新', '↑ 释放更新', '加载中...']
+    statusText: ['↓ 下拉刷新', '↓ 下拉刷新', '↑ 释放更新', '加载中...'],
+    unit: 'px'
   };
 
   static propTypes = {
@@ -18,7 +19,8 @@ export default class PullViewWrap extends PureComponent {
     pulledPauseY: PropTypes.number,
     scaleY: PropTypes.number,
     statusDivStyleClass: PropTypes.string,
-    LoadingComponent: PropTypes.func
+    LoadingComponent: PropTypes.func,
+    unit: PropTypes.string
   };
 
   constructor() {
@@ -62,7 +64,7 @@ export default class PullViewWrap extends PureComponent {
   render() {
     const {
       props: {children, mountScrollTop, onScrollUp, onScrollDown, onScrollToBottom, onPullViewUnmount, pulledPauseY,
-        toBottom, scaleY, statusDivStyleClass, LoadingComponent, statusText, toStopPause, onPullEnd},
+        toBottom, scaleY, statusDivStyleClass, LoadingComponent, statusText, toStopPause, onPullEnd, unit},
       state: {pulledY, status},
       onPulling,
       onStatusChange
@@ -73,7 +75,7 @@ export default class PullViewWrap extends PureComponent {
         <div
           className={statusDivStyleClass}
           style={{
-            transform: `translate3d(0px, ${pulledY}px, 0px)`
+            transform: `translate3d(0px, ${pulledY}${unit}, 0px)`
           }}
         >
           {status === 3 && LoadingComponent ? <LoadingComponent/> : statusText[status]}
@@ -91,6 +93,7 @@ export default class PullViewWrap extends PureComponent {
           toBottom={toBottom}
           scaleY={scaleY}
           onStatusChange={onStatusChange}
+          unit={unit}
         >
           {children}
         </PullView>

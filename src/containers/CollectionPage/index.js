@@ -93,6 +93,7 @@ export class CollectionPage extends Component {
           LoadingComponent={Loading}
           pulledPauseY={default_pulledPauseY}
           scaleY={default_scaleY}
+          unit='rem'
         >
           <TopicList data={collections}/>
         </PullViewWrap>

@@ -49,6 +49,6 @@ export const TAB_MAP = {
 
 export const data_dpr = document.getElementsByTagName('html')[0].getAttribute('data-dpr');
 
-export const default_pulledPauseY = data_dpr * 40;
+export const default_pulledPauseY = 40 / 100;
 
-export const default_scaleY = data_dpr * 0.2;
+export const default_scaleY = 0.2 / 100;

@@ -199,6 +199,7 @@ export class TopicPage extends Component {
           LoadingComponent={Loading}
           scaleY={default_scaleY}
           pulledPauseY={default_pulledPauseY}
+          unit='rem'
         >
           <TopicContent topic={matchedTopic}/>
           {

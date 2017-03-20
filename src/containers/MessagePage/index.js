@@ -108,6 +108,7 @@ export class MessagePage extends Component {
             LoadingComponent={Loading}
             scaleY={default_scaleY}
             pulledPauseY={default_pulledPauseY}
+            unit='rem'
           >
             <MessageList data={messages}/>
           </PullViewWrap>
