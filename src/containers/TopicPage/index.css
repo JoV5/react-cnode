@@ -30,6 +30,7 @@
 .topic_page_main {
   padding: 0 0.12rem;
   font-size: 0.16rem;
+  overflow: hidden;
 }
 
 .topic_page_title {
