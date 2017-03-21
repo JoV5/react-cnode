@@ -5,10 +5,11 @@ import PullView from './PullView';
 export default class PullViewWrap extends PureComponent {
 
   static defaultProps = {
-    statusText: ['↓ 下拉刷新', '↓ 下拉刷新', '↑ 释放更新', '加载中...'],
+    statusText: ['↓ 下拉刷新', '↓ 下拉刷新', '↑ 释放更新', '加载中...'], // 文字对应状态
     unit: 'px'
   };
 
+  // 大部分同PullView的props
   static propTypes = {
     onScrollToBottom: PropTypes.func,
     onScrollUp: PropTypes.func,
@@ -16,12 +17,13 @@ export default class PullViewWrap extends PureComponent {
     onPullViewUnmount: PropTypes.func,
     mountScrollTop: PropTypes.number,
     toBottom: PropTypes.number,
+    toStopPause: PropTypes.bool,
     pulledPauseY: PropTypes.number,
     scaleY: PropTypes.number,
-    statusDivStyleClass: PropTypes.string,
-    LoadingComponent: PropTypes.func,
+    statusDivStyleClass: PropTypes.string, // 状态变更div的className
+    LoadingComponent: PropTypes.func, // 加载中显示的组件
     unit: PropTypes.string,
-    styleClass: PropTypes.string
+    styleClass: PropTypes.string // wrap的className
   };
 
   constructor() {
@@ -31,31 +33,36 @@ export default class PullViewWrap extends PureComponent {
   }
 
   state = {
-    pulledY: 0,
-    status: 0
+    pulledY: 0, // 下拉的距离
+    status: 0 // 当前状态
   };
 
+  // PullView状态变更逻辑
   onStatusChange(status) {
     const {pulledPauseY} = this.props;
-    if (status) {
-      if (status === 3) {
+    
+    switch (status) {
+      case 0:
+        this.setState({
+          status,
+          pulledY: 0
+        });
+        break;
+      case 3:
         this.setState({
           status,
           pulledY: pulledPauseY
-        })
-      } else {
+        });
+        break;
+      default:
         this.setState({
           status
-        })
-      }
-    } else {
-      this.setState({
-        status,
-        pulledY: 0
-      })
+        });
+        break;
     }
   }
 
+  // PullView触发onPulling逻辑
   onPulling(pulledY) {
     this.setState({
       pulledY

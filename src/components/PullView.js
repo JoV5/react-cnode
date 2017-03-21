@@ -14,8 +14,8 @@ export default class PullView extends PureComponent {
     toBottom: PropTypes.number, // 当滚动到距离底部toBottom位置时将触发onScrollToBottom事件
     pulledPauseY: PropTypes.number, // 处于pause状态即status为3时的Y方向应所在的位置
     toStopPause: PropTypes.bool, // 是否需要终止暂停状态
-    scaleY: PropTypes.number, // 下拉距离缩放比例
-    unit: PropTypes.string // 单位
+    scaleY: PropTypes.number, // 下拉距离缩放比例，将会影响能够下拉的距离
+    unit: PropTypes.string // 单位，在移动端用的单位可能不是px，pulledPauseY和state中的pulledY都将使用这一单位，在使用px之外的单位时，需要设置好scaleY
   };
 
   static defaultProps = {
@@ -28,15 +28,15 @@ export default class PullView extends PureComponent {
   };
 
   state = {
-    pulledY: 0
+    pulledY: 0 // 下拉的距离
   };
 
   touching = false; // 是否处于touch状态，其实是用于兼容PC端，在mousedown之后才允许mousemove的逻辑
-  startY = undefined;
-  endY = undefined;
+  startY = undefined; // 记录pull起始位置
+  endY = undefined; // 记录pull当前位置
   status = 0; // 0. 未touchstart 1.pulling但未达到pulledPauseY 2.pulling达到pulledPauseY 3.进入pause状态
   lastScrollTop = undefined; // 上次scrollTop的位置，用于和当前滚动位置比较，判断是向上滚还是向下滚
-  container = document.body;
+  container = document.body; // pull的对象
 
   constructor() {
     super(...arguments);

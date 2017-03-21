@@ -16,6 +16,7 @@ const MessageCard = ({data}) => {
   const id = topic.get('id');
   const create_at = data.get('create_at');
   const has_read = data.get('has_read');
+  const type = data.get('type');
 
   return (
     <div className="message_card">
@@ -27,7 +28,7 @@ const MessageCard = ({data}) => {
       </div>
       <div className="message_card_info">
         <Link to={`/user/${loginname}`}>
-          <span>{loginname}</span> <span className="message_card_other"> 回复了您的话题：</span>
+          <span>{loginname}</span> <span className="message_card_other">{type == 'at' ? ' 在话题中@了您 ' : ' 回复了您的话题：'}</span>
           <span className="message_card_time">{timeago(create_at)}</span>
         </Link>
         <Link to={`/topic/${id}`}><span className="message_card_title">{title}</span></Link>
