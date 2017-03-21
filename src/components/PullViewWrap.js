@@ -15,6 +15,7 @@ export default class PullViewWrap extends PureComponent {
     onScrollUp: PropTypes.func,
     onScrollDown: PropTypes.func,
     onPullViewUnmount: PropTypes.func,
+    onPauseStopped: PropTypes.func,
     mountScrollTop: PropTypes.number,
     toBottom: PropTypes.number,
     toStopPause: PropTypes.bool,

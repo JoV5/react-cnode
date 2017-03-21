@@ -26,6 +26,7 @@ export default function (tab) {
       this.onScrollUp = this.onScrollUp.bind(this);
       this.onScrollDown = this.onScrollDown.bind(this);
       this.onPullViewUnmount = this.onPullViewUnmount.bind(this);
+      this.onPauseStopped = this.onPauseStopped.bind(this);
       this.toggleTopicsNav = this.toggleTopicsNav.bind(this);
     }
 
@@ -62,12 +63,10 @@ export default function (tab) {
       }
     }
 
-    componentDidUpdate() {
-      if (this.state.toStopPause) {
-        this.setState({
-          toStopPause: false
-        });
-      }
+    onPauseStopped() {
+      this.setState({
+        toStopPause: false
+      });
     }
 
     onPullEnd() {
@@ -129,8 +128,7 @@ export default function (tab) {
       const {
         props: {data, mountScrollTop},
         state: {topicsNavIsShow, topicsHeaderIsShow, toStopPause},
-        toggleTopicsNav,
-        onPullEnd
+        toggleTopicsNav, onPullEnd, onScrollUp, onScrollDown, onScrollToBottom, onPullViewUnmount, onPauseStopped
       } = this;
 
       return (
@@ -145,10 +143,11 @@ export default function (tab) {
             statusDivStyleClass="pull_status_div"
             onPullEnd={onPullEnd}
             toStopPause={toStopPause}
-            onScrollUp={this.onScrollUp}
-            onScrollDown={this.onScrollDown}
-            onScrollToBottom={this.onScrollToBottom}
-            onPullViewUnmount={this.onPullViewUnmount}
+            onScrollUp={onScrollUp}
+            onScrollDown={onScrollDown}
+            onScrollToBottom={onScrollToBottom}
+            onPullViewUnmount={onPullViewUnmount}
+            onPauseStopped={onPauseStopped}
             mountScrollTop={mountScrollTop}
             LoadingComponent={Loading}
             unit='rem'

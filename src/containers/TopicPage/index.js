@@ -27,6 +27,7 @@ export class TopicPage extends Component {
     this.loadTopic = this.loadTopic.bind(this);
     this.replyTopic = this.replyTopic.bind(this);
     this.redirectToLogin = this.redirectToLogin.bind(this);
+    this.onPauseStopped = this.onPauseStopped.bind(this);
   }
 
   state = {
@@ -78,12 +79,10 @@ export class TopicPage extends Component {
     }
   }
 
-  componentDidUpdate() {
-    if (this.state.toStopPause) {
-      this.setState({
-        toStopPause: false
-      });
-    }
+  onPauseStopped() {
+    this.setState({
+      toStopPause: false
+    });
   }
 
   componentWillUnmount() {
@@ -176,7 +175,7 @@ export class TopicPage extends Component {
   }
 
   render() {
-    const {props, decollectTopic, collectTopic, replyUp, loadTopic, state, replyTopic} = this;
+    const {props, decollectTopic, collectTopic, replyUp, loadTopic, state, replyTopic, onPauseStopped} = this;
     const {matchedTopic, auth, topicReplies, isCollect, history: {goBack}, isPendingTopic} = props;
     const {toStopPause} = state;
     const userId = auth.get('id');
@@ -197,6 +196,7 @@ export class TopicPage extends Component {
           statusDivStyleClass="pull_status_div"
           onPullEnd={loadTopic}
           toStopPause={toStopPause}
+          onPauseStopped={onPauseStopped}
           LoadingComponent={Loading}
           scaleY={default_scaleY}
           pulledPauseY={default_pulledPauseY}

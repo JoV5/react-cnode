@@ -10,6 +10,7 @@ export default class PullView extends PureComponent {
     onScrollDown: PropTypes.func, // 向下滚动事件，可用于下滚显示AppHeader等
     onPullViewUnmount: PropTypes.func, // 在PullView将要Unmount时调用，可用于记录当前滚动位置，在下次Mount时作为下面的mountScrollTop参数传入，回到上次滚动位置
     onStatusChange: PropTypes.func, // 当status变化时的事件，返回改变后的状态，结合个人需要对不同状态做出相应视图改变，比如比如下拉时顶部显示相应的提示
+    onPauseStopped: PropTypes.func, // 当toStopPause传递为true后，stopPause完成后的事件
     mountScrollTop: PropTypes.number,// 初始化时的滚动位置
     toBottom: PropTypes.number, // 当滚动到距离底部toBottom位置时将触发onScrollToBottom事件
     pulledPauseY: PropTypes.number, // 处于pause状态即status为3时的Y方向应所在的位置
@@ -49,13 +50,14 @@ export default class PullView extends PureComponent {
     this._changeStatus = this._changeStatus.bind(this);
   }
 
-  componentWillReceiveProps({toStopPause}) {
+  componentWillReceiveProps({toStopPause, onPauseStopped}) {
     // 当状态为3且接受到参数toStopPause为true时，状态回到0
     if (toStopPause && this.status === 3) {
       this.setState({
         pulledY: 0
       });
       this._changeStatus(0);
+      onPauseStopped && onPauseStopped();
     }
   }
 

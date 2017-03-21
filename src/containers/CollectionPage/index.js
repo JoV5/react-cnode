@@ -20,6 +20,7 @@ export class CollectionPage extends Component {
     super(...arguments);
     this.onPullEnd = this.onPullEnd.bind(this);
     this.onPullViewUnmount = this.onPullViewUnmount.bind(this);
+    this.onPauseStopped = this.onPauseStopped.bind(this);
   }
 
   state = {
@@ -50,12 +51,10 @@ export class CollectionPage extends Component {
     }
   }
 
-  componentDidUpdate() {
-    if (this.state.toStopPause) {
-      this.setState({
-        toStopPause: false
-      });
-    }
+  onPauseStopped() {
+    this.setState({
+      toStopPause: false
+    });
   }
 
   onPullEnd() {
@@ -78,8 +77,7 @@ export class CollectionPage extends Component {
     const {
       props: {collections, mountScrollTop},
       state: {toStopPause},
-      onPullEnd,
-      onPullViewUnmount
+      onPullEnd, onPullViewUnmount, onPauseStopped
     } = this;
 
     if (collections) {
@@ -90,6 +88,7 @@ export class CollectionPage extends Component {
           onPullEnd={onPullEnd}
           toStopPause={toStopPause}
           onPullViewUnmount={onPullViewUnmount}
+          onPauseStopped={onPauseStopped}
           mountScrollTop={mountScrollTop}
           LoadingComponent={Loading}
           pulledPauseY={default_pulledPauseY}

@@ -28,6 +28,7 @@ export class UserPage extends Component {
     super(...arguments);
     this.switchTab = this.switchTab.bind(this);
     this.loadUser = this.loadUser.bind(this);
+    this.onPauseStopped = this.onPauseStopped.bind(this);
   }
 
   /**
@@ -84,12 +85,10 @@ export class UserPage extends Component {
     }
   }
 
-  componentDidUpdate() {
-    if (this.state.toStopPause) {
-      this.setState({
-        toStopPause: false
-      });
-    }
+  onPauseStopped() {
+    this.setState({
+      toStopPause: false
+    });
   }
   
   shouldComponentUpdate(nextProps, nextState) {
@@ -119,7 +118,7 @@ export class UserPage extends Component {
   }
 
   render() {
-    const {props, state: {tabSelected, toStopPause}, loadUser} = this;
+    const {props, state: {tabSelected, toStopPause}, loadUser, onPauseStopped} = this;
     const {matchedUser, recentTopics, recentReplies, history: {goBack}, auth} = props;
     
     if (matchedUser && recentTopics && recentReplies) {
@@ -142,6 +141,7 @@ export class UserPage extends Component {
             styleClass="pull_view_wrap"
             statusDivStyleClass="pull_status_div"
             onPullEnd={loadUser}
+            onPauseStopped={onPauseStopped}
             toStopPause={toStopPause}
             LoadingComponent={Loading}
             scaleY={default_scaleY}

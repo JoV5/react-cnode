@@ -20,6 +20,7 @@ export class MessagePage extends Component {
     super(...arguments);
     this.onPullEnd = this.onPullEnd.bind(this);
     this.onPullViewUnmount = this.onPullViewUnmount.bind(this);
+    this.onPauseStopped = this.onPauseStopped.bind(this);
   }
 
   state = {
@@ -52,12 +53,10 @@ export class MessagePage extends Component {
     }
   }
 
-  componentDidUpdate() {
-    if (this.state.toStopPause) {
-      this.setState({
-        toStopPause: false
-      });
-    }
+  onPauseStopped() {
+    this.setState({
+      toStopPause: false
+    });
   }
 
   onPullEnd() {
@@ -92,8 +91,7 @@ export class MessagePage extends Component {
     const {
       props: {messages, mountScrollTop},
       state: {toStopPause},
-      onPullEnd,
-      onPullViewUnmount
+      onPullEnd, onPullViewUnmount, onPauseStopped
     } = this;
 
     if (messages) {
@@ -103,6 +101,7 @@ export class MessagePage extends Component {
             styleClass="pull_view_wrap"
             statusDivStyleClass="pull_status_div"
             onPullEnd={onPullEnd}
+            onPauseStopped={onPauseStopped}
             toStopPause={toStopPause}
             onPullViewUnmount={onPullViewUnmount}
             mountScrollTop={mountScrollTop}
