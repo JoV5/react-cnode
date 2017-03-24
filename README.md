@@ -22,5 +22,7 @@
 - [ ] 优化reducers  
 - [ ] 各种动画  
 - [ ] chunk的重命名  
+- [ ] [Add Unit Tests](https://github.com/react-native-community/react-native-elements/issues/196)
+- [ ] [Create React Native Elements Website](https://github.com/react-native-community/react-native-elements/issues/43)
 
 
