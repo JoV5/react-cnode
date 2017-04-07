@@ -21,10 +21,11 @@ localMe && (localMe = JSON.parse(localMe));
 
 // 初始化State，根据是否登录
 export const store = configureStore(
-  localMe ? {
+  localMe
+    ? {
       auth: fromJS(localMe)
-    } :
-    undefined
+    }
+    : undefined
 );
 
 export const dispatch = store.dispatch;
